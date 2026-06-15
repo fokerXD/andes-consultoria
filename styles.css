@@ -7,7 +7,7 @@
   --navy-700:#16395F;
   --blue:#1C5C99;        /* azul medio */
   --teal:#0E7C66;        /* esmeralda / inteligencia */
-  --copper:#C2602F;      /* terracota andina (acento) */
+  --copper:#A84E23;      /* terracota andina (acento) — AA sobre blanco y en botones */
   --copper-soft:#E9C9B6;
   --gold:#C9A227;
   --ink:#13202E;
@@ -59,7 +59,7 @@ img,svg{max-width:100%}
   transition:.18s ease;text-decoration:none;line-height:1}
 .btn:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 .btn-primary{background:var(--copper);color:#fff}
-.btn-primary:hover{background:#a84e23;text-decoration:none;transform:translateY(-1px)}
+.btn-primary:hover{background:#8f421e;text-decoration:none;transform:translateY(-1px)}
 .btn-dark{background:var(--navy);color:#fff}
 .btn-dark:hover{background:#0a2138;text-decoration:none;transform:translateY(-1px)}
 .btn-ghost{background:transparent;color:var(--navy);border-color:var(--line)}

@@ -1103,8 +1103,31 @@ function openNotify(name) {
 /* ============================================================
    MODALES + UTIL
    ============================================================ */
-function openModal(sel){ const m = $(sel); m.classList.add("open"); document.body.style.overflow = "hidden"; }
-function closeModal(sel){ const m = $(sel); m.classList.remove("open"); document.body.style.overflow = ""; }
+let _lastFocus = null, _trapHandler = null, _trapModal = null;
+function focusableIn(m) {
+  return $$('a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])', m)
+    .filter(el => el.offsetParent !== null);
+}
+function openModal(sel) {
+  const m = $(sel); m.classList.add("open"); document.body.style.overflow = "hidden";
+  _lastFocus = document.activeElement; _trapModal = m;
+  const f = focusableIn(m); if (f.length) setTimeout(() => { try { f[0].focus(); } catch (_) {} }, 30);
+  _trapHandler = (e) => {
+    if (e.key !== "Tab") return;
+    const els = focusableIn(m); if (!els.length) return;
+    const first = els[0], last = els[els.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  };
+  m.addEventListener("keydown", _trapHandler);
+}
+function closeModal(sel) {
+  const m = $(sel); m.classList.remove("open"); document.body.style.overflow = "";
+  if (_trapHandler && _trapModal) _trapModal.removeEventListener("keydown", _trapHandler);
+  _trapHandler = null; _trapModal = null;
+  if (_lastFocus && _lastFocus.focus) { try { _lastFocus.focus(); } catch (_) {} }
+  _lastFocus = null;
+}
 function sleep(ms){ return new Promise(r => setTimeout(r, ms)); }
 function rand(){ return Math.floor(1000 + Math.random() * 9000).toString(); }
 function shake(sel){ const el = $(sel); el.style.borderColor = "#C0392B"; el.animate?.([{transform:"translateX(0)"},{transform:"translateX(-6px)"},{transform:"translateX(6px)"},{transform:"translateX(0)"}], {duration:240}); }

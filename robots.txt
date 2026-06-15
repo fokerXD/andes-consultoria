@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://andes-consultoria-web.vercel.app/sitemap.xml
