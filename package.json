@@ -1,0 +1,7 @@
+{
+  "name": "andes-consultoria-inteligente",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Plataforma de servicios de consultoria al sector publico con IA. Cotizador, pago con Culqi y trazabilidad."
+}
