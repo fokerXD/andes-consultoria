@@ -52,6 +52,12 @@
         gsap.set(heroBits, { opacity: 0, y: 34 });
         gsap.timeline({ defaults: { ease: "power3.out", duration: 0.9 } })
           .to(heroBits, { opacity: 1, y: 0, stagger: 0.12 }, 0.1);
+        // Respaldo: si el ticker de GSAP no corre (rAF throttled, etc.), revela el hero a fuerza
+        const heroFailsafe = () => heroBits.forEach(el => {
+          if (parseFloat(getComputedStyle(el).opacity) < 0.05) { el.style.opacity = "1"; el.style.transform = "none"; }
+        });
+        setTimeout(heroFailsafe, 1400);
+        window.addEventListener("load", () => setTimeout(heroFailsafe, 500));
       }
       // parallax de la tarjeta del hero
       if (ST && document.querySelector(".hero-art")) {
@@ -62,35 +68,37 @@
       }
     } catch (_) {}
 
-    /* ---- Reveals al hacer scroll (stagger por grupos) ---- */
+    /* ---- Reveals al hacer scroll (CSS + IntersectionObserver, independiente de GSAP/ticker) ---- */
     try {
-      if (ST) {
-        const targets = gsap.utils.toArray([
-          "#valor .card", ".svc", "#proceso .step", ".future",
-          "#confianza .kpi", "#asistente .ai-card", ".control-points li",
-          ".control-demo-wrap", ".cta-band", ".track-demo",
-          "#valor .section-head", "#servicios .section-head", "#asistente .section-head",
-          "#proceso .section-head", "#seguimiento .section-head", "#proximamente .section-head",
-          "#datos .section-head", ".bento .b-card", "#confianza .team-card",
-          "#confianza .grid-2 > div"
-        ]).filter(el => el && !el.closest(".modal"));
-        if (targets.length) {
-          gsap.set(targets, { opacity: 0, y: 42 });
-          ST.batch(targets, {
-            start: "top 92%",
-            onEnter: b => gsap.to(b, { opacity: 1, y: 0, duration: 0.8, stagger: 0.09, ease: "power3.out", overwrite: true })
-          });
-          // por si algo quedó por encima del primer cálculo
-          ST.refresh();
-          // Respaldo: nada debe quedar oculto si un trigger no dispara (sobre todo en móvil)
-          const failsafe = () => targets.forEach(el => {
+      const sels = [
+        "#valor .card", ".svc", "#proceso .step", ".future",
+        "#confianza .kpi", "#asistente .ai-card", ".control-points li",
+        ".control-demo-wrap", ".cta-band", ".track-demo",
+        "#valor .section-head", "#servicios .section-head", "#asistente .section-head",
+        "#proceso .section-head", "#seguimiento .section-head", "#proximamente .section-head",
+        "#datos .section-head", ".bento .b-card", "#confianza .team-card",
+        "#confianza .grid-2 > div"
+      ];
+      const targets = [];
+      sels.forEach(s => document.querySelectorAll(s).forEach(el => {
+        if (el && !el.closest(".modal") && targets.indexOf(el) < 0) targets.push(el);
+      }));
+      if (targets.length) {
+        if (!("IntersectionObserver" in window)) {
+          targets.forEach(el => el.classList.add("rv", "in"));
+        } else {
+          targets.forEach((el, i) => { el.classList.add("rv"); el.style.transitionDelay = ((i % 6) * 0.06).toFixed(2) + "s"; });
+          const io = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
+          }, { threshold: 0.08, rootMargin: "0px 0px -4% 0px" });
+          targets.forEach(el => io.observe(el));
+          // Respaldo: revela lo que ya está dentro/encima del viewport por si el observer tarda
+          const showVisible = () => targets.forEach(el => {
             const r = el.getBoundingClientRect();
-            if (r.top < (window.innerHeight || 800) * 0.98 && parseFloat(getComputedStyle(el).opacity) < 0.05) {
-              gsap.to(el, { opacity: 1, y: 0, duration: 0.5, overwrite: true });
-            }
+            if (r.top < (window.innerHeight || 800)) el.classList.add("in");
           });
-          window.addEventListener("load", () => setTimeout(failsafe, 600));
-          setTimeout(failsafe, 2200);
+          setTimeout(showVisible, 400);
+          window.addEventListener("load", () => setTimeout(showVisible, 300));
         }
       }
     } catch (_) {}
@@ -116,9 +124,12 @@
         const target = parseInt(el.dataset.count, 10) || 0;
         const pre = el.dataset.prefix || "", suf = el.dataset.suffix || "";
         const o = { v: 0 };
+        const setFinal = () => { el.textContent = pre + target.toLocaleString("es-PE") + suf; };
         const fmt = () => { el.textContent = pre + Math.round(o.v).toLocaleString("es-PE") + suf; };
         if (ST) gsap.to(o, { v: target, duration: 1.6, ease: "power2.out", onUpdate: fmt, scrollTrigger: { trigger: el, start: "top 90%", once: true } });
-        else fmt();
+        else setFinal();
+        // Respaldo: si el contador no avanzó (ticker detenido), fija el valor final
+        setTimeout(() => { if (el.textContent.trim() === "0" || el.textContent.trim() === pre + "0" + suf) setFinal(); }, 3000);
       });
     } catch (_) {}
 
