@@ -38,12 +38,10 @@
       } catch (_) { lenis = null; }
     }
 
-    if (reduce) return;                      // sin animaciones de entrada
-
     const hover = !window.matchMedia || window.matchMedia("(hover: hover)").matches;
 
-    /* ---- Entrada del hero (timeline) ---- */
-    try {
+    /* ---- Entrada del hero (timeline) — solo si no hay "reducir movimiento" ---- */
+    if (!reduce) try {
       const heroBits = [
         ".hero .eyebrow", ".hero h1", ".hero .lead",
         ".hero-badges", ".hero-cta", ".hero-art"
@@ -99,6 +97,10 @@
           });
           setTimeout(showVisible, 400);
           window.addEventListener("load", () => setTimeout(showVisible, 300));
+          // Respaldo robusto (Safari iOS): revela al hacer scroll aunque el observer falle
+          let sf; window.addEventListener("scroll", () => { clearTimeout(sf); sf = setTimeout(showVisible, 80); }, { passive: true });
+          // Red de seguridad final: nada debe quedar oculto
+          setTimeout(() => targets.forEach(el => el.classList.add("in")), 3500);
         }
       }
     } catch (_) {}
@@ -111,7 +113,7 @@
         const pre = m[1], num = parseInt(m[2], 10), suf = m[3];
         const o = { v: 0 };
         const apply = () => { el.textContent = pre + Math.round(o.v) + suf; };
-        if (ST) {
+        if (ST && !reduce) {
           gsap.to(o, { v: num, duration: 1.5, ease: "power2.out", onUpdate: apply,
             scrollTrigger: { trigger: el, start: "top 88%", once: true } });
         }
@@ -126,7 +128,7 @@
         const o = { v: 0 };
         const setFinal = () => { el.textContent = pre + target.toLocaleString("es-PE") + suf; };
         const fmt = () => { el.textContent = pre + Math.round(o.v).toLocaleString("es-PE") + suf; };
-        if (ST) gsap.to(o, { v: target, duration: 1.6, ease: "power2.out", onUpdate: fmt, scrollTrigger: { trigger: el, start: "top 90%", once: true } });
+        if (ST && !reduce) gsap.to(o, { v: target, duration: 1.6, ease: "power2.out", onUpdate: fmt, scrollTrigger: { trigger: el, start: "top 90%", once: true } });
         else setFinal();
         // Respaldo: si el contador no avanzó (ticker detenido), fija el valor final
         setTimeout(() => { if (el.textContent.trim() === "0" || el.textContent.trim() === pre + "0" + suf) setFinal(); }, 3000);
@@ -136,7 +138,7 @@
     /* ---- Marquee infinito ---- */
     try {
       const track = document.getElementById("marqueeTrack");
-      if (track) {
+      if (track && !reduce) {
         track.innerHTML += track.innerHTML;     // duplica para loop sin costura
         gsap.to(track, { xPercent: -50, repeat: -1, duration: 24, ease: "none" });
       }

@@ -627,8 +627,11 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 
 /* Movimiento reducido */
 @media (prefers-reduced-motion: reduce){
-  .rv{opacity:1!important;transform:none!important}
   *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;
     transition-duration:.001ms!important;scroll-behavior:auto!important}
+  /* Aun con "reducir movimiento": fundido suave (sin desplazamiento) para no verse estático */
+  .rv{transform:none!important;transition:opacity .8s ease!important}
+  .rv:not(.in){opacity:0}
+  .rv.in{opacity:1!important}
   #bgmesh{display:none}
 }
