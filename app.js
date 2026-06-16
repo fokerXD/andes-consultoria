@@ -1420,6 +1420,8 @@ function focusableIn(m) {
 }
 function openModal(sel) {
   const m = $(sel); m.classList.add("open"); document.body.style.overflow = "hidden";
+  if (window.__lenis) { try { window.__lenis.stop(); } catch (_) {} }   // libera el scroll para el modal
+  m.scrollTop = 0;
   _lastFocus = document.activeElement; _trapModal = m;
   const f = focusableIn(m); if (f.length) setTimeout(() => { try { f[0].focus(); } catch (_) {} }, 30);
   _trapHandler = (e) => {
@@ -1433,6 +1435,7 @@ function openModal(sel) {
 }
 function closeModal(sel) {
   const m = $(sel); m.classList.remove("open"); document.body.style.overflow = "";
+  if (window.__lenis) { try { window.__lenis.start(); } catch (_) {} }
   if (_trapHandler && _trapModal) _trapModal.removeEventListener("keydown", _trapHandler);
   _trapHandler = null; _trapModal = null;
   if (_lastFocus && _lastFocus.focus) { try { _lastFocus.focus(); } catch (_) {} }

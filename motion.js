@@ -20,6 +20,7 @@
     if (window.Lenis && !reduce) {
       try {
         lenis = new window.Lenis({ duration: 1.1, smoothWheel: true, wheelMultiplier: 1, touchMultiplier: 1.5 });
+        window.__lenis = lenis;   // accesible para pausar/reanudar con los modales
         lenis.on("scroll", () => { if (ST) ST.update(); });
         const raf = (t) => { lenis.raf(t); requestAnimationFrame(raf); };
         requestAnimationFrame(raf);
