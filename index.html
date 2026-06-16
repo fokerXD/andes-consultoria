@@ -467,6 +467,21 @@
         <div class="speed-opts" id="coSpeed"></div>
       </div>
       <div class="field">
+        <label>Método de contratación</label>
+        <div class="rq-opts" id="coMethod" role="group" aria-label="Método de contratación">
+          <button type="button" class="opt sel" data-method="culqi">💳 Pago en línea (Culqi)</button>
+          <button type="button" class="opt" data-method="os">🏛️ Orden de Servicio (Entidad pública)</button>
+        </div>
+      </div>
+      <div id="osFields" hidden>
+        <div class="notice" style="margin-bottom:14px">🏛️ <b>Contratación directa por Orden de Servicio.</b> Para montos ≤ 8 UIT (S/ 44,000 · UIT 2026 = S/ 5,500) generamos el <b>TDR</b> automáticamente y aceptamos el servicio, sin procedimiento de selección.</div>
+        <div class="field"><label for="osEntidad">Entidad pública</label><input type="text" id="osEntidad" placeholder="Ej: Municipalidad Distrital de…"></div>
+        <div class="field"><label for="osRuc">RUC de la entidad</label><input type="text" id="osRuc" placeholder="20XXXXXXXXX"></div>
+        <div class="field"><label for="osArea">Área usuaria</label><input type="text" id="osArea" placeholder="Ej: Gerencia de Infraestructura"></div>
+        <div class="field"><label for="osFunc">Funcionario responsable</label><input type="text" id="osFunc" placeholder="Nombre y cargo"></div>
+      </div>
+      <p class="file-err" id="coErr" hidden></p>
+      <div class="field">
         <label for="coName">Nombre y apellidos / Razón social</label>
         <input type="text" id="coName" placeholder="Ej: Juan Pérez / Entidad XYZ" required>
       </div>

@@ -111,6 +111,7 @@ const SERVICES = {
     ],
     miniInsumos: ["Diagnóstico / línea base", "Marco normativo y competencias", "Evidencia disponible"],
     kw: ["lineamientos", "plan", "gobernanza", "diagnóstico", "indicadores", "política nacional", "ceplan", "objetivos estratégicos"],
+    note() { return { cls: "", html: `<h5>Enfoque del servicio</h5><span class="doc">Política / Lineamientos</span> Diseño basado en evidencia, alineado a los Lineamientos de Política Nacional y al marco de planeamiento (CEPLAN). Incluye diagnóstico, objetivos prioritarios y, opcionalmente, matriz de indicadores para seguimiento.` }; },
     fields: [
       { key: "nivel", label: "Nivel de gobierno", type: "select", options: [
         { label: "Local / municipal", value: "loc", factor: 1.0, days: 0 },
@@ -144,6 +145,7 @@ const SERVICES = {
     ],
     miniInsumos: ["Norma o proyecto a analizar", "Exposición de motivos", "Normativa conexa"],
     kw: ["air", "norma", "reglamento", "legal", "decreto supremo", "impacto regulatorio", "benchmarking", "calidad regulatoria", "acr"],
+    note(v) { const air = v.profundidad === "air"; return { cls: "", html: `<h5>Enfoque del servicio</h5><span class="doc">${air ? "Análisis de Impacto Regulatorio (AIR)" : "Informe / opinión legal"}</span> ${air ? "Evaluamos el problema, las alternativas y los costos/beneficios conforme a la política de calidad regulatoria." : "Opinión sustentada, con base legal citada y recomendaciones accionables."}` }; },
     fields: [
       { key: "profundidad", label: "Tipo de análisis", type: "select", options: [
         { label: "Opinión legal / informe", value: "op", factor: 1.0, days: 0 },
@@ -173,6 +175,7 @@ const SERVICES = {
     ],
     miniInsumos: ["Reportes SIAF/SIGA", "PIM y metas", "Periodo y UE a analizar"],
     kw: ["presupuesto", "presupuestal", "siaf", "siga", "pim", "bid", "banco mundial", "multilateral", "tablero", "bi", "avance financiero", "devengado", "ejecución"],
+    note(v) { const mul = v.marco === "mul"; return { cls: "", html: `<h5>Enfoque del servicio</h5><span class="doc">${mul ? "Marco multilateral (BID / BM)" : "Marco nacional (MEF)"}</span> Análisis a partir de SIAF/SIGA y PIM, con conciliación por unidad ejecutora y, si corresponde, tablero de control.${mul ? " Alineado a la reportería del organismo." : ""}` }; },
     fields: [
       { key: "tipo", label: "Tipo de análisis", type: "select", options: [
         { label: "Ejecución presupuestal", value: "eje", factor: 1.0, days: 0 },
@@ -202,6 +205,7 @@ const SERVICES = {
     ],
     miniInsumos: ["Bases integradas", "Propuestas recibidas", "Cronograma del proceso"],
     kw: ["osce", "contrataciones", "postores", "ofertas", "propuestas", "comité", "admisión", "evaluación técnica", "evaluación económica", "selección", "licitación", "concurso público", "seace"],
+    note(v) { const t = v.tipo; const lab = t === "com" ? "Evaluación combinada (técnica + económica)" : t === "tec" ? "Evaluación técnica" : "Admisión / calificación"; return { cls: "", html: `<h5>Enfoque del servicio</h5><span class="doc">${lab}</span> Apoyo experto al comité conforme a las bases integradas y la Ley de Contrataciones del Estado: revisión de requisitos, puntajes por criterio y cuadro de méritos. La decisión y responsabilidad permanecen en el comité.` }; },
     fields: [
       { key: "tipo", label: "Tipo de evaluación", type: "select", options: [
         { label: "Admisión / requisitos de calificación", value: "adm", factor: 1.0, days: 0 },
@@ -213,6 +217,116 @@ const SERVICES = {
         { label: "Estándar", value: "std", factor: 1.0, days: 0 },
         { label: "Alta (obra / consultoría compleja)", value: "alt", factor: 1.3, days: 3 }
       ]}
+    ]
+  },
+
+  /* ===== Servicios en incorporación (Próximamente) — también cotizables ===== */
+  defensa: {
+    soon: true, tag: "Derecho administrativo", icon: "⚖️",
+    name: "Defensa en controversias y arbitrajes con el Estado",
+    short: "Estrategia y elaboración de escritos en controversias contractuales y arbitrajes ante el Estado.",
+    base: 4800, baseDays: 14,
+    insumos: ["Contrato y adendas", "Documentos de la controversia", "Cronograma y plazos vigentes", "Comunicaciones y antecedentes"],
+    miniInsumos: ["Contrato y adendas", "Documentos de la controversia", "Plazos vigentes"],
+    kw: ["arbitraje", "controversia", "contrato", "conciliación", "laudo", "demanda", "contractual"],
+    note() { return { cls: "", html: `<h5>Servicio en incorporación</h5><span class="doc">Estrategia + escritos</span> Apoyo legal especializado; los actos procesales y la representación los asume el abogado patrocinante del cliente.` }; },
+    fields: [
+      { key: "etapa", label: "Etapa", type: "select", options: [
+        { label: "Conciliación / trato directo", value: "con", factor: 0.8, days: -3 },
+        { label: "Arbitraje", value: "arb", factor: 1.0, days: 0 },
+        { label: "Ejecución / anulación de laudo", value: "eje", factor: 1.3, days: 4 } ]},
+      { key: "cuantia", label: "Cuantía de la controversia", type: "select", options: [
+        { label: "Hasta S/ 500 mil", value: "a", factor: 1.0, days: 0 },
+        { label: "S/ 500 mil – S/ 2 M", value: "b", factor: 1.5, days: 5 },
+        { label: "Más de S/ 2 M", value: "c", factor: 2.2, days: 10 } ]}
+    ]
+  },
+  duediligence: {
+    soon: true, tag: "Inversión privada", icon: "🤝",
+    name: "Due diligence legal-regulatorio para APP y Obras por Impuestos",
+    short: "Revisión integral de viabilidad legal y regulatoria para Asociaciones Público-Privadas y OxI.",
+    base: 6500, baseDays: 18,
+    insumos: ["Información del proyecto", "Documentación legal disponible", "Marco regulatorio del sector", "Estructura financiera preliminar"],
+    miniInsumos: ["Información del proyecto", "Documentación legal", "Marco del sector"],
+    kw: ["app", "obras por impuestos", "oxi", "due diligence", "viabilidad", "saneamiento", "proinversión"],
+    note() { return { cls: "", html: `<h5>Servicio en incorporación</h5><span class="doc">Due diligence</span> Revisión de viabilidad legal, regulatoria y de riesgos para APP / Obras por Impuestos.` }; },
+    fields: [
+      { key: "modalidad", label: "Modalidad", type: "select", options: [
+        { label: "Obras por Impuestos (OxI)", value: "oxi", factor: 1.0, days: 0 },
+        { label: "Asociación Público-Privada (APP)", value: "app", factor: 1.6, days: 8 } ]},
+      { key: "alcance", label: "Alcance", type: "select", options: [
+        { label: "Revisión focalizada", value: "foc", factor: 0.85, days: -3 },
+        { label: "Integral", value: "int", factor: 1.0, days: 0 } ]}
+    ]
+  },
+  osce: {
+    soon: true, tag: "Control & sanción", icon: "🏛️",
+    name: "Asistencia en procedimientos ante OSCE y Contraloría",
+    short: "Descargos y respuestas en procedimientos sancionadores y observaciones de control.",
+    base: 3200, baseDays: 10,
+    insumos: ["Notificación / imputación o informe de control", "Documentación del procedimiento", "Plazos y cronograma", "Antecedentes"],
+    miniInsumos: ["Notificación / imputación", "Documentación", "Plazos"],
+    kw: ["osce", "contraloría", "sancionador", "descargos", "tribunal", "inhabilitación", "observaciones"],
+    note() { return { cls: "", html: `<h5>Servicio en incorporación</h5><span class="doc">Descargos / defensa</span> Apoyo en procedimientos ante OSCE y observaciones de Contraloría; el patrocinio formal lo asume el abogado del cliente.` }; },
+    fields: [
+      { key: "ente", label: "Entidad", type: "select", options: [
+        { label: "OSCE (Tribunal / sancionador)", value: "osce", factor: 1.0, days: 0 },
+        { label: "Contraloría (observaciones)", value: "cgr", factor: 1.1, days: 2 } ]},
+      { key: "urg", label: "Plazo", type: "select", options: [
+        { label: "Estándar", value: "std", factor: 1.0, days: 0 },
+        { label: "Urgente (plazo perentorio)", value: "urg", factor: 1.4, days: -4 } ]}
+    ]
+  },
+  alertas: {
+    soon: true, tag: "Monitoreo con IA", icon: "📡",
+    name: "Sistema de alertas normativas (El Peruano) con IA",
+    short: "Monitoreo automatizado de normas publicadas y alertas personalizadas por sector y entidad.",
+    base: 900, baseDays: 5,
+    insumos: ["Sectores y temas de interés", "Entidad(es) a monitorear", "Correos para las alertas"],
+    miniInsumos: ["Sectores de interés", "Entidades", "Correos"],
+    kw: ["alertas", "el peruano", "monitoreo", "normas", "suscripción", "normativa"],
+    note() { return { cls: "", html: `<h5>Servicio en incorporación · suscripción</h5><span class="doc">Monitoreo mensual</span> Alertas normativas automatizadas, filtradas por sector y entidad. Precio referencial mensual.` }; },
+    fields: [
+      { key: "plan", label: "Cobertura", type: "select", options: [
+        { label: "1 sector", value: "1", factor: 1.0, days: 0 },
+        { label: "Hasta 3 sectores", value: "3", factor: 1.6, days: 0 },
+        { label: "Multisectorial", value: "m", factor: 2.4, days: 0 } ]},
+      { key: "usuarios", label: "N.° de destinatarios", type: "number", included: 3, perUnit: 60, min: 1, max: 200, days: 0, unitLabel: "destinatario adicional" }
+    ]
+  },
+  tableros: {
+    soon: true, tag: "Inteligencia de datos", icon: "📈",
+    name: "Tableros de inteligencia de inversión pública",
+    short: "Dashboards de avance físico-financiero de la cartera de inversiones de la entidad.",
+    base: 5200, baseDays: 15,
+    insumos: ["Cartera de inversiones / CUI", "Reportes de avance (SIAF / formatos)", "Indicadores deseados"],
+    miniInsumos: ["Cartera de inversiones", "Reportes de avance", "Indicadores"],
+    kw: ["tablero", "dashboard", "bi", "inversión pública", "cartera", "avance", "power bi"],
+    note() { return { cls: "", html: `<h5>Servicio en incorporación</h5><span class="doc">Tablero interactivo</span> Visualización del avance físico-financiero con semáforos y alertas.` }; },
+    fields: [
+      { key: "alcance", label: "Alcance de la cartera", type: "select", options: [
+        { label: "Hasta 20 inversiones", value: "a", factor: 1.0, days: 0 },
+        { label: "20 – 100 inversiones", value: "b", factor: 1.5, days: 6 },
+        { label: "Más de 100", value: "c", factor: 2.2, days: 12 } ]},
+      { key: "actualizacion", label: "Actualización", type: "select", options: [
+        { label: "Entrega única", value: "u", factor: 1.0, days: 0 },
+        { label: "Mantenimiento mensual", value: "m", factor: 1.4, days: 0 } ]}
+    ]
+  },
+  capacitacion: {
+    soon: true, tag: "Capacitación", icon: "🎓",
+    name: "Capacitación y certificación en contrataciones del Estado",
+    short: "Programas a medida para comités de selección y áreas usuarias, con casos prácticos.",
+    base: 2800, baseDays: 9,
+    insumos: ["Tema y objetivos de la capacitación", "N.° de participantes", "Modalidad (virtual / presencial)"],
+    miniInsumos: ["Tema y objetivos", "N.° de participantes", "Modalidad"],
+    kw: ["capacitación", "certificación", "curso", "taller", "contrataciones", "formación"],
+    note() { return { cls: "", html: `<h5>Servicio en incorporación</h5><span class="doc">Programa a medida</span> Capacitación con casos prácticos y evaluación; opción de certificación.` }; },
+    fields: [
+      { key: "modalidad", label: "Modalidad", type: "select", options: [
+        { label: "Virtual", value: "vir", factor: 1.0, days: 0 },
+        { label: "Presencial", value: "pre", factor: 1.4, days: 3 } ]},
+      { key: "participantes", label: "N.° de participantes", type: "number", included: 20, perUnit: 35, min: 1, max: 500, days: 0, unitLabel: "participante adicional" }
     ]
   }
 };
@@ -254,6 +368,63 @@ const INTAKE_DOCS = [
   { icon: "📕", label: "Estudio / ficha.pdf" }, { icon: "📗", label: "Presupuesto.xlsx" },
   { icon: "📘", label: "Antecedentes.docx" }, { icon: "📐", label: "Planos.dwg" }, { icon: "🗜️", label: "Anexos.zip" }
 ];
+
+/* ---------- UIT y contratación directa (≤ 8 UIT) ---------- */
+const UIT = 5500;            // UIT 2026 (D.S. 301-2025-EF)
+const MAX_OS = 8 * UIT;      // S/ 44,000 — tope de contratación directa por Orden de Servicio
+
+/* ---------- Equipos de agentes especializados por servicio ---------- */
+const QA = { icon: "🛡️", name: "Auditor de Calidad", role: "Validación y control de calidad",
+  logs: ["Auditando consistencia entre componentes…", "Verificando cumplimiento normativo…", "Aplicando control de calidad final…"], audit: true };
+const IA_DOC = { icon: "🤖", name: "Agente de Datos & IA", role: "Ingesta y análisis documental",
+  logs: ["Procesando los archivos recibidos…", "Extrayendo datos clave (OCR + NLP)…", "Estructurando la información base…"] };
+const AGENTS_BY_SERVICE = {
+  expediente: [IA_DOC,
+    { icon: "🏗️", name: "Agente de Ingeniería", role: "Especificaciones y metrados", logs: ["Estructurando especificaciones técnicas…", "Consolidando metrados…", "Redactando memoria descriptiva…"] },
+    { icon: "💰", name: "Agente de Costos", role: "Presupuesto y APU", logs: ["Calculando análisis de precios unitarios…", "Armando el presupuesto…", "Verificando insumos y rendimientos…"] },
+    { icon: "⚖️", name: "Agente Invierte.pe", role: "Encuadre normativo PI/IOARR", logs: ["Verificando directivas del MEF…", "Validando PI vs IOARR / documento equivalente…", "Cruzando el Banco de Inversiones…"] }, QA],
+  politicas: [IA_DOC,
+    { icon: "🏛️", name: "Analista de Políticas", role: "Diseño y lineamientos", logs: ["Estructurando objetivos prioritarios…", "Redactando lineamientos…", "Alineando con CEPLAN…"] },
+    { icon: "📈", name: "Agente de Evidencia", role: "Diagnóstico y datos", logs: ["Procesando línea base…", "Analizando evidencia disponible…", "Construyendo indicadores…"] },
+    { icon: "⚖️", name: "Agente Legal", role: "Competencias y marco normativo", logs: ["Verificando competencias de la entidad…", "Cruzando el marco normativo…", "Sustentando la base legal…"] }, QA],
+  regulatorio: [IA_DOC,
+    { icon: "⚖️", name: "Abogado Regulatorio", role: "Opinión legal y cumplimiento", logs: ["Analizando la norma…", "Identificando riesgos legales…", "Redactando la opinión…"] },
+    { icon: "🔬", name: "Analista de Impacto (AIR)", role: "Análisis de impacto regulatorio", logs: ["Evaluando alternativas regulatorias…", "Estimando costos y beneficios…", "Midiendo impacto…"] },
+    { icon: "🌐", name: "Agente de Benchmarking", role: "Comparado normativo", logs: ["Comparando normativa nacional e internacional…", "Sistematizando hallazgos…"] }, QA],
+  financiera: [IA_DOC,
+    { icon: "📊", name: "Analista Presupuestal", role: "Ejecución y PIM", logs: ["Analizando ejecución presupuestal…", "Cruzando PIM y metas…", "Detectando desviaciones…"] },
+    { icon: "🗄️", name: "Especialista SIAF/SIGA", role: "Datos financieros", logs: ["Procesando reportes SIAF/SIGA…", "Conciliando devengados…", "Consolidando por unidad ejecutora…"] },
+    { icon: "🏦", name: "Agente Multilateral", role: "BID / Banco Mundial", logs: ["Verificando marco del organismo…", "Alineando reportería multilateral…"] }, QA],
+  evaluacion: [IA_DOC,
+    { icon: "📋", name: "Especialista en Contrataciones", role: "Bases y admisión", logs: ["Revisando bases integradas…", "Verificando requisitos de calificación…", "Ordenando expedientes de postores…"] },
+    { icon: "🔧", name: "Evaluador Técnico", role: "Propuestas técnicas", logs: ["Evaluando propuestas técnicas…", "Asignando puntajes por criterio…"] },
+    { icon: "💵", name: "Evaluador Económico", role: "Propuestas económicas", logs: ["Calificando ofertas económicas…", "Construyendo el cuadro comparativo…"] }, QA],
+  defensa: [IA_DOC,
+    { icon: "⚖️", name: "Abogado en Arbitraje", role: "Controversias con el Estado", logs: ["Analizando la controversia…", "Construyendo la estrategia…", "Redactando escritos…"] },
+    { icon: "📑", name: "Analista Contractual", role: "Contrato y adendas", logs: ["Revisando el contrato y adendas…", "Identificando incumplimientos…"] },
+    { icon: "🔎", name: "Estrategia Probatoria", role: "Medios de prueba", logs: ["Organizando medios probatorios…", "Mapeando antecedentes…"] }, QA],
+  duediligence: [IA_DOC,
+    { icon: "⚖️", name: "Legal APP/OxI", role: "Viabilidad legal", logs: ["Revisando viabilidad legal APP/OxI…", "Verificando saneamiento…"] },
+    { icon: "💰", name: "Agente Financiero", role: "Riesgos y estructura", logs: ["Evaluando estructura financiera…", "Identificando riesgos…"] },
+    { icon: "🌐", name: "Regulatorio Sectorial", role: "Marco del sector", logs: ["Cruzando marco regulatorio sectorial…", "Verificando autorizaciones…"] }, QA],
+  osce: [IA_DOC,
+    { icon: "⚖️", name: "Abogado Sancionador", role: "Descargos y defensa", logs: ["Analizando la imputación…", "Redactando descargos…"] },
+    { icon: "📋", name: "Especialista OSCE", role: "Procedimientos OSCE", logs: ["Revisando el expediente OSCE…", "Verificando plazos…"] },
+    { icon: "🏛️", name: "Especialista Contraloría", role: "Observaciones de control", logs: ["Atendiendo observaciones de control…", "Sustentando descargos…"] }, QA],
+  alertas: [{ icon: "📡", name: "Agente Monitor", role: "Monitoreo de El Peruano", logs: ["Monitoreando publicaciones…", "Detectando normas relevantes…"] },
+    { icon: "🏷️", name: "Clasificador Normativo", role: "Etiquetado por sector", logs: ["Clasificando por sector y entidad…", "Filtrando relevancia…"] },
+    { icon: "📈", name: "Analista Sectorial", role: "Impacto en tu entidad", logs: ["Evaluando impacto…", "Priorizando alertas…"] },
+    { icon: "✉️", name: "Curador de Alertas", role: "Resumen y envío", logs: ["Redactando el resumen ejecutivo…", "Preparando el envío…"] }, QA],
+  tableros: [IA_DOC,
+    { icon: "📊", name: "Analista BI", role: "Modelado de datos", logs: ["Modelando los datos…", "Construyendo indicadores…"] },
+    { icon: "🗄️", name: "Especialista Presupuestal", role: "Avance físico-financiero", logs: ["Procesando avance físico-financiero…", "Calculando semáforos…"] },
+    { icon: "🎨", name: "Visualización", role: "Tablero interactivo", logs: ["Diseñando el tablero…", "Publicando vistas…"] }, QA],
+  capacitacion: [IA_DOC,
+    { icon: "🎓", name: "Diseñador Instruccional", role: "Programa y materiales", logs: ["Diseñando el programa…", "Elaborando materiales y casos…"] },
+    { icon: "📋", name: "Especialista en Contrataciones", role: "Contenido técnico", logs: ["Estructurando el contenido técnico…", "Actualizando con normativa vigente…"] },
+    { icon: "✅", name: "Evaluación", role: "Certificación", logs: ["Diseñando la evaluación…", "Preparando la certificación…"] }, QA]
+};
+function agentsFor(key) { return AGENTS_BY_SERVICE[key] || AGENTS; }
 /* progreso objetivo de cada agente según la etapa [ia, legal, tec, fin, auditor] */
 const AGENT_TARGETS = {
   0: [12, 5, 4, 3, 0], 1: [65, 22, 16, 13, 6], 2: [92, 56, 50, 46, 22],
@@ -288,13 +459,13 @@ function agentCardHTML(a, i, t) {
 
 /* ---------- Pedidos de ejemplo (demo) ---------- */
 const DEMO_ORDERS = {
-  "ACI-DEMO": { code: "ACI-DEMO", serviceName: "Expediente Técnico (ejemplo)", total: 18000, stage: 3, days: 25 },
-  "ACI-2048": { code: "ACI-2048", serviceName: "Análisis Regulatorio (ejemplo)", total: 6160, stage: 4, days: 10 }
+  "ACI-DEMO": { code: "ACI-DEMO", serviceName: "Expediente Técnico (ejemplo)", serviceKey: "expediente", total: 18000, stage: 3, days: 25 },
+  "ACI-2048": { code: "ACI-2048", serviceName: "Análisis Regulatorio (ejemplo)", serviceKey: "regulatorio", total: 6160, stage: 4, days: 10 }
 };
 
 /* ---------- Estado ---------- */
 let current = null; // { key, values, price, days, breakdown }
-let trackTimer = null, baseRemaining = 0, selSpeed = "std", curOrder = null;
+let trackTimer = null, baseRemaining = 0, selSpeed = "std", curOrder = null, _opsAgents = AGENTS;
 
 /* ============================================================
    RENDER: tarjetas de servicio
@@ -323,7 +494,7 @@ function renderServices(q = "") {
   const term = (q || "").trim().toLowerCase();
   const words = term.split(/\s+/).filter(Boolean);
   const entries = Object.entries(SERVICES).filter(([k, s]) =>
-    !k.startsWith("__") && (!words.length || words.some(w => svcHaystack(s).includes(w))));
+    !k.startsWith("__") && !s.soon && (!words.length || words.some(w => svcHaystack(s).includes(w))));
   if (!entries.length) {
     grid.innerHTML = `<div class="no-results">No encontramos servicios para <b>"${q}"</b>.<br>
       Prueba con otra palabra o revisa la sección <a href="#proximamente">Próximamente</a>.</div>`;
@@ -336,15 +507,16 @@ function renderServices(q = "") {
 
 function renderFuture() {
   const grid = $("#futureGrid");
-  grid.innerHTML = FUTURE.map((f, i) => `
+  const soon = Object.entries(SERVICES).filter(([, s]) => s.soon);
+  grid.innerHTML = soon.map(([k, s]) => `
     <div class="future">
       <span class="soon">Próximamente</span>
-      <h3>${f.name}</h3>
-      <p>${f.desc}</p>
-      <div class="tag-area">${f.area}</div>
-      <button class="btn btn-ghost" data-future="${i}">Avísame</button>
+      <h3>${s.name}</h3>
+      <p>${s.short}</p>
+      <div class="tag-area">${s.tag}</div>
+      <button class="btn btn-ghost" data-soon="${k}">Cotizar</button>
     </div>`).join("");
-  $$("[data-future]", grid).forEach(b => b.addEventListener("click", () => openNotify(FUTURE[b.dataset.future].name)));
+  $$("[data-soon]", grid).forEach(b => b.addEventListener("click", () => openService(b.dataset.soon)));
 }
 
 /* ============================================================
@@ -795,9 +967,13 @@ function openCheckout() {
   const s = SERVICES[current.key];
   current.note = $("#ordNote").value.trim();
   current.speed = "std";
+  current.method = "culqi";
   current.payTotal = current.price;
   current.payDays = current.days;
   $("#coSvcName").textContent = s.name;
+  $("#osFields").hidden = true;
+  $("#coErr").hidden = true;
+  $$("#coMethod .opt").forEach(x => x.classList.toggle("sel", x.dataset.method === "culqi"));
   renderCoSpeed();
   closeModal("#svcModal");
   openModal("#checkoutModal");
@@ -822,7 +998,7 @@ function updateCoTotals() {
   current.payDays = Math.max(1, Math.ceil(current.days * s.factor));
   $("#coSvcPrice").textContent = PEN(current.price);
   $("#coTotal").textContent = PEN(current.payTotal);
-  $("#payBtn").textContent = "Pagar " + PEN(current.payTotal);
+  $("#payBtn").textContent = current.method === "os" ? "Generar TDR y aceptar servicio" : "Pagar " + PEN(current.payTotal);
 }
 
 function validEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
@@ -906,7 +1082,7 @@ async function finishOrder({ name, email, token, demo, isOrder }) {
   } catch (_) { /* sin backend: modo demo local */ }
 
   const finalCode = (server && server.code) || code;
-  saveOrder({ code: finalCode, serviceName: s.name, total: current.payTotal || current.price, days: current.payDays || current.days, speed: current.speed || "std", stage: 1, email, createdAt: Date.now() });
+  saveOrder({ code: finalCode, serviceName: s.name, serviceKey: current.key, total: current.payTotal || current.price, days: current.payDays || current.days, speed: current.speed || "std", stage: 1, email, createdAt: Date.now() });
   showSuccess(finalCode, email, server);
 }
 
@@ -931,6 +1107,138 @@ function showSuccess(code, email, server) {
     closeModal("#checkoutModal");
     $("#trackInput").value = code;
     doTrack();
+    document.getElementById("seguimiento").scrollIntoView({ behavior: "smooth" });
+  });
+}
+
+/* ============================================================
+   ORDEN DE SERVICIO (Entidad pública ≤ 8 UIT) + TDR automático
+   ============================================================ */
+function submitCheckout() { if (current.method === "os") submitOrdenServicio(); else pay(); }
+
+function stripTags(html) { return String(html).replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim(); }
+
+async function submitOrdenServicio() {
+  const s = SERVICES[current.key];
+  const name = $("#coName").value.trim(), email = $("#coEmail").value.trim();
+  const entidad = $("#osEntidad").value.trim(), ruc = $("#osRuc").value.trim();
+  const area = $("#osArea").value.trim(), func = $("#osFunc").value.trim();
+  const err = $("#coErr"); err.hidden = true;
+  if (!entidad || !ruc || !area || !func) { err.hidden = false; err.textContent = "Completa los datos de la entidad (entidad, RUC, área usuaria y responsable) para generar el TDR."; return; }
+  if (!validEmail(email)) { $("#coEmail").focus(); return shake("#coEmail"); }
+  const total = current.payTotal || current.price;
+  if (total > MAX_OS) {
+    err.hidden = false;
+    err.innerHTML = `El monto (<b>${PEN(total)}</b>) supera el tope de <b>8 UIT (${PEN(MAX_OS)})</b> para contratación directa por Orden de Servicio. Reduce el alcance/velocidad o tramita un procedimiento de selección.`;
+    return;
+  }
+  const btn = $("#payBtn"); btn.disabled = true; btn.textContent = "Generando TDR…";
+  await sleep(900);
+  const code = "ACI-" + rand();
+  const alcance = (typeof s.note === "function") ? stripTags(s.note(current.values).html) : s.short;
+  const tdr = buildTDR({ code, name, email, entidad, ruc, area, func, serviceName: s.name, insumos: s.insumos || [], alcance, amount: total, days: current.payDays || current.days, nota: current.note });
+  saveOrder({ code, serviceName: s.name, serviceKey: current.key, total, days: current.payDays || current.days, speed: current.speed || "std", stage: 1, email, method: "os", entidad, createdAt: Date.now() });
+  showSuccessOS(code, email, tdr, entidad);
+}
+
+function buildTDR(d) {
+  const fecha = new Date().toLocaleDateString("es-PE", { day: "2-digit", month: "long", year: "numeric" });
+  const insumos = (d.insumos || []).map(i => `      - ${i}`).join("\n");
+  return `TÉRMINOS DE REFERENCIA (TDR)
+Contratación por monto igual o inferior a 8 UIT
+
+Código de servicio : ${d.code}
+Fecha              : ${fecha}
+
+1. ENTIDAD CONTRATANTE
+   Entidad      : ${d.entidad}
+   RUC          : ${d.ruc}
+   Área usuaria : ${d.area}
+   Responsable  : ${d.func}
+
+2. DENOMINACIÓN DE LA CONTRATACIÓN
+   ${d.serviceName}
+
+3. FINALIDAD PÚBLICA
+   Contar con el servicio especializado indicado, que permita a la entidad cumplir
+   sus objetivos institucionales conforme a la normativa vigente.
+
+4. ANTECEDENTES
+   ${d.nota ? d.nota : "[Completar antecedentes específicos del área usuaria.]"}
+
+5. OBJETIVO DE LA CONTRATACIÓN
+   Obtener el entregable profesional correspondiente al servicio "${d.serviceName}",
+   elaborado y validado por especialistas.
+
+6. ALCANCE Y DESCRIPCIÓN DEL SERVICIO
+   ${d.alcance}
+   Insumos a cargo de la entidad:
+${insumos || "      - [Completar]"}
+
+7. ENTREGABLES
+   - Entregable final del servicio, en formato digital editable y PDF.
+
+8. PLAZO DE EJECUCIÓN
+   ${d.days} días hábiles, contados desde la entrega de insumos / orden de servicio.
+
+9. PERFIL DEL PROVEEDOR
+   Persona natural o jurídica con experiencia en la materia; profesionales colegiados
+   según corresponda, quienes validan y firman el entregable.
+
+10. LUGAR DE PRESTACIÓN
+    Servicio remoto, con entrega digital y reuniones de coordinación virtuales.
+
+11. FORMA DE PAGO
+    Pago único contra conformidad del área usuaria.
+
+12. CONFORMIDAD
+    Otorgada por el área usuaria (${d.area}) previa verificación del entregable.
+
+13. MONTO REFERENCIAL
+    ${PEN(d.amount)} (incluye IGV). Monto igual o inferior a 8 UIT (S/ 44,000),
+    por lo que corresponde contratación directa sin procedimiento de selección,
+    conforme a la normativa de contrataciones del Estado.
+
+14. CONFIDENCIALIDAD
+    El proveedor guardará confidencialidad sobre la información, conforme a la
+    Ley N.° 29733 de Protección de Datos Personales.
+
+---------------------------------------------------------------
+Documento generado automáticamente por Andes Consultoría Inteligente.
+Revisar y completar los campos entre corchetes [ ] antes de su uso oficial.
+`;
+}
+
+function downloadTDR(code, tdr) {
+  try {
+    const blob = new Blob([tdr], { type: "text/plain;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url; a.download = `TDR-${code}.txt`;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 2000);
+  } catch (_) {}
+}
+
+function showSuccessOS(code, email, tdr, entidad) {
+  $("#coBody").innerHTML = `
+    <div class="success">
+      <div class="ok-ico"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#1E7A4B" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg></div>
+      <h3 style="margin:0 0 4px">¡Servicio aceptado por Orden de Servicio!</h3>
+      <p class="muted">Generamos el TDR para <b>${escapeH(entidad)}</b> y registramos el servicio.</p>
+      <div class="code-chip">${code}</div>
+      <p style="font-size:.92rem;margin:10px 0 0">Descarga el <b>TDR</b>, adjúntalo a tu Orden de Servicio y el equipo iniciará el trabajo. El entregable llegará a <b>${escapeH(email)}</b> al completar el control de calidad.</p>
+      <p style="font-size:.82rem;color:var(--muted);margin-top:8px">Monto ≤ 8 UIT: contratación directa, sin procedimiento de selección.</p>
+    </div>`;
+  $(".modal-foot", $("#checkoutModal")).innerHTML =
+    `<button class="btn btn-ghost" id="coCloseOS">Cerrar</button>
+     <span style="display:flex;gap:10px"><button class="btn btn-dark" id="dlTDR">⬇ Descargar TDR</button>
+     <button class="btn btn-primary" id="goTrackOS">Ver seguimiento</button></span>`;
+  $("#coCloseOS").addEventListener("click", () => closeModal("#checkoutModal"));
+  $("#dlTDR").addEventListener("click", () => downloadTDR(code, tdr));
+  $("#goTrackOS").addEventListener("click", () => {
+    closeModal("#checkoutModal");
+    $("#trackInput").value = code; doTrack();
     document.getElementById("seguimiento").scrollIntoView({ behavior: "smooth" });
   });
 }
@@ -967,11 +1275,12 @@ function renderOps(o) {
   selSpeed = "std";
   const eta = addBizDays(new Date(), baseRemaining);
   const tgt = AGENT_TARGETS[stage] || AGENT_TARGETS[0];
+  const team = agentsFor(o.serviceKey); _opsAgents = team;
 
   const docsHTML = INTAKE_DOCS.map((d, i) =>
     `<div class="doc" style="animation-delay:${(i * 0.12).toFixed(2)}s"><span class="di">${d.icon}</span>${d.label}<span class="dch">✓</span></div>`).join("");
 
-  const agentsHTML = AGENTS.map((a, i) => agentCardHTML(a, i, tgt[i])).join("");
+  const agentsHTML = team.map((a, i) => agentCardHTML(a, i, tgt[i])).join("");
 
   const tlHTML = STAGES.map((st, i) => {
     const cls = i < stage ? "done" : i === stage ? "active" : "";
@@ -1045,9 +1354,10 @@ function confirmAccel() {
 function animateBars(root) {
   setTimeout(() => { $$(`${root} .agent-bar i`).forEach(b => { b.style.width = b.dataset.tgt + "%"; }); }, 120);
 }
-function tickAgents(root, state) {
+function tickAgents(root, state, team) {
+  const set = team || AGENTS;
   $$(`${root} .agent.work`).forEach(card => {
-    const a = AGENTS[+card.dataset.ag]; if (!a) return;
+    const a = set[+card.dataset.ag]; if (!a) return;
     const log = card.querySelector(".agent-log");
     log.style.opacity = "0";
     const k = state.k;
@@ -1060,7 +1370,7 @@ function tickAgents(root, state) {
 function startTicker() {
   animateBars("#trackResult");
   const state = { k: 1 };
-  trackTimer = setInterval(() => tickAgents("#trackResult", state), 2100);
+  trackTimer = setInterval(() => tickAgents("#trackResult", state, _opsAgents), 2100);
 }
 
 /* Demo de control (feature de venta, sin código de seguimiento) */
@@ -1087,7 +1397,7 @@ function renderShowcase() {
     </div>`;
   animateBars("#controlDemo");
   const state = { k: 1 };
-  setInterval(() => tickAgents("#controlDemo", state), 2300);
+  setInterval(() => tickAgents("#controlDemo", state, AGENTS), 2300);
 }
 
 /* ============================================================
@@ -1144,7 +1454,14 @@ document.addEventListener("DOMContentLoaded", () => {
   $("#coClose").addEventListener("click", () => closeModal("#checkoutModal"));
   $("#ntClose").addEventListener("click", () => closeModal("#notifyModal"));
   $("#goCheckout").addEventListener("click", openCheckout);
-  $("#payBtn").addEventListener("click", pay);
+  $("#payBtn").addEventListener("click", submitCheckout);
+  $$("#coMethod .opt").forEach(b => b.addEventListener("click", () => {
+    current.method = b.dataset.method;
+    $$("#coMethod .opt").forEach(x => x.classList.toggle("sel", x === b));
+    $("#osFields").hidden = current.method !== "os";
+    $("#coErr").hidden = true;
+    updateCoTotals();
+  }));
   $("#trackBtn").addEventListener("click", doTrack);
   $("#trackInput").addEventListener("keydown", e => { if (e.key === "Enter") doTrack(); });
   $("#ntSubmit").addEventListener("click", () => {
