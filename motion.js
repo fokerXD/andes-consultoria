@@ -15,9 +15,10 @@
     if (window.ScrollTrigger) gsap.registerPlugin(window.ScrollTrigger);
     const ST = window.ScrollTrigger;
 
-    /* ---- Scroll suave (Lenis) + sincronía con ScrollTrigger ---- */
+    /* ---- Scroll suave (Lenis) — solo en escritorio (en táctil rompe el scroll) ---- */
+    const isTouch = (window.matchMedia && window.matchMedia("(hover: none), (pointer: coarse)").matches) || window.innerWidth < 800;
     let lenis = null;
-    if (window.Lenis && !reduce) {
+    if (window.Lenis && !reduce && !isTouch) {
       try {
         lenis = new window.Lenis({ duration: 1.1, smoothWheel: true, wheelMultiplier: 1, touchMultiplier: 1.5 });
         window.__lenis = lenis;   // accesible para pausar/reanudar con los modales
@@ -76,11 +77,20 @@
         if (targets.length) {
           gsap.set(targets, { opacity: 0, y: 42 });
           ST.batch(targets, {
-            start: "top 86%",
+            start: "top 92%",
             onEnter: b => gsap.to(b, { opacity: 1, y: 0, duration: 0.8, stagger: 0.09, ease: "power3.out", overwrite: true })
           });
           // por si algo quedó por encima del primer cálculo
           ST.refresh();
+          // Respaldo: nada debe quedar oculto si un trigger no dispara (sobre todo en móvil)
+          const failsafe = () => targets.forEach(el => {
+            const r = el.getBoundingClientRect();
+            if (r.top < (window.innerHeight || 800) * 0.98 && parseFloat(getComputedStyle(el).opacity) < 0.05) {
+              gsap.to(el, { opacity: 1, y: 0, duration: 0.5, overwrite: true });
+            }
+          });
+          window.addEventListener("load", () => setTimeout(failsafe, 600));
+          setTimeout(failsafe, 2200);
         }
       }
     } catch (_) {}
