@@ -10,11 +10,11 @@
   "use strict";
 
   const AGENTS3D = [
-    { role: "Agente Legal", color: 0x1C5C99, skin: 0xE8B894, hair: 0x2b2b2b },
-    { role: "Agente Técnico", color: 0xC2602F, skin: 0xD9A06B, hair: 0x4a3526 },
-    { role: "Agente Financiero", color: 0xC9A227, skin: 0xEcC39B, hair: 0x1f1a16 },
-    { role: "Agente de Datos & IA", color: 0x0E7C66, skin: 0xC98A5e, hair: 0x111111 },
-    { role: "Auditor de Calidad", color: 0x6B4FB0, skin: 0xEab896, hair: 0x6b4a2f }
+    { role: "Agente Legal", color: 0x3B82F6, skin: 0xE8B894, hair: 0x2b2b2b },
+    { role: "Agente Técnico", color: 0xF6B73C, skin: 0xD9A06B, hair: 0x4a3526 },
+    { role: "Agente Financiero", color: 0x34E5C4, skin: 0xEcC39B, hair: 0x1f1a16 },
+    { role: "Agente de Datos & IA", color: 0x8B7BFF, skin: 0xC98A5e, hair: 0x111111 },
+    { role: "Auditor de Calidad", color: 0x22C39A, skin: 0xEab896, hair: 0x6b4a2f }
   ];
 
   function ready(fn) {
@@ -74,8 +74,8 @@
     camera.lookAt(0, 0.5, 0);
 
     // Iluminación moderna
-    scene.add(new THREE.HemisphereLight(0xffffff, 0xb8c2cc, 0.85));
-    const key = new THREE.DirectionalLight(0xffffff, 0.9);
+    scene.add(new THREE.HemisphereLight(0xcfe6ff, 0x0a0f1e, 0.8));
+    const key = new THREE.DirectionalLight(0xffffff, 1.15);
     key.position.set(8, 15, 6);
     key.castShadow = true;
     key.shadow.mapSize.set(1024, 1024);
@@ -88,10 +88,10 @@
 
     // Piso
     const floor = new THREE.Mesh(new THREE.BoxGeometry(18, 0.4, 13),
-      new THREE.MeshStandardMaterial({ color: 0xF4F0E9, roughness: 0.95 }));
+      new THREE.MeshStandardMaterial({ color: 0x111B30, roughness: 0.95 }));
     floor.position.y = -0.2; floor.receiveShadow = true; scene.add(floor);
     const rug = new THREE.Mesh(new THREE.CylinderGeometry(3.3, 3.3, 0.06, 56),
-      new THREE.MeshStandardMaterial({ color: 0xE6DDCD, roughness: 1 }));
+      new THREE.MeshStandardMaterial({ color: 0x16223C, roughness: 1 }));
     rug.position.y = 0.04; rug.receiveShadow = true; scene.add(rug);
 
     addWalls(THREE, scene);
@@ -190,7 +190,7 @@
   }
 
   function addWalls(THREE, scene) {
-    const mat = new THREE.MeshStandardMaterial({ color: 0xE3DCCD, roughness: 1 });
+    const mat = new THREE.MeshStandardMaterial({ color: 0x243352, roughness: 1 });
     const h = 0.6, t = 0.3;
     let w = new THREE.Mesh(new THREE.BoxGeometry(18, h, t), mat); w.position.set(0, h / 2, -6.5); w.receiveShadow = true; scene.add(w);
     w = w.clone(); w.position.z = 6.5; scene.add(w);

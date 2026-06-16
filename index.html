@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Andes Consultoría Inteligente — Servicios de asesoría al sector público con IA</title>
 <meta name="description" content="Expedientes técnicos, políticas públicas, análisis regulatorio, gestión financiera y evaluación de comités de selección. Servicios productizados con inteligencia artificial para el sector público peruano. Cotiza, paga en línea y recibe tu entregable con trazabilidad en tiempo real.">
-<meta name="theme-color" content="#0E2A47">
+<meta name="theme-color" content="#070B16">
 <meta name="author" content="Andes Consultoría Inteligente">
 <!-- Open Graph / compartir en redes y mensajería -->
 <meta property="og:type" content="website">
@@ -37,27 +37,30 @@
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><path d='M4 26 L13 8 L18 17 L22 11 L28 26 Z' fill='%23C2602F'/><path d='M4 26 L13 8 L16 13 L11 26 Z' fill='%230E2A47'/></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><path d='M4 26 L13 9 L18 17 L22 12 L28 26 Z' fill='none' stroke='%2334E5C4' stroke-width='2.2' stroke-linejoin='round'/><circle cx='13' cy='9' r='2.4' fill='%238B7BFF'/><circle cx='22' cy='12' r='2' fill='%23F6B73C'/></svg>">
 </head>
 <body>
+<canvas id="bgmesh" aria-hidden="true"></canvas>
 <div class="grain" aria-hidden="true"></div>
 
 <!-- HEADER -->
 <header class="site-header">
   <div class="container nav">
     <a class="brand" href="#inicio" aria-label="Andes Consultoría Inteligente — inicio">
-      <svg width="36" height="36" viewBox="0 0 40 40" aria-hidden="true">
-        <path d="M3 33 L15 9 L21 21 L26 13 L37 33 Z" fill="#C2602F"/>
-        <path d="M3 33 L15 9 L19 17 L12 33 Z" fill="#0E2A47"/>
-        <circle cx="26" cy="13" r="2.6" fill="#0E7C66"/>
+      <svg width="38" height="38" viewBox="0 0 40 40" aria-hidden="true">
+        <path d="M4 33 L15 10 L22 22 L27 14 L36 33" fill="none" stroke="#34E5C4" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>
+        <circle cx="15" cy="10" r="3" fill="#8B7BFF"/>
+        <circle cx="27" cy="14" r="2.6" fill="#F6B73C"/>
+        <circle cx="22" cy="22" r="2.2" fill="#34E5C4"/>
       </svg>
       <span>Andes Consultoría<br><small>Inteligente</small></span>
     </a>
     <nav class="nav-links" id="navLinks" aria-label="Principal">
       <a href="#asistente">Cotizador IA</a>
       <a href="#servicios">Servicios</a>
+      <a href="#datos">Datos</a>
       <a href="#control">Control</a>
       <a href="#proceso">Proceso</a>
       <a href="#seguimiento">Trazabilidad</a>
@@ -77,7 +80,7 @@
   <div class="container">
     <div class="hero-grid">
       <div>
-        <span class="eyebrow" style="color:#E9C9B6">Consultoría pública potenciada con IA · Perú</span>
+        <span class="eyebrow">Consultoría pública potenciada con IA · Perú</span>
         <h1>Servicios de asesoría al Estado, productizados y con resultados trazables.</h1>
         <p class="lead">Expedientes técnicos, políticas públicas, análisis regulatorio, gestión financiera y evaluación de comités de selección. Definimos los insumos, dimensionamos el trabajo y te entregamos un producto profesional —con seguimiento en tiempo real— bajo las directivas vigentes del MEF y la normativa nacional.</p>
         <div class="hero-badges">
@@ -156,6 +159,27 @@
         <h3>Trazabilidad total</h3>
         <p>Desde que cargas tus insumos hasta la entrega, sigues el avance por hitos en una línea de tiempo en vivo. Sabes siempre en qué etapa está tu servicio.</p>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- DATOS / IMPACTO CÍVICO -->
+<section id="datos">
+  <div class="container">
+    <div class="section-head center">
+      <span class="eyebrow">Datos · Impacto</span>
+      <h2>Tecnología al servicio del <span class="grad-text">Estado y la ciudadanía</span></h2>
+      <p class="lead center" style="margin:0 auto">Fortalecemos la gestión pública con IA y datos: más velocidad, más trazabilidad y mejores decisiones que se traducen en mejores servicios para las personas.</p>
+    </div>
+    <div class="bento">
+      <div class="b-card"><div class="b-metric" data-count="1800" data-suffix="+">0</div><div class="b-label">entidades públicas como mercado potencial en el Perú</div></div>
+      <div class="b-card"><div class="b-metric v" data-count="5">0</div><div class="b-label">servicios productizados + 6 en incorporación</div></div>
+      <div class="b-card"><div class="b-metric a" data-count="72" data-suffix="h">0</div><div class="b-label">opción de entrega express</div></div>
+      <div class="b-card"><div class="b-metric" data-count="100" data-suffix="%">0</div><div class="b-label">entregas con trazabilidad por hitos</div></div>
+      <div class="b-card wide"><div class="b-metric" data-count="44000" data-prefix="S/ ">0</div><div class="b-label">contratación directa por Orden de Servicio (≤ 8 UIT) con TDR automático</div>
+        <div class="b-spark"><i style="height:30%"></i><i style="height:55%"></i><i style="height:42%"></i><i style="height:70%"></i><i style="height:85%"></i><i style="height:60%"></i><i style="height:100%"></i></div></div>
+      <div class="b-card wide"><div class="b-metric v" data-count="3">0</div><div class="b-label">disciplinas (derecho, economía, ingeniería) + IA, con validación profesional colegiada</div>
+        <div class="b-spark"><i style="height:50%"></i><i style="height:40%"></i><i style="height:75%"></i><i style="height:55%"></i><i style="height:90%"></i><i style="height:65%"></i><i style="height:82%"></i></div></div>
     </div>
   </div>
 </section>
@@ -249,7 +273,7 @@
 <section id="proceso">
   <div class="container">
     <div class="section-head">
-      <span class="eyebrow" style="color:#E9C9B6">Cómo funciona</span>
+      <span class="eyebrow">Cómo funciona</span>
       <h2>De los insumos al entregable, en cuatro pasos</h2>
       <p class="lead">Un flujo simple y transparente, pensado para el sector público.</p>
     </div>
@@ -353,9 +377,9 @@
   <div class="container">
     <div class="foot-grid">
       <div>
-        <div class="brand" style="color:#fff;margin-bottom:10px">
-          <svg width="32" height="32" viewBox="0 0 40 40" aria-hidden="true"><path d="M3 33 L15 9 L21 21 L26 13 L37 33 Z" fill="#C2602F"/><path d="M3 33 L15 9 L19 17 L12 33 Z" fill="#1C5C99"/><circle cx="26" cy="13" r="2.6" fill="#0E7C66"/></svg>
-          <span style="color:#fff">Andes Consultoría<br><small style="color:#E9C9B6">Inteligente</small></span>
+        <div class="brand" style="margin-bottom:10px">
+          <svg width="34" height="34" viewBox="0 0 40 40" aria-hidden="true"><path d="M4 33 L15 10 L22 22 L27 14 L36 33" fill="none" stroke="#34E5C4" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><circle cx="15" cy="10" r="3" fill="#8B7BFF"/><circle cx="27" cy="14" r="2.6" fill="#F6B73C"/><circle cx="22" cy="22" r="2.2" fill="#34E5C4"/></svg>
+          <span>Andes Consultoría<br><small>Inteligente</small></span>
         </div>
         <p style="max-width:34ch">Asesoría y consultoría al sector público, productizada con inteligencia artificial. Lima, Perú.</p>
       </div>
@@ -532,6 +556,7 @@
 <script defer src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script defer src="office3d.js"></script>
+<script defer src="bg.js"></script>
 <script defer src="motion.js"></script>
 <script src="app.js"></script>
 </body>

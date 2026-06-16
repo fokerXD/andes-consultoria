@@ -69,6 +69,7 @@
           ".control-demo-wrap", ".cta-band", ".track-demo",
           "#valor .section-head", "#servicios .section-head", "#asistente .section-head",
           "#proceso .section-head", "#seguimiento .section-head", "#proximamente .section-head",
+          "#datos .section-head", ".bento .b-card", "#confianza .team-card",
           "#confianza .grid-2 > div"
         ]).filter(el => el && !el.closest(".modal"));
         if (targets.length) {
@@ -95,6 +96,18 @@
           gsap.to(o, { v: num, duration: 1.5, ease: "power2.out", onUpdate: apply,
             scrollTrigger: { trigger: el, start: "top 88%", once: true } });
         }
+      });
+    } catch (_) {}
+
+    /* ---- Contadores de la sección Datos ---- */
+    try {
+      document.querySelectorAll(".b-metric[data-count]").forEach(el => {
+        const target = parseInt(el.dataset.count, 10) || 0;
+        const pre = el.dataset.prefix || "", suf = el.dataset.suffix || "";
+        const o = { v: 0 };
+        const fmt = () => { el.textContent = pre + Math.round(o.v).toLocaleString("es-PE") + suf; };
+        if (ST) gsap.to(o, { v: target, duration: 1.6, ease: "power2.out", onUpdate: fmt, scrollTrigger: { trigger: el, start: "top 90%", once: true } });
+        else fmt();
       });
     } catch (_) {}
 
