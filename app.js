@@ -567,6 +567,7 @@ function buildScope(baseSvc, comp) {
   s.push("Procesamiento asistido con IA + validación de un especialista");
   if (comp > 1.6) s.push("Tratamiento de mayor complejidad: múltiples componentes y/o alcance ampliado");
   s.push("Entrega por correo con código de seguimiento y trazabilidad por hitos");
+  s.push("Cortesía: café Starbucks a la oficina de tu equipo al recibir el entregable ☕");
   return s;
 }
 function generateLocally(text, opts = {}) {
@@ -1098,6 +1099,7 @@ function showSuccess(code, email, server) {
         ? `Enviamos el comprobante y el código de seguimiento a <b>${email}</b>.`
         : `Guarda tu código de seguimiento. ${server ? "" : "(Modo demo: el envío de correo se activa al conectar el backend.)"}`}</p>
       <p style="font-size:.92rem">El entregable llegará a tu correo al completar el control de calidad. Puedes seguir el avance en la sección de trazabilidad.</p>
+      <p style="font-size:.92rem;margin-top:8px;color:#1E7A4B"><b>☕ Cortesía Andes:</b> al recibir tu entregable, enviamos un café Starbucks a la oficina de tu equipo.</p>
     </div>`;
   $(".modal-foot", $("#checkoutModal")).innerHTML =
     `<button class="btn btn-ghost" id="coClose2">Cerrar</button>
@@ -1229,6 +1231,7 @@ function showSuccessOS(code, email, tdr, entidad) {
       <div class="code-chip">${code}</div>
       <p style="font-size:.92rem;margin:10px 0 0">Descarga el <b>TDR</b>, adjúntalo a tu Orden de Servicio y el equipo iniciará el trabajo. El entregable llegará a <b>${escapeH(email)}</b> al completar el control de calidad.</p>
       <p style="font-size:.82rem;color:var(--muted);margin-top:8px">Monto ≤ 8 UIT: contratación directa, sin procedimiento de selección.</p>
+      <p style="font-size:.92rem;margin-top:8px;color:#1E7A4B"><b>☕ Cortesía Andes:</b> al recibir tu entregable, enviamos un café Starbucks a la oficina de tu equipo.</p>
     </div>`;
   $(".modal-foot", $("#checkoutModal")).innerHTML =
     `<button class="btn btn-ghost" id="coCloseOS">Cerrar</button>
