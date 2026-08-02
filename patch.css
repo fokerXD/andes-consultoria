@@ -12,18 +12,36 @@
    por lo que se partía en 5 líneas y empujaba los CTA bajo el
    fold. Se reequilibra la grilla y se acota el tamaño máximo.
    ----------------------------------------------------------- */
-.hero .container{padding:60px 24px 72px}
-.hero-grid{grid-template-columns:1.35fr .9fr;gap:44px}
-.hero h1{font-size:clamp(2rem,3.6vw,3.05rem);line-height:1.1;margin-bottom:.5em}
-.hero .lead{font-size:1.05rem;max-width:58ch;margin-bottom:0}
+.hero h1{font-size:clamp(1.75rem,3.4vw,3.05rem);line-height:1.1;margin-bottom:.5em}
 .hero-badges{margin:20px 0 24px}
 .hero-cta{gap:10px}
+
+/* ⚠️ Estas reglas van SOLO en escritorio. styles.css colapsa .hero-grid a una
+   columna en @media (max-width:920px); si se declaran sin media query, pisan ese
+   colapso y en móvil la tarjeta del hero se sale de la pantalla. */
+@media (min-width:921px){
+  .hero .container{padding:60px 24px 72px}
+  .hero-grid{grid-template-columns:1.35fr .9fr;gap:44px}
+  .hero .lead{font-size:1.05rem;max-width:58ch;margin-bottom:0}
+}
 
 /* En pantallas grandes el contenedor de 1200px deja mucho aire
    muerto a la derecha: se amplía un poco solo en el hero. */
 @media (min-width:1400px){
   .hero .container{max-width:1320px}
   .trust-strip{padding-left:40px;padding-right:40px}
+}
+
+/* Móvil: el bloque de marca y el CTA se partían en dos líneas, y la
+   antetítulo en monoespaciada con tracking ancho ocupaba tres. */
+@media (max-width:480px){
+  .hero .container{padding:40px 20px 52px}
+  .hero .lead{font-size:1rem;max-width:none}
+  .hero .eyebrow{font-size:.75rem;letter-spacing:.1em}
+  .brand{font-size:1rem;gap:8px}
+  .brand small{letter-spacing:.16em}
+  .nav-cta .btn{padding:.72em 1.05em;font-size:.9rem;white-space:nowrap}
+  .trust-strip{gap:12px 18px;padding:14px 20px}
 }
 
 /* -----------------------------------------------------------
@@ -41,6 +59,9 @@
 .eyebrow{font-size:.78rem;letter-spacing:.18em}
 .brand small{font-size:.68rem;letter-spacing:.24em}
 .future .soon{font-size:.72rem}
+/* El violeta #8B7BFF sobre la tarjeta daba 4.43:1 a 12px — justo por debajo
+   del 4.5:1 que exige WCAG AA. Aclarado, pasa a ~6:1. */
+.future .soon{color:#A99BFF}
 .svc-tag,.ai-cat,.control-demo-badge,.ops-section-t{font-size:.75rem}
 .trust-strip span{font-size:.86rem}
 .foot-bottom{font-size:.86rem}
@@ -56,6 +77,23 @@
 .kw,.ai-ex,.opt{min-height:34px;display:inline-flex;align-items:center}
 
 /* -----------------------------------------------------------
+   4b) HEADER EN TABLET — styles.css solo colapsa el nav a
+   hamburguesa por debajo de 680px, pero con 6 enlaces + 2
+   botones la barra no cabe hasta ~1000px: entre medias el
+   header se salía de la pantalla y aparecía scroll horizontal.
+   Se replican aquí los estilos del desplegable porque en
+   styles.css viven dentro del @media de 680px.
+   ----------------------------------------------------------- */
+@media (min-width:681px) and (max-width:1000px){
+  .nav-links,.nav-cta .btn-ghost{display:none}
+  .menu-toggle{display:block}
+  .nav-links.show{display:flex;position:absolute;top:74px;left:0;right:0;flex-direction:column;
+    background:var(--bg-2);border-bottom:1px solid var(--line);padding:18px 24px;gap:16px;
+    box-shadow:var(--shadow);z-index:60}
+  .nav-links.show a{min-height:44px}
+}
+
+/* -----------------------------------------------------------
    5) SKIP LINK — accesibilidad de teclado.
    ----------------------------------------------------------- */
 .skip-link{position:absolute;left:-9999px;top:0;z-index:200;background:var(--cyan);color:#06121E;
@@ -68,3 +106,90 @@
    ----------------------------------------------------------- */
 .legal-ready .legal-note[data-template-warning]{display:none}
 .legal-ready .ph{background:none;color:inherit;padding:0;font-weight:inherit;font-family:inherit}
+
+/* ===========================================================
+   Ronda 2 — recomendaciones 2 a 5 de la crítica de diseño
+   =========================================================== */
+
+/* -----------------------------------------------------------
+   REC 4 · ICONOS SVG — sustituyen a los emoji a color, que
+   rompían la paleta y se dibujan distinto en Windows (que es
+   lo que usa el Estado). Heredan currentColor y el tamaño del
+   contenedor, así que respetan el color de cada contexto.
+   ----------------------------------------------------------- */
+.ic{width:1.15em;height:1.15em;display:inline-block;vertical-align:-.22em;flex:none}
+.card .ico .ic,.team-card .t-ico .ic,.svc-ico .ic{width:1.35em;height:1.35em;vertical-align:0}
+.trust-strip span .ic,.trust-badge .ic{width:1.05em;height:1.05em;opacity:.9}
+.trust-strip span,.trust-badge{display:inline-flex;align-items:center;gap:8px}
+.ai-ex .ic{color:var(--cyan)}
+.ai-eyebrow .ic,#aiGen .ic{width:1.1em;height:1.1em}
+.dz-ico .ic{width:1.6em;height:1.6em;color:var(--muted)}
+.opt .ic{color:currentColor}
+
+/* -----------------------------------------------------------
+   REC 2 · PANEL DEL HERO — la montaña naranja chocaba con la
+   paleta y no codificaba ningún dato. En su lugar va la prueba
+   real del producto: el estado de un pedido por hitos.
+   ----------------------------------------------------------- */
+.hero-panel{padding:20px 20px 18px}
+.hp-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.hp-id{font-family:var(--font-mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.hp-name{display:block;font-family:var(--font-head);font-size:1.02rem;color:var(--ink);margin-top:3px;line-height:1.25}
+.hp-state{display:inline-flex;align-items:center;gap:7px;flex:none;font-size:.78rem;color:var(--cyan);
+  background:rgba(52,229,196,.1);border:1px solid rgba(52,229,196,.28);border-radius:999px;padding:.3em .7em}
+.hp-state i{width:7px;height:7px;border-radius:50%;background:var(--cyan);animation:blink 1.6s infinite}
+.hp-bar{height:8px;border-radius:999px;background:rgba(255,255,255,.08);overflow:hidden;margin:18px 0 7px}
+.hp-bar i{display:block;height:100%;border-radius:999px;background:var(--grad)}
+.hp-barmeta{display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:.72rem;color:var(--muted)}
+.hp-steps{list-style:none;margin:16px 0 0;padding:0;display:grid;gap:9px}
+.hp-steps li{position:relative;padding-left:26px;font-size:.85rem;color:var(--muted-2)}
+.hp-steps li::before{content:"";position:absolute;left:0;top:.28em;width:14px;height:14px;border-radius:50%;
+  border:1.6px solid var(--line);background:var(--surface-2)}
+.hp-steps li.ok{color:#b7c5e2}
+.hp-steps li.ok::before{background:var(--cyan);border-color:var(--cyan)}
+.hp-steps li.ok::after{content:"";position:absolute;left:4px;top:.62em;width:6px;height:3px;
+  border-left:1.6px solid #06121E;border-bottom:1.6px solid #06121E;transform:rotate(-45deg)}
+.hp-steps li.now{color:var(--ink);font-weight:600}
+.hp-steps li.now::before{background:var(--violet);border-color:var(--violet);
+  box-shadow:0 0 0 4px rgba(139,123,255,.2)}
+.hp-foot{display:flex;gap:22px;margin-top:18px;padding-top:14px;border-top:1px solid var(--line-soft)}
+.hp-foot b{display:block;font-family:var(--font-head);font-size:1.5rem;line-height:1;color:var(--cyan)}
+.hp-foot div:last-child b{color:var(--amber);font-size:1.25rem}
+.hp-foot span{font-size:.74rem;color:var(--muted)}
+
+/* -----------------------------------------------------------
+   REC 5 · ESCALA TIPOGRÁFICA — el H1 medía 49px y el H2 mayor
+   45px: cuatro píxeles de diferencia, así que al escanear no se
+   distinguía el título de página del de sección.
+   ----------------------------------------------------------- */
+h2{font-size:clamp(1.6rem,2.5vw,2.15rem)}
+#confianza .team-wrap h2{font-size:clamp(1.35rem,1.9vw,1.6rem)}
+.cta-band h2{font-size:clamp(1.7rem,2.6vw,2.3rem)}
+
+/* -----------------------------------------------------------
+   REC 3 · SERVICIOS — el encabezado ocupaba una pantalla entera
+   y la primera tarjeta quedaba en el borde inferior. Se acota el
+   alto del bloque y en escritorio el buscador sube al costado.
+   ----------------------------------------------------------- */
+#servicios{padding-top:64px}
+#servicios .section-head{max-width:52ch;margin-bottom:22px}
+#servicios .svc-toolbar{margin-bottom:20px}
+@media (min-width:1100px){
+  #servicios .container{display:grid;grid-template-columns:minmax(0,1fr) minmax(360px,.85fr);
+    grid-template-areas:"head tool" "count count" "grid grid";column-gap:48px;align-items:end}
+  #servicios .section-head{grid-area:head;margin-bottom:0}
+  #servicios .svc-toolbar{grid-area:tool;margin:0}
+  #servicios .svc-count{grid-area:count;margin-top:26px}
+  #servicios .svc-grid{grid-area:grid}
+  #servicios .svc-search{max-width:none}
+}
+
+/* -----------------------------------------------------------
+   REC 5 · MONOESPACIADA — hacía de antetítulo, chips, franja de
+   confianza, etiquetas, precios y pie a la vez. Se reserva para
+   datos y códigos; el resto pasa a la tipografía de texto.
+   ----------------------------------------------------------- */
+.chip,.trust-strip span,.svc-help,.foot-bottom,.kw{font-family:var(--font-body)}
+.chip{letter-spacing:0;font-size:.86rem}
+.kw{letter-spacing:0}
+.svc-count{letter-spacing:0}

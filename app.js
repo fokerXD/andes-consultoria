@@ -19,7 +19,7 @@ const IGV = 0.18; // referencial: precios mostrados incluyen IGV
 const SERVICES = {
   expediente: {
     tag: "Inversión pública",
-    icon: "📐",
+    icon: '<svg class="ic" aria-hidden="true"><use href="#i-ruler"/></svg>',
     name: "Expediente Técnico / Documento Equivalente",
     short: "Elaboración integral conforme a Invierte.pe y directivas del MEF, para cualquier sector.",
     base: 7500,
@@ -97,7 +97,7 @@ const SERVICES = {
 
   politicas: {
     tag: "Gobernanza",
-    icon: "🏛️",
+    icon: '<svg class="ic" aria-hidden="true"><use href="#i-bank"/></svg>',
     name: "Formulación de Políticas Públicas",
     short: "Diseño de políticas, lineamientos y planes basados en evidencia, con matriz de seguimiento.",
     base: 4200,
@@ -132,7 +132,7 @@ const SERVICES = {
 
   regulatorio: {
     tag: "Legal & regulatorio",
-    icon: "⚖️",
+    icon: '<svg class="ic" aria-hidden="true"><use href="#i-scale"/></svg>',
     name: "Análisis Regulatorio",
     short: "Análisis de impacto regulatorio (AIR), opinión legal y benchmarking normativo.",
     base: 2800,
@@ -162,7 +162,7 @@ const SERVICES = {
 
   financiera: {
     tag: "Gestión financiera",
-    icon: "📊",
+    icon: '<svg class="ic" aria-hidden="true"><use href="#i-chart"/></svg>',
     name: "Servicios de Gestión Financiera",
     short: "Análisis de ejecución presupuestal, avances financieros y tableros, marco nacional o multilateral.",
     base: 3500,
@@ -192,7 +192,7 @@ const SERVICES = {
 
   evaluacion: {
     tag: "Contrataciones",
-    icon: "✅",
+    icon: '<svg class="ic" aria-hidden="true"><use href="#i-clipboard"/></svg>',
     name: "Evaluación a Comités de Selección",
     short: "Apoyo experto al comité: análisis de admisión, evaluación técnica y evaluaciones combinadas.",
     base: 2400,
@@ -233,7 +233,7 @@ const SERVICES = {
      Los plazos concretos los fija cada contrato en sus Estipulaciones Especiales. ------- */
 
   bidmonitoreo: {
-    tag: "BID · Monitoreo", icon: "📈",
+    tag: "BID · Monitoreo", icon: '<svg class="ic" aria-hidden="true"><use href="#i-trend"/></svg>',
     name: "Monitoreo y reportes de operación BID",
     short: "PEP, POA, Informe Semestral de Progreso y Matriz de Resultados, en el formato y la oportunidad que exige el Banco.",
     base: 8500, baseDays: 15,
@@ -280,7 +280,7 @@ const SERVICES = {
   },
 
   bidadquisiciones: {
-    tag: "BID · Adquisiciones", icon: "📦",
+    tag: "BID · Adquisiciones", icon: '<svg class="ic" aria-hidden="true"><use href="#i-package"/></svg>',
     name: "Adquisiciones bajo políticas BID",
     short: "Plan de Adquisiciones, documentos de licitación, informes de evaluación y el expediente que sustenta la no objeción.",
     base: 8600, baseDays: 9,
@@ -342,7 +342,7 @@ const SERVICES = {
   },
 
   bidfinanciero: {
-    tag: "BID · Financiero", icon: "💵",
+    tag: "BID · Financiero", icon: '<svg class="ic" aria-hidden="true"><use href="#i-cash"/></svg>',
     name: "Gestión financiera y desembolsos BID",
     short: "Plan financiero, solicitudes de desembolso, rendición del 80% y control de elegibilidad del gasto.",
     base: 10500, baseDays: 18,
@@ -393,7 +393,7 @@ const SERVICES = {
   },
 
   bidauditoria: {
-    tag: "BID · Auditoría", icon: "🧾",
+    tag: "BID · Auditoría", icon: '<svg class="ic" aria-hidden="true"><use href="#i-receipt"/></svg>',
     name: "Auditoría externa y Estados Financieros Auditados",
     short: "TDR de auditoría, preparación del EFA y respuesta a observaciones y revisiones ex post.",
     base: 6000, baseDays: 6,
@@ -443,7 +443,7 @@ const SERVICES = {
   },
 
   bidsalvaguardias: {
-    tag: "BID · Salvaguardias", icon: "🌱",
+    tag: "BID · Salvaguardias", icon: '<svg class="ic" aria-hidden="true"><use href="#i-leaf"/></svg>',
     name: "Salvaguardias ambientales y sociales (MPAS)",
     short: "Sistema de Gestión Ambiental y Social, PGAS, especificaciones en pliegos e informe semestral de cumplimiento.",
     base: 7100, baseDays: 9,
@@ -504,7 +504,7 @@ const SERVICES = {
   },
 
   bidunidadejecutora: {
-    tag: "BID · Unidad ejecutora", icon: "🧭",
+    tag: "BID · Unidad ejecutora", icon: '<svg class="ic" aria-hidden="true"><use href="#i-compass"/></svg>',
     name: "Puesta en marcha y fortalecimiento de la unidad ejecutora",
     short: "Manual Operativo, condiciones previas al primer desembolso, elegibilidad y plan de ejecutabilidad.",
     base: 9500, baseDays: 18,
@@ -556,7 +556,7 @@ const SERVICES = {
     ]
   },
   defensa: {
-    soon: true, tag: "Derecho administrativo", icon: "⚖️",
+    soon: true, tag: "Derecho administrativo", icon: '<svg class="ic" aria-hidden="true"><use href="#i-shield"/></svg>',
     name: "Defensa en controversias y arbitrajes con el Estado",
     short: "Estrategia y elaboración de escritos en controversias contractuales y arbitrajes ante el Estado.",
     base: 4800, baseDays: 14,
@@ -576,7 +576,7 @@ const SERVICES = {
     ]
   },
   duediligence: {
-    soon: true, tag: "Inversión privada", icon: "🤝",
+    soon: true, tag: "Inversión privada", icon: '<svg class="ic" aria-hidden="true"><use href="#i-users"/></svg>',
     name: "Due diligence legal-regulatorio para APP y Obras por Impuestos",
     short: "Revisión integral de viabilidad legal y regulatoria para Asociaciones Público-Privadas y OxI.",
     base: 6500, baseDays: 18,
@@ -594,7 +594,7 @@ const SERVICES = {
     ]
   },
   osce: {
-    soon: true, tag: "Control & sanción", icon: "🏛️",
+    soon: true, tag: "Control & sanción", icon: '<svg class="ic" aria-hidden="true"><use href="#i-shield"/></svg>',
     name: "Asistencia en procedimientos ante el OECE y la Contraloría",
     short: "Descargos y respuestas en procedimientos sancionadores y observaciones de control.",
     base: 3200, baseDays: 10,
@@ -612,7 +612,7 @@ const SERVICES = {
     ]
   },
   alertas: {
-    soon: true, tag: "Monitoreo con IA", icon: "📡",
+    soon: true, tag: "Monitoreo con IA", icon: '<svg class="ic" aria-hidden="true"><use href="#i-bell"/></svg>',
     name: "Sistema de alertas normativas (El Peruano) con IA",
     short: "Monitoreo automatizado de normas publicadas y alertas personalizadas por sector y entidad.",
     base: 900, baseDays: 5,
@@ -629,7 +629,7 @@ const SERVICES = {
     ]
   },
   tableros: {
-    soon: true, tag: "Inteligencia de datos", icon: "📈",
+    soon: true, tag: "Inteligencia de datos", icon: '<svg class="ic" aria-hidden="true"><use href="#i-trend"/></svg>',
     name: "Tableros de inteligencia de inversión pública",
     short: "Dashboards de avance físico-financiero de la cartera de inversiones de la entidad.",
     base: 5200, baseDays: 15,
@@ -648,7 +648,7 @@ const SERVICES = {
     ]
   },
   capacitacion: {
-    soon: true, tag: "Capacitación", icon: "🎓",
+    soon: true, tag: "Capacitación", icon: '<svg class="ic" aria-hidden="true"><use href="#i-cap"/></svg>',
     name: "Capacitación y certificación en contrataciones del Estado",
     short: "Programas a medida para comités de selección y áreas usuarias, con casos prácticos.",
     base: 2800, baseDays: 9,
