@@ -1,0 +1,70 @@
+/* ===========================================================
+   patch.css — Correcciones 2026-07-31
+   Se carga DESPUÉS de styles.css. Es 100% aditivo: si lo quitas,
+   el sitio vuelve exactamente a como estaba.
+   Cárgalo así en index.html (y en las páginas legales):
+     <link rel="stylesheet" href="styles.css">
+     <link rel="stylesheet" href="patch.css">
+   =========================================================== */
+
+/* -----------------------------------------------------------
+   1) HERO — el H1 medía 73.6px dentro de una columna de 633px,
+   por lo que se partía en 5 líneas y empujaba los CTA bajo el
+   fold. Se reequilibra la grilla y se acota el tamaño máximo.
+   ----------------------------------------------------------- */
+.hero .container{padding:60px 24px 72px}
+.hero-grid{grid-template-columns:1.35fr .9fr;gap:44px}
+.hero h1{font-size:clamp(2rem,3.6vw,3.05rem);line-height:1.1;margin-bottom:.5em}
+.hero .lead{font-size:1.05rem;max-width:58ch;margin-bottom:0}
+.hero-badges{margin:20px 0 24px}
+.hero-cta{gap:10px}
+
+/* En pantallas grandes el contenedor de 1200px deja mucho aire
+   muerto a la derecha: se amplía un poco solo en el hero. */
+@media (min-width:1400px){
+  .hero .container{max-width:1320px}
+  .trust-strip{padding-left:40px;padding-right:40px}
+}
+
+/* -----------------------------------------------------------
+   2) COTIZADOR IA — .ai-loading declara display:flex, lo que
+   pisa el [hidden] del navegador: el spinner "Analizando tu
+   necesidad…" se veía siempre, como si estuviera colgado.
+   ----------------------------------------------------------- */
+.ai-loading[hidden]{display:none!important}
+[hidden]{display:none!important}
+
+/* -----------------------------------------------------------
+   3) TIPOGRAFÍA MÍNIMA — varios textos estaban en 9.6–11.5px.
+   El mínimo legible recomendado es 12px.
+   ----------------------------------------------------------- */
+.eyebrow{font-size:.78rem;letter-spacing:.18em}
+.brand small{font-size:.68rem;letter-spacing:.24em}
+.future .soon{font-size:.72rem}
+.svc-tag,.ai-cat,.control-demo-badge,.ops-section-t{font-size:.75rem}
+.trust-strip span{font-size:.86rem}
+.foot-bottom{font-size:.86rem}
+
+/* -----------------------------------------------------------
+   4) ÁREA TÁCTIL — los enlaces del nav medían 24px de alto.
+   El mínimo accesible es 44px.
+   ----------------------------------------------------------- */
+.nav-links a{display:inline-flex;align-items:center;min-height:44px;padding:0 2px}
+@media (max-width:680px){
+  .nav-links.show a{min-height:48px}
+}
+.kw,.ai-ex,.opt{min-height:34px;display:inline-flex;align-items:center}
+
+/* -----------------------------------------------------------
+   5) SKIP LINK — accesibilidad de teclado.
+   ----------------------------------------------------------- */
+.skip-link{position:absolute;left:-9999px;top:0;z-index:200;background:var(--cyan);color:#06121E;
+  font-weight:700;padding:.7em 1.2em;border-radius:0 0 10px 0}
+.skip-link:focus{left:0;text-decoration:none}
+
+/* -----------------------------------------------------------
+   6) AVISO DE PLANTILLA LEGAL — se oculta automáticamente
+   cuando legal-config.js detecta que los datos están completos.
+   ----------------------------------------------------------- */
+.legal-ready .legal-note[data-template-warning]{display:none}
+.legal-ready .ph{background:none;color:inherit;padding:0;font-weight:inherit;font-family:inherit}

@@ -204,8 +204,8 @@ const SERVICES = {
       "Cronograma del procedimiento de selección"
     ],
     miniInsumos: ["Bases integradas", "Propuestas recibidas", "Cronograma del proceso"],
-    kw: ["osce", "contrataciones", "postores", "ofertas", "propuestas", "comité", "admisión", "evaluación técnica", "evaluación económica", "selección", "licitación", "concurso público", "seace"],
-    note(v) { const t = v.tipo; const lab = t === "com" ? "Evaluación combinada (técnica + económica)" : t === "tec" ? "Evaluación técnica" : "Admisión / calificación"; return { cls: "", html: `<h5>Enfoque del servicio</h5><span class="doc">${lab}</span> Apoyo experto al comité conforme a las bases integradas y la Ley de Contrataciones del Estado: revisión de requisitos, puntajes por criterio y cuadro de méritos. La decisión y responsabilidad permanecen en el comité.` }; },
+    kw: ["oece", "osce", "ley 32069", "contrataciones publicas", "contrataciones", "postores", "ofertas", "propuestas", "comité", "admisión", "evaluación técnica", "evaluación económica", "selección", "licitación", "concurso público", "seace"],
+    note(v) { const t = v.tipo; const lab = t === "com" ? "Evaluación combinada (técnica + económica)" : t === "tec" ? "Evaluación técnica" : "Admisión / calificación"; return { cls: "", html: `<h5>Enfoque del servicio</h5><span class="doc">${lab}</span> Apoyo experto al comité conforme a las bases integradas y a la Ley N.° 32069, Ley General de Contrataciones Públicas, y su Reglamento: revisión de requisitos, puntajes por criterio y cuadro de méritos. La decisión y responsabilidad permanecen en el comité.` }; },
     fields: [
       { key: "tipo", label: "Tipo de evaluación", type: "select", options: [
         { label: "Admisión / requisitos de calificación", value: "adm", factor: 1.0, days: 0 },
@@ -221,6 +221,340 @@ const SERVICES = {
   },
 
   /* ===== Servicios en incorporación (Próximamente) — también cotizables ===== */
+  /* ---------- Operaciones con banca multilateral (BID) ----------
+     Marco de referencia:
+       · Normas Generales del Contrato de Préstamo — Art. 4.01/4.02 (condiciones previas),
+         7.02 (planes e informes), 7.03 (auditoría financiera externa)
+       · GN-2349-15 — Política de Adquisiciones de Bienes, Obras y Servicios Diferentes
+         de Consultoría (mayo 2019, vigente desde enero 2020)
+       · GN-2350-15 — Política de Selección y Contratación de Consultores (íd.)
+       · OP-273-12 — Guía de Gestión Financiera (17.06.2019, reemplaza OP-273-2)
+       · MPAS / ESPF — Marco de Política Ambiental y Social (vigente 31.10.2021), NDAS 1-10
+     Los plazos concretos los fija cada contrato en sus Estipulaciones Especiales. ------- */
+
+  bidmonitoreo: {
+    tag: "BID · Monitoreo", icon: "📈",
+    name: "Monitoreo y reportes de operación BID",
+    short: "PEP, POA, Informe Semestral de Progreso y Matriz de Resultados, en el formato y la oportunidad que exige el Banco.",
+    base: 8500, baseDays: 15,
+    insumos: [
+      "Contrato de Préstamo con sus Estipulaciones Especiales",
+      "Matriz de Resultados vigente (indicadores, líneas de base y metas)",
+      "PEP y POA vigentes, si existen",
+      "Plan de Adquisiciones vigente",
+      "Reportes de ejecución presupuestal y financiera (SIAF / sistema del ejecutor)"
+    ],
+    miniInsumos: ["Contrato de préstamo", "Matriz de Resultados", "POA y ejecución"],
+    kw: ["bid", "banca multilateral", "préstamo", "pep", "plan de ejecución", "poa", "plan operativo anual", "isp", "informe semestral de progreso", "matriz de resultados", "pmr", "convergence", "monitoreo", "seguimiento", "organismo ejecutor", "banco mundial", "caf"],
+    note(v) {
+      const atraso = v.estado === "atraso";
+      return { cls: atraso ? "warn" : "", html: `<h5>Base contractual</h5>
+        <span class="doc">Normas Generales, Art. 7.02</span>
+        El Prestatario y el Organismo Ejecutor deben presentar los planes e informes <b>en la forma y con el
+        contenido que el Banco razonablemente solicite</b>. El <b>Informe Semestral de Progreso (ISP)</b> reporta
+        los resultados y productos alcanzados en la ejecución del <b>POA</b>, del <b>Plan de Adquisiciones</b> y de
+        la <b>Matriz de Resultados</b>; el informe del segundo semestre incluye además la <b>propuesta de POA del
+        año siguiente</b>.<br>
+        El <b>PEP</b> ordena la planificación plurianual según la estructura de productos de la Matriz de Resultados,
+        con la ruta crítica de hitos y el plan de ejecución financiera.<br>
+        El <b>PMR</b> lo prepara el equipo de proyecto del Banco, no el ejecutor: tu ISP/POA es el insumo que
+        determina si la operación se califica como satisfactoria, en alerta o en problema.
+        <br><b>Ojo con el plazo:</b> el plazo del ISP lo fija cada contrato en sus Estipulaciones Especiales
+        (hemos visto 30 y 60 días desde el cierre del semestre). Lo verificamos en tu contrato antes de empezar.` };
+    },
+    fields: [
+      { key: "producto", label: "Qué necesitas", type: "select", options: [
+        { label: "Plan Operativo Anual (POA)", value: "poa", factor: 1.0, days: 0 },
+        { label: "Informe Semestral de Progreso (ISP)", value: "isp", factor: 1.11, days: 3 },
+        { label: "Matriz de Resultados: revisión y reformulación de indicadores", value: "mdr", factor: 1.33, days: 8 },
+        { label: "Plan de Ejecución del Proyecto (PEP) plurianual", value: "pep", factor: 1.5, days: 11 },
+        { label: "Paquete completo (PEP + POA + ISP)", value: "full", factor: 2.11, days: 17 } ]},
+      { key: "componentes", label: "Componentes del programa", type: "select", options: [
+        { label: "1 a 2 componentes", value: "c2", factor: 1.0, days: 0 },
+        { label: "3 a 4 componentes", value: "c4", factor: 1.25, days: 4 },
+        { label: "5 o más componentes", value: "c5", factor: 1.5, days: 8 } ]},
+      { key: "estado", label: "Situación de la operación", type: "select", options: [
+        { label: "Al día, reporte de rutina", value: "ok", factor: 1.0, days: 0 },
+        { label: "Con informes atrasados o desembolso bajo la meta", value: "atraso", factor: 1.3, days: 3 } ]}
+    ]
+  },
+
+  bidadquisiciones: {
+    tag: "BID · Adquisiciones", icon: "📦",
+    name: "Adquisiciones bajo políticas BID",
+    short: "Plan de Adquisiciones, documentos de licitación, informes de evaluación y el expediente que sustenta la no objeción.",
+    base: 8600, baseDays: 9,
+    insumos: [
+      "Plan de Adquisiciones vigente y su registro en SEPA",
+      "Anexo fiduciario de la Propuesta de Préstamo (umbrales y modalidad de revisión)",
+      "Términos de Referencia o Especificaciones Técnicas del área usuaria",
+      "Documento estándar de licitación aplicable a la operación",
+      "Presupuesto y certificación presupuestal disponible"
+    ],
+    miniInsumos: ["Plan de Adquisiciones", "Anexo fiduciario", "TDR o especificaciones"],
+    kw: ["bid", "adquisiciones", "gn-2349-15", "gn-2350-15", "plan de adquisiciones", "sepa", "no objeción", "lpi", "lpn", "comparación de precios", "sbcc", "sbc", "sbmc", "scc", "selección directa", "consultor individual", "lista corta", "ex ante", "ex post", "banca multilateral", "licitación pública internacional"],
+    note(v) {
+      const ind = v.objeto === "ci";
+      const ex = v.revision === "exante";
+      return { cls: ex ? "" : "warn", html: `<h5>Política aplicable</h5>
+        <span class="doc">${v.objeto === "bienes" ? "GN-2349-15" : "GN-2350-15"}</span>
+        ${v.objeto === "bienes"
+          ? `Bienes, obras y servicios diferentes de consultoría se rigen por la <b>GN-2349-15</b>. El método por
+             defecto es la <b>LPI</b>; la <b>Comparación de Precios</b> exige mínimo <b>tres</b> cotizaciones y la
+             <b>Contratación Directa</b> solo procede por las cinco causales tasadas del ¶3.7, con publicación
+             obligatoria de la adjudicación.`
+          : `La selección de consultores se rige por la <b>GN-2350-15</b>. El método por defecto es la <b>SBCC</b>.
+             La <b>lista corta</b> lleva entre <b>5 y 8 firmas</b> y, una vez emitida la no objeción,
+             <b>no se agregan ni suprimen nombres</b> sin anuencia del Banco. La <b>SCC</b> se limita a servicios
+             menores que en ningún caso excedan <b>US$200,000</b>.
+             ${ind ? `<br>Para <b>consultores individuales</b> no hay publicación ni propuestas: se comparan las
+             calificaciones de <b>al menos tres candidatos</b>. La selección directa de individuales solo procede
+             si es continuación de un trabajo previo competitivo, si la duración es <b>menor de seis meses</b>,
+             por emergencia, o si hay una única persona calificada.` : ""}`}
+        <br><b>Cuidado con dos cosas.</b> Los <b>umbrales no están en la política</b>: los fija el Plan de
+        Adquisiciones aprobado y el anexo fiduciario de tu operación. Y está prohibido <b>fraccionar</b> un
+        contrato para evitar la LPI: dividir en paquetes menores requiere aprobación previa del Banco.
+        ${ex
+          ? `<br>En <b>revisión ex ante</b> el Banco debe dar no objeción <b>antes de llamar a licitación</b> y
+             <b>antes de la decisión de adjudicación</b>; el contrato solo se adjudica después de recibida.
+             Las órdenes de cambio que en conjunto superen el <b>15%</b> del precio original también la requieren.`
+          : `<br>En <b>revisión ex post</b> no hay no objeción previa, pero debes conservar todo el expediente
+             durante la ejecución y <b>hasta tres años después del último desembolso</b>. Si el Banco encuentra
+             incumplimiento en la revisión posterior, puede <b>declarar la adquisición no elegible</b>: el costo
+             se traslada a tu presupuesto. Por eso conviene armar el expediente como si fuera ex ante.`}
+        <br>En toda evaluación debes verificar la <b>lista de firmas e individuos inelegibles</b> del Banco: no se
+        puede adjudicar a quien figure en ella.` };
+    },
+    fields: [
+      { key: "objeto", label: "Objeto de la contratación", type: "select", options: [
+        { label: "Consultor individual (GN-2350-15, Sección V)", value: "ci", factor: 1.0, days: 0 },
+        { label: "Bienes, obras o servicios diferentes de consultoría (GN-2349-15)", value: "bienes", factor: 1.18, days: 6 },
+        { label: "Servicios de consultoría — firma (GN-2350-15)", value: "firma", factor: 1.24, days: 8 } ]},
+      { key: "etapa", label: "Etapa que necesitas cubrir", type: "select", options: [
+        { label: "Plan de Adquisiciones: elaboración o actualización (18 meses)", value: "pa", factor: 1.0, days: 0 },
+        { label: "Documentos de licitación / solicitud de propuestas", value: "docs", factor: 1.18, days: 5 },
+        { label: "Informe de evaluación y recomendación de adjudicación", value: "eval", factor: 1.35, days: 7 },
+        { label: "Expediente completo, de la convocatoria a la firma del contrato", value: "full", factor: 2.06, days: 17 } ]},
+      { key: "revision", label: "Modalidad de revisión del Banco", type: "select", options: [
+        { label: "Ex post", value: "expost", factor: 1.0, days: 0 },
+        { label: "Ex ante (requiere no objeción)", value: "exante", factor: 1.15, days: 4 } ]}
+    ]
+  },
+
+  bidfinanciero: {
+    tag: "BID · Financiero", icon: "💵",
+    name: "Gestión financiera y desembolsos BID",
+    short: "Plan financiero, solicitudes de desembolso, rendición del 80% y control de elegibilidad del gasto.",
+    base: 10500, baseDays: 18,
+    insumos: [
+      "Contrato de Préstamo y cláusula de uso de los recursos",
+      "Estado de la cuenta designada y saldos pendientes de justificación",
+      "Programación operativa y presupuesto del período",
+      "Registros contables y documentación soporte del gasto",
+      "Programación del Aporte Local (contrapartida)"
+    ],
+    miniInsumos: ["Contrato de préstamo", "Saldos por justificar", "Programación del período"],
+    kw: ["bid", "desembolso", "anticipo", "reembolso", "pago directo", "op-273-12", "justificación", "rendición", "gasto elegible", "cuenta designada", "contrapartida", "aporte local", "plan financiero", "gestión financiera", "siaf", "cuenta única de tesorería"],
+    note(v) {
+      return { cls: v.alcance === "eleg" ? "warn" : "", html: `<h5>Marco aplicable</h5>
+        <span class="doc">OP-273-12</span>
+        La <b>Guía de Gestión Financiera para Proyectos Financiados por el BID (OP-273-12, 17.06.2019)</b>
+        reemplazó en su totalidad a la OP-273-2 y organiza la materia en <b>10 Requisitos</b>.<br>
+        Los desembolsos se hacen por <b>anticipo, pago directo, reembolso</b> o reembolso contra garantía de carta
+        de crédito, y se basan en un <b>plan financiero</b> derivado de la programación operativa: como regla las
+        necesidades no exceden un período referencial de <b>seis meses</b> (hasta 12 con aprobación documentada del
+        Jefe de Equipo).<br>
+        <b>La regla que más traba la ejecución:</b> para recibir un nuevo anticipo debes haber justificado, como
+        regla general, el <b>80% del saldo total acumulado pendiente</b>. Hasta que no se justifique,
+        <b>el Banco no puede otorgar otro adelanto</b>. El incremento del anticipo vigente procede
+        <b>una sola vez</b> por período y exige presentar la planificación financiera ajustada.<br>
+        Un gasto es <b>elegible</b> si es necesario y concordante con los objetivos, se ejecutó conforme al contrato
+        y a las políticas del Banco, está adecuadamente registrado y sustentado, y se efectuó dentro del Plazo
+        Original de Desembolsos. Si se detectan gastos no elegibles el Banco puede exigir el <b>reintegro</b> o
+        documentación sustituta, y suspender desembolsos si no se resuelve.<br>
+        La documentación soporte <b>original</b> se conserva y debe estar disponible para el Banco y los auditores.` };
+    },
+    fields: [
+      { key: "alcance", label: "Qué necesitas", type: "select", options: [
+        { label: "Plan financiero y programación de desembolsos", value: "plan", factor: 1.0, days: 0 },
+        { label: "Preparación de la rendición / justificación de gastos", value: "rend", factor: 1.1, days: 2 },
+        { label: "Diagnóstico de elegibilidad del gasto (preventivo o ante observación)", value: "eleg", factor: 1.3, days: 5 },
+        { label: "Paquete: plan financiero + rendición + tablero de seguimiento", value: "full", factor: 1.8, days: 12 } ]},
+      { key: "modalidad", label: "Modalidad de desembolso predominante", type: "select", options: [
+        { label: "Anticipo de fondos", value: "ant", factor: 1.0, days: 0 },
+        { label: "Reembolso de gastos", value: "reem", factor: 1.05, days: 1 },
+        { label: "Pago directo a terceros", value: "dir", factor: 1.0, days: 0 },
+        { label: "Mixta", value: "mix", factor: 1.15, days: 3 } ]},
+      { key: "monto", label: "Monto del préstamo", type: "select", options: [
+        { label: "Hasta US$ 20 millones", value: "m20", factor: 1.0, days: 0 },
+        { label: "US$ 20 a 80 millones", value: "m80", factor: 1.25, days: 4 },
+        { label: "Más de US$ 80 millones", value: "m80p", factor: 1.5, days: 8 } ]}
+    ]
+  },
+
+  bidauditoria: {
+    tag: "BID · Auditoría", icon: "🧾",
+    name: "Auditoría externa y Estados Financieros Auditados",
+    short: "TDR de auditoría, preparación del EFA y respuesta a observaciones y revisiones ex post.",
+    base: 6000, baseDays: 6,
+    insumos: [
+      "Contrato de Préstamo (Art. 7.03 y Estipulaciones Especiales aplicables)",
+      "Estados financieros del proyecto y conciliaciones del período",
+      "Expedientes de adquisiciones del período a revisar",
+      "Informe de auditoría anterior y estado de las recomendaciones",
+      "Fecha de corte acordada con el Banco"
+    ],
+    miniInsumos: ["Contrato de préstamo", "Estados financieros", "Expedientes de adquisiciones"],
+    kw: ["bid", "auditoría", "efa", "estados financieros auditados", "auditor externo", "tdr de auditoría", "revisión ex post", "nia", "intosai", "contraloría", "oci", "suspensión de desembolsos", "op-273-12", "artículo 7.03"],
+    note(v) {
+      const tarde = v.situacion === "vencido";
+      return { cls: tarde ? "warn" : "", html: `<h5>Base contractual</h5>
+        <span class="doc">Normas Generales, Art. 7.03</span>
+        Los <b>Estados Financieros Auditados</b> se presentan <b>dentro de los 120 días siguientes al cierre de
+        cada ejercicio fiscal del Proyecto</b> y <b>dentro de los 120 días siguientes a la fecha del último
+        desembolso</b>. El plazo puede extenderse a <b>180 días</b> cuando se usan los sistemas de gestión
+        financiera del país con ciclos de reporte distintos que satisfagan al Banco (OP-273-12 ¶8.3).<br>
+        La auditoría la realiza un <b>auditor externo previamente aceptado por el Banco</b> o una Entidad
+        Fiscalizadora Superior aceptada, con <b>TDR previamente acordados</b> que definen tipo, oportunidad y
+        alcance de la revisión, bajo NIA/IFAC, INTOSAI o normas nacionales aceptables.<br>
+        ${tarde
+          ? `<b>Situación crítica.</b> El incumplimiento en la presentación de los informes de auditoría externa
+             <b>conduce a la suspensión de los desembolsos</b> mediante un proceso automatizado (OP-273-12 ¶8.6).
+             Se puede solicitar <b>dispensa</b> al Especialista en Gestión Financiera; la prórroga formal solo
+             aplica a cooperaciones técnicas e inversión no reembolsable, con un máximo de 60 días por ejercicio.
+             Priorizamos el expediente que sustente esa gestión.`
+          : `El incumplimiento del plazo <b>conduce a la suspensión automática de los desembolsos</b>, así que el
+             trabajo se planifica hacia atrás desde la fecha de corte.`}
+        <br>Recuerda además que a la Fecha de Cierre debes <b>retener y contabilizar fondos suficientes para los
+        honorarios de auditoría y las evaluaciones ex post</b> financiadas con recursos del Banco, y que la
+        documentación de contratos bajo revisión ex post se conserva <b>tres años desde el último desembolso</b>.` };
+    },
+    fields: [
+      { key: "producto", label: "Qué necesitas", type: "select", options: [
+        { label: "TDR de auditoría externa para acordar con el Banco", value: "tdr", factor: 1.0, days: 0 },
+        { label: "Respuesta a observaciones del auditor o del Banco", value: "obs", factor: 1.29, days: 3 },
+        { label: "Preparación del EFA: cierre, conciliaciones y expediente para el auditor", value: "efa", factor: 1.43, days: 9 },
+        { label: "Revisión ex post preventiva de expedientes de adquisiciones", value: "expost", factor: 1.86, days: 15 },
+        { label: "Paquete completo de cierre del ejercicio", value: "full", factor: 2.43, days: 19 } ]},
+      { key: "situacion", label: "Situación del plazo", type: "select", options: [
+        { label: "Dentro de plazo", value: "ok", factor: 1.0, days: 3 },
+        { label: "Plazo vencido o desembolsos ya suspendidos", value: "vencido", factor: 1.45, days: 0 } ]}
+    ]
+  },
+
+  bidsalvaguardias: {
+    tag: "BID · Salvaguardias", icon: "🌱",
+    name: "Salvaguardias ambientales y sociales (MPAS)",
+    short: "Sistema de Gestión Ambiental y Social, PGAS, especificaciones en pliegos e informe semestral de cumplimiento.",
+    base: 7100, baseDays: 9,
+    insumos: [
+      "Clasificación ambiental y social de la operación (Categoría A, B o C)",
+      "Análisis o Evaluación de Impacto Ambiental y Social disponible",
+      "Plan de Gestión Ambiental y Social vigente, si existe",
+      "Documentos de licitación en los que deban insertarse las especificaciones",
+      "Registro de partes interesadas y del mecanismo de reclamación"
+    ],
+    miniInsumos: ["Categoría A / B / C", "EIAS o PGAS existente", "Partes interesadas"],
+    kw: ["bid", "salvaguardias", "mpas", "espf", "ndas", "esps", "ambiental", "social", "sgas", "pgas", "esmp", "eias", "esia", "reasentamiento", "pueblos indígenas", "género", "partes interesadas", "mecanismo de reclamación", "categoría b"],
+    note(v) {
+      const cat = v.categoria;
+      return { cls: cat === "a" ? "warn" : "", html: `<h5>Marco aplicable</h5>
+        <span class="doc">MPAS · vigente desde 31.10.2021</span>
+        El <b>Marco de Política Ambiental y Social</b> (ESPF) rige desde el <b>31 de octubre de 2021</b> y se
+        compone de una Declaración de Política y <b>10 Normas de Desempeño Ambiental y Social (NDAS)</b>:
+        evaluación y gestión de riesgos, trabajo y condiciones laborales, eficiencia de recursos y contaminación,
+        salud y seguridad de la comunidad, reasentamiento involuntario, biodiversidad, pueblos indígenas,
+        patrimonio cultural, <b>igualdad de género</b> y participación de partes interesadas.<br>
+        La <b>NDAS 1</b> impone la obligación nuclear: establecer y mantener un <b>Sistema de Gestión Ambiental y
+        Social (SGAS)</b> iniciado y liderado por el organismo ejecutor, con jerarquía de mitigación,
+        participación continua de las partes interesadas y un <b>mecanismo de reclamación a nivel de proyecto</b>.<br>
+        ${cat === "c"
+          ? `Para <b>Categoría C</b> corresponden la Ficha Ambiental y Social, los lineamientos del PGAS y las
+             <b>especificaciones técnicas ambientales y sociales en los pliegos</b>.`
+          : cat === "b"
+          ? `Para <b>Categoría B</b> corresponden la Evaluación de Impacto Ambiental y Social, los lineamientos del
+             PGAS, el Plan de Consulta Pública Significativa con su realización efectiva, y las
+             <b>especificaciones técnicas ambientales y sociales en los pliegos</b>.`
+          : `<b>Categoría A.</b> Exige EIAS completa y PGAS, y en muchos programas queda excluida de elegibilidad.
+             Confirma la clasificación con el Banco antes de avanzar: el alcance y el equipo cambian por completo.`}
+        <br>El <b>informe de cumplimiento ambiental y social</b> es generalmente <b>semestral</b> y se sincroniza
+        con el ISP; su fecha exacta la fija cada Contrato de Préstamo. Las inspecciones se evalúan contra
+        <b>evidencia objetiva</b> de cumplimiento del PGAS —no contra lo planificado ni lo "próximo a resolver"—
+        y generan un listado de no conformidades.<br>
+        Si tu operación se aprobó <b>después de noviembre de 2021</b>, debes usar la versión de los documentos
+        estándar de licitación <b>adaptada al ESPF</b>.
+        <br><b>Alcance de este servicio:</b> preparamos instrumentos de gestión, especificaciones para pliegos e
+        informes de cumplimiento. La <b>EIAS y los estudios ambientales que exigen habilitación profesional o
+        registro ante la autoridad ambiental</b> los firma un especialista habilitado; te decimos desde el inicio
+        qué parte requiere ese perfil.` };
+    },
+    fields: [
+      { key: "categoria", label: "Clasificación de impacto de la operación", type: "select", options: [
+        { label: "Categoría C (impacto mínimo o nulo)", value: "c", factor: 1.0, days: 0 },
+        { label: "Categoría B (impacto moderado y localizado)", value: "b", factor: 1.33, days: 6 },
+        { label: "Aún sin clasificar", value: "sc", factor: 1.47, days: 9 },
+        { label: "Categoría A (impacto significativo)", value: "a", factor: 2.13, days: 18 } ]},
+      { key: "producto", label: "Qué necesitas", type: "select", options: [
+        { label: "Especificaciones técnicas ambientales y sociales para pliegos", value: "etas", factor: 1.0, days: 0 },
+        { label: "Informe semestral de cumplimiento ambiental y social", value: "informe", factor: 1.21, days: 3 },
+        { label: "Mecanismo de reclamación y plan de partes interesadas (NDAS 10)", value: "ndas10", factor: 1.36, days: 5 },
+        { label: "Plan de Gestión Ambiental y Social (PGAS) o sus lineamientos", value: "pgas", factor: 1.57, days: 10 },
+        { label: "Diseño del Sistema de Gestión Ambiental y Social (SGAS)", value: "sgas", factor: 1.79, days: 13 } ]}
+    ]
+  },
+
+  bidunidadejecutora: {
+    tag: "BID · Unidad ejecutora", icon: "🧭",
+    name: "Puesta en marcha y fortalecimiento de la unidad ejecutora",
+    short: "Manual Operativo, condiciones previas al primer desembolso, elegibilidad y plan de ejecutabilidad.",
+    base: 9500, baseDays: 18,
+    insumos: [
+      "Contrato de Préstamo y Propuesta de Préstamo con su anexo fiduciario",
+      "Estructura orgánica y dotación actual de la unidad ejecutora",
+      "Manual Operativo vigente, si existe",
+      "Estado de cumplimiento de las condiciones previas del Art. 4.01",
+      "Ejecución financiera acumulada y proyección de desembolsos"
+    ],
+    miniInsumos: ["Contrato y anexo fiduciario", "Estructura de la UE", "Ejecución acumulada"],
+    kw: ["bid", "unidad ejecutora", "organismo ejecutor", "manual operativo", "mop", "condiciones previas", "primer desembolso", "elegibilidad", "artículo 4.01", "taller de arranque", "convergence", "plan de ejecutabilidad", "ejecutabilidad", "cartera", "pm4r", "gobernanza del proyecto"],
+    note(v) {
+      const rescate = v.momento === "rescate";
+      return { cls: rescate ? "warn" : "", html: `<h5>Base contractual</h5>
+        <span class="doc">Normas Generales, Art. 4.01 y 4.02</span>
+        Antes del primer desembolso el ejecutor debe acreditar: <b>informe jurídico fundado</b> sobre la validez y
+        exigibilidad de las obligaciones; <b>designación de los funcionarios facultados</b> para solicitar
+        desembolsos con sus firmas autenticadas; <b>información de la cuenta bancaria</b> donde se depositarán los
+        recursos (o su registro en la Cuenta Única de Tesorería); y la demostración de contar con un
+        <b>sistema de información financiera y una estructura de control interno adecuados</b>. A ello se suman las
+        condiciones especiales de las Estipulaciones Especiales.<br>
+        <b>El reloj corre:</b> si dentro de <b>180 días</b> desde la entrada en vigencia no se cumplen esas
+        condiciones, el Banco <b>podrá poner término al contrato</b>.<br>
+        ${v.momento === "arranque"
+          ? `El <b>taller de arranque</b> conviene realizarlo cuando la operación está próxima a obtener la
+             elegibilidad: la planificación inicial <b>no puede modificarse en Convergence pasados 40 días</b>
+             desde la elegibilidad, así que las metas físicas y financieras con las que arranques te acompañarán
+             todo el proyecto.`
+          : rescate
+          ? `<b>Cartera en riesgo.</b> Cuando el desembolso va por debajo de la meta, el trabajo real no es
+             administrativo sino de <b>ruta crítica</b>: identificar qué procesos pueden comprometerse en el
+             ejercicio, cuáles deben reprogramarse y qué requiere no objeción con anticipación. Eso es el
+             <b>Plan de Ejecutabilidad</b>.`
+          : `El <b>Manual Operativo</b> es el instrumento que define responsabilidades, flujos y plazos internos.
+             Cuando está sobrecargado de gobernanzas y firmas, el cuello de botella deja de ser el Banco y pasa a
+             ser la propia entidad.`}` };
+    },
+    fields: [
+      { key: "momento", label: "Momento de la operación", type: "select", options: [
+        { label: "En ejecución: fortalecimiento y ordenamiento", value: "ejecucion", factor: 1.0, days: 0 },
+        { label: "Antes de la elegibilidad: puesta en marcha", value: "arranque", factor: 1.11, days: 5 },
+        { label: "Cartera en riesgo: bajo desembolso o plazo por vencer", value: "rescate", factor: 1.44, days: 11 } ]},
+      { key: "alcance", label: "Alcance", type: "select", options: [
+        { label: "Condiciones previas al primer desembolso (Art. 4.01)", value: "cp", factor: 1.0, days: 0 },
+        { label: "Manual Operativo del Proyecto (MOP)", value: "mop", factor: 1.54, days: 12 },
+        { label: "Plan de Ejecutabilidad con ruta crítica y programación de no objeciones", value: "pe", factor: 1.77, days: 15 },
+        { label: "Paquete integral de puesta en marcha", value: "full", factor: 2.46, days: 27 } ]}
+    ]
+  },
   defensa: {
     soon: true, tag: "Derecho administrativo", icon: "⚖️",
     name: "Defensa en controversias y arbitrajes con el Estado",
@@ -261,16 +595,16 @@ const SERVICES = {
   },
   osce: {
     soon: true, tag: "Control & sanción", icon: "🏛️",
-    name: "Asistencia en procedimientos ante OSCE y Contraloría",
+    name: "Asistencia en procedimientos ante el OECE y la Contraloría",
     short: "Descargos y respuestas en procedimientos sancionadores y observaciones de control.",
     base: 3200, baseDays: 10,
     insumos: ["Notificación / imputación o informe de control", "Documentación del procedimiento", "Plazos y cronograma", "Antecedentes"],
     miniInsumos: ["Notificación / imputación", "Documentación", "Plazos"],
-    kw: ["osce", "contraloría", "sancionador", "descargos", "tribunal", "inhabilitación", "observaciones"],
-    note() { return { cls: "", html: `<h5>Servicio en incorporación</h5><span class="doc">Descargos / defensa</span> Apoyo en procedimientos ante OSCE y observaciones de Contraloría; el patrocinio formal lo asume el abogado del cliente.` }; },
+    kw: ["oece", "osce", "ley 32069", "contraloría", "sancionador", "descargos", "tribunal", "inhabilitación", "observaciones"],
+    note() { return { cls: "", html: `<h5>Servicio en incorporación</h5><span class="doc">Descargos / defensa</span> Apoyo en procedimientos ante el OECE (Ley N.° 32069) y observaciones de Contraloría; el patrocinio formal lo asume el abogado del cliente.` }; },
     fields: [
       { key: "ente", label: "Entidad", type: "select", options: [
-        { label: "OSCE (Tribunal / sancionador)", value: "osce", factor: 1.0, days: 0 },
+        { label: "OECE (Tribunal / sancionador)", value: "oece", factor: 1.0, days: 0 },
         { label: "Contraloría (observaciones)", value: "cgr", factor: 1.1, days: 2 } ]},
       { key: "urg", label: "Plazo", type: "select", options: [
         { label: "Estándar", value: "std", factor: 1.0, days: 0 },
@@ -335,7 +669,7 @@ const SERVICES = {
 const FUTURE = [
   { area: "Derecho administrativo", name: "Defensa en controversias y arbitrajes con el Estado", desc: "Estrategia y elaboración de escritos en controversias contractuales y arbitrajes ante el Estado." },
   { area: "Inversión privada", name: "Due diligence legal-regulatorio para APP y Obras por Impuestos", desc: "Revisión integral de viabilidad legal y regulatoria para Asociaciones Público-Privadas y OxI." },
-  { area: "Control & sanción", name: "Asistencia en procedimientos ante OSCE y Contraloría", desc: "Apoyo en procedimientos sancionadores, descargos y respuestas a observaciones de control." },
+  { area: "Control & sanción", name: "Asistencia en procedimientos ante el OECE y la Contraloría", desc: "Apoyo en procedimientos sancionadores, descargos y respuestas a observaciones de control." },
   { area: "Monitoreo con IA", name: "Sistema de alertas normativas (El Peruano) con IA", desc: "Monitoreo automatizado de normas publicadas y alertas personalizadas por sector y entidad." },
   { area: "Inteligencia de datos", name: "Tableros de inteligencia de inversión pública", desc: "Dashboards de avance físico-financiero de la cartera de inversiones de la entidad." },
   { area: "Capacitación", name: "Capacitación y certificación en contrataciones del Estado", desc: "Programas a medida para comités de selección y áreas usuarias, con casos prácticos." }
@@ -409,7 +743,7 @@ const AGENTS_BY_SERVICE = {
     { icon: "🌐", name: "Regulatorio Sectorial", role: "Marco del sector", logs: ["Cruzando marco regulatorio sectorial…", "Verificando autorizaciones…"] }, QA],
   osce: [IA_DOC,
     { icon: "⚖️", name: "Abogado Sancionador", role: "Descargos y defensa", logs: ["Analizando la imputación…", "Redactando descargos…"] },
-    { icon: "📋", name: "Especialista OSCE", role: "Procedimientos OSCE", logs: ["Revisando el expediente OSCE…", "Verificando plazos…"] },
+    { icon: "📋", name: "Especialista OECE", role: "Procedimientos OECE", logs: ["Revisando el expediente OECE…", "Verificando plazos…"] },
     { icon: "🏛️", name: "Especialista Contraloría", role: "Observaciones de control", logs: ["Atendiendo observaciones de control…", "Sustentando descargos…"] }, QA],
   alertas: [{ icon: "📡", name: "Agente Monitor", role: "Monitoreo de El Peruano", logs: ["Monitoreando publicaciones…", "Detectando normas relevantes…"] },
     { icon: "🏷️", name: "Clasificador Normativo", role: "Etiquetado por sector", logs: ["Clasificando por sector y entidad…", "Filtrando relevancia…"] },
@@ -567,7 +901,7 @@ function buildScope(baseSvc, comp) {
   s.push("Procesamiento asistido con IA + validación de un especialista");
   if (comp > 1.6) s.push("Tratamiento de mayor complejidad: múltiples componentes y/o alcance ampliado");
   s.push("Entrega por correo con código de seguimiento y trazabilidad por hitos");
-  s.push("Cortesía: café Starbucks a la oficina de tu equipo al recibir el entregable ☕");
+  s.push("Incluye una ronda de ajustes sobre observaciones al entregable");
   return s;
 }
 function generateLocally(text, opts = {}) {
@@ -1099,7 +1433,7 @@ function showSuccess(code, email, server) {
         ? `Enviamos el comprobante y el código de seguimiento a <b>${email}</b>.`
         : `Guarda tu código de seguimiento. ${server ? "" : "(Modo demo: el envío de correo se activa al conectar el backend.)"}`}</p>
       <p style="font-size:.92rem">El entregable llegará a tu correo al completar el control de calidad. Puedes seguir el avance en la sección de trazabilidad.</p>
-      <p style="font-size:.92rem;margin-top:8px;color:#1E7A4B"><b>☕ Cortesía Andes:</b> al recibir tu entregable, enviamos un café Starbucks a la oficina de tu equipo.</p>
+      <p style="font-size:.92rem;margin-top:8px;color:#1E7A4B"><b>Incluido:</b> una ronda de ajustes sobre observaciones al entregable, dentro de los 10 días hábiles siguientes a la entrega.</p>
     </div>`;
   $(".modal-foot", $("#checkoutModal")).innerHTML =
     `<button class="btn btn-ghost" id="coClose2">Cerrar</button>
@@ -1230,8 +1564,8 @@ function showSuccessOS(code, email, tdr, entidad) {
       <p class="muted">Generamos el TDR para <b>${escapeH(entidad)}</b> y registramos el servicio.</p>
       <div class="code-chip">${code}</div>
       <p style="font-size:.92rem;margin:10px 0 0">Descarga el <b>TDR</b>, adjúntalo a tu Orden de Servicio y el equipo iniciará el trabajo. El entregable llegará a <b>${escapeH(email)}</b> al completar el control de calidad.</p>
-      <p style="font-size:.82rem;color:var(--muted);margin-top:8px">Monto ≤ 8 UIT: contratación directa, sin procedimiento de selección.</p>
-      <p style="font-size:.92rem;margin-top:8px;color:#1E7A4B"><b>☕ Cortesía Andes:</b> al recibir tu entregable, enviamos un café Starbucks a la oficina de tu equipo.</p>
+      <p style="font-size:.82rem;color:var(--muted);margin-top:8px">Monto ≤ 8 UIT: contratación directa sin procedimiento de selección, sujeta a la supervisión y al registro que establece la Ley N.° 32069.</p>
+      <p style="font-size:.92rem;margin-top:8px;color:#1E7A4B"><b>Incluido:</b> una ronda de ajustes sobre observaciones al entregable, dentro de los 10 días hábiles siguientes a la entrega.</p>
     </div>`;
   $(".modal-foot", $("#checkoutModal")).innerHTML =
     `<button class="btn btn-ghost" id="coCloseOS">Cerrar</button>

@@ -3,8 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- ============================================================
+     DOMINIO — cuando conectes andesconsultoria.pe en Vercel,
+     reemplaza en este archivo y en sitemap.xml / robots.txt todas
+     las apariciones de:   andes-consultoria-web.vercel.app
+     por:                  andesconsultoria.pe
+     (Hoy la URL canónica apunta al dominio que SÍ resuelve; no la
+     cambies antes de que el dominio esté activo o Google
+     desindexará el sitio.)
+     ============================================================ -->
 <title>Andes Consultoría Inteligente — Servicios de asesoría al sector público con IA</title>
-<meta name="description" content="Expedientes técnicos, políticas públicas, análisis regulatorio, gestión financiera y evaluación de comités de selección. Servicios productizados con inteligencia artificial para el sector público peruano. Cotiza, paga en línea y recibe tu entregable con trazabilidad en tiempo real.">
+<meta name="description" content="Expedientes técnicos, políticas públicas, análisis regulatorio, gestión financiera y evaluación de comités. Línea especializada en operaciones con banca multilateral: adquisiciones BID (GN-2349-15 y GN-2350-15), monitoreo PEP/POA/ISP, desembolsos, auditoría y salvaguardias. Servicios productizados con IA para el sector público peruano.">
 <meta name="theme-color" content="#070B16">
 <meta name="author" content="Andes Consultoría Inteligente">
 <!-- Open Graph / compartir en redes y mensajería -->
@@ -25,13 +34,34 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "Organization",
+  "@type": ["Organization", "ProfessionalService"],
   "name": "Andes Consultoría Inteligente",
   "url": "https://andes-consultoria-web.vercel.app/",
   "logo": "https://andes-consultoria-web.vercel.app/og-image.png",
   "description": "Servicios de asesoría y consultoría al sector público peruano, productizados con inteligencia artificial: expedientes técnicos, documentos equivalentes, políticas públicas, análisis regulatorio, gestión financiera y evaluación de comités de selección.",
   "areaServed": { "@type": "Country", "name": "Perú" },
-  "knowsAbout": ["Invierte.pe", "IOARR", "Expediente Técnico", "Documento Equivalente", "Contrataciones del Estado", "Políticas Públicas", "Análisis Regulatorio"],
+  "address": { "@type": "PostalAddress", "addressLocality": "Lima", "addressCountry": "PE" },
+  "knowsAbout": [
+    "Invierte.pe",
+    "IOARR",
+    "Expediente Técnico",
+    "Documento Equivalente",
+    "Ley N.° 32069 — Ley General de Contrataciones Públicas",
+    "OECE",
+    "PLADICOP",
+    "SEACE",
+    "Políticas Públicas",
+    "Análisis de Impacto Regulatorio",
+    "BID — Banco Interamericano de Desarrollo",
+    "GN-2349-15 — Política de Adquisiciones de Bienes, Obras y Servicios Diferentes de Consultoría",
+    "GN-2350-15 — Política de Selección y Contratación de Consultores",
+    "OP-273-12 — Guía de Gestión Financiera del BID",
+    "Marco de Política Ambiental y Social (MPAS/ESPF)",
+    "Estados Financieros Auditados (EFA)",
+    "Plan de Ejecución del Proyecto (PEP)",
+    "Plan Operativo Anual (POA)",
+    "Informe Semestral de Progreso (ISP)"
+  ],
   "email": "contacto@andesconsultoria.pe"
 }
 </script>
@@ -39,9 +69,11 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="patch.css">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><path d='M4 26 L13 9 L18 17 L22 12 L28 26 Z' fill='none' stroke='%2334E5C4' stroke-width='2.2' stroke-linejoin='round'/><circle cx='13' cy='9' r='2.4' fill='%238B7BFF'/><circle cx='22' cy='12' r='2' fill='%23F6B73C'/></svg>">
 </head>
 <body>
+<a class="skip-link" href="#main">Saltar al contenido</a>
 <canvas id="bgmesh" aria-hidden="true"></canvas>
 <div class="grain" aria-hidden="true"></div>
 
@@ -75,6 +107,8 @@
   </div>
 </header>
 
+<main id="main">
+
 <!-- HERO -->
 <section class="hero" id="inicio">
   <div class="container">
@@ -82,12 +116,12 @@
       <div>
         <span class="eyebrow">Consultoría pública potenciada con IA · Perú</span>
         <h1>Servicios de asesoría al Estado, productizados y con resultados trazables.</h1>
-        <p class="lead">Expedientes técnicos, políticas públicas, análisis regulatorio, gestión financiera y evaluación de comités de selección. Definimos los insumos, dimensionamos el trabajo y te entregamos un producto profesional —con seguimiento en tiempo real— bajo las directivas vigentes del MEF y la normativa nacional.</p>
+        <p class="lead">Expedientes técnicos, políticas públicas, análisis regulatorio, gestión financiera, evaluación de comités y ejecución de operaciones con banca multilateral. Definimos los insumos, dimensionamos el trabajo y te entregamos un producto profesional —con seguimiento en tiempo real— bajo las directivas vigentes del MEF y la normativa nacional.</p>
         <div class="hero-badges">
           <span class="chip">✔ Cotización transparente en minutos</span>
           <span class="chip">✔ Pago seguro con Culqi</span>
           <span class="chip">✔ Entrega al correo con trazabilidad</span>
-          <span class="chip">☕ Café Starbucks a tu oficina al recibir</span>
+          <span class="chip">✔ Incluye una ronda de ajustes</span>
         </div>
         <div class="hero-cta">
           <a href="#servicios" class="btn btn-primary btn-lg">Explorar servicios</a>
@@ -133,6 +167,10 @@
     <span>Gestión Financiera</span><span class="dot">◆</span>
     <span>Evaluación de Comités</span><span class="dot">◆</span>
     <span>IOARR &amp; Tecnología</span><span class="dot">◆</span>
+    <span>Adquisiciones BID</span><span class="dot">◆</span>
+    <span>Monitoreo PEP · POA · ISP</span><span class="dot">◆</span>
+    <span>Desembolsos y EFA</span><span class="dot">◆</span>
+    <span>Salvaguardias MPAS</span><span class="dot">◆</span>
   </div>
 </div>
 
@@ -142,13 +180,13 @@
     <div class="section-head center">
       <span class="eyebrow">Por qué Andes</span>
       <h2>Expertise diverso, ejecución acelerada con IA</h2>
-      <p class="lead center" style="margin:0 auto">Combinamos especialistas en derecho público, contrataciones del Estado, economía e ingeniería con modelos de IA que aceleran el análisis documental, la redacción técnica y el control de calidad —sin sacrificar el criterio profesional ni la responsabilidad humana.</p>
+      <p class="lead center" style="margin:0 auto">Combinamos especialistas en derecho público, contrataciones públicas, economía e ingeniería con modelos de IA que aceleran el análisis documental, la redacción técnica y el control de calidad —sin sacrificar el criterio profesional ni la responsabilidad humana.</p>
     </div>
     <div class="grid-3">
       <div class="card value">
         <div class="ico" aria-hidden="true">⚖️</div>
         <h3>Rigor normativo</h3>
-        <p>Cada entregable se elabora conforme a la normativa vigente: Invierte.pe, Ley de Contrataciones del Estado, directivas del MEF y lineamientos de organismos multilaterales.</p>
+        <p>Cada entregable se elabora conforme a la normativa vigente: Invierte.pe, la <b>Ley N.° 32069 — Ley General de Contrataciones Públicas</b> y su Reglamento, las directivas del MEF y los lineamientos de organismos multilaterales.</p>
       </div>
       <div class="card value">
         <div class="ico" aria-hidden="true">⚡</div>
@@ -174,10 +212,10 @@
     </div>
     <div class="bento">
       <div class="b-card"><div class="b-metric" data-count="1800" data-suffix="+">0</div><div class="b-label">entidades públicas como mercado potencial en el Perú</div></div>
-      <div class="b-card"><div class="b-metric v" data-count="5">0</div><div class="b-label">servicios productizados + 6 en incorporación</div></div>
+      <div class="b-card"><div class="b-metric v" data-count="11">0</div><div class="b-label">servicios productizados, incluida la línea BID, + 6 en incorporación</div></div>
       <div class="b-card"><div class="b-metric a" data-count="72" data-suffix="h">0</div><div class="b-label">opción de entrega express</div></div>
       <div class="b-card"><div class="b-metric" data-count="100" data-suffix="%">0</div><div class="b-label">entregas con trazabilidad por hitos</div></div>
-      <div class="b-card wide"><div class="b-metric" data-count="44000" data-prefix="S/ ">0</div><div class="b-label">contratación directa por Orden de Servicio (≤ 8 UIT) con TDR automático</div>
+      <div class="b-card wide"><div class="b-metric" data-count="44000" data-prefix="S/ ">0</div><div class="b-label">tope de contratación directa por Orden de Servicio (≤ 8 UIT · UIT 2026 = S/ 5,500), con TDR automático</div>
         <div class="b-spark"><i style="height:30%"></i><i style="height:55%"></i><i style="height:42%"></i><i style="height:70%"></i><i style="height:85%"></i><i style="height:60%"></i><i style="height:100%"></i></div></div>
       <div class="b-card wide"><div class="b-metric v" data-count="3">0</div><div class="b-label">disciplinas (derecho, economía, ingeniería) + IA, con validación profesional colegiada</div>
         <div class="b-spark"><i style="height:50%"></i><i style="height:40%"></i><i style="height:75%"></i><i style="height:55%"></i><i style="height:90%"></i><i style="height:65%"></i><i style="height:82%"></i></div></div>
@@ -248,7 +286,7 @@
     <div class="section-head">
       <span class="eyebrow">Servicios</span>
       <h2>Elige tu servicio, define los insumos y obtén una cotización inmediata</h2>
-      <p class="lead">Cada servicio te indica exactamente qué insumos necesitamos. Con base en ellos dimensionamos el trabajo y calculamos un precio justo y transparente. Diseñado para funcionarios públicos, consultores independientes y firmas proveedoras del Estado.</p>
+      <p class="lead">Cada servicio te indica exactamente qué insumos necesitamos. Con base en ellos dimensionamos el trabajo y calculamos un precio justo y transparente. Diseñado para funcionarios públicos, unidades ejecutoras de operaciones con banca multilateral, consultores independientes y firmas proveedoras del Estado.</p>
     </div>
     <div class="svc-toolbar">
       <div class="svc-search" id="svcSearch">
@@ -263,6 +301,9 @@
         <button class="kw" data-kw="presupuesto ejecución">Presupuesto</button>
         <button class="kw" data-kw="regulatorio AIR">Análisis regulatorio</button>
         <button class="kw" data-kw="comité selección propuestas">Comité de selección</button>
+        <button class="kw" data-kw="bid banca multilateral préstamo">BID / multilateral</button>
+        <button class="kw" data-kw="adquisiciones gn-2349-15 no objeción">Adquisiciones BID</button>
+        <button class="kw" data-kw="desembolso justificación efa auditoría">Desembolsos y EFA</button>
       </div>
     </div>
     <p class="svc-count" id="svcCount" aria-live="polite"></p>
@@ -282,7 +323,7 @@
       <div class="step"><div class="n">1</div><h3>Cotiza</h3><p>Selecciona el servicio y completa los insumos. Calculamos el alcance y el precio al instante, sin reuniones previas.</p></div>
       <div class="step"><div class="n">2</div><h3>Paga seguro</h3><p>Confirma y paga en línea con Culqi (tarjeta o Yape). Recibes comprobante y código de seguimiento al correo.</p></div>
       <div class="step"><div class="n">3</div><h3>Elaboramos</h3><p>Procesamos tus insumos con IA y un especialista valida cada etapa. Sigues el avance por hitos en vivo.</p></div>
-      <div class="step"><div class="n">4</div><h3>Recibe</h3><p>Te entregamos el producto final en tu correo, listo para usar, con su control de calidad documentado. Y como cortesía, al recibir tu entregable enviamos un <b>café Starbucks ☕</b> a la oficina de tu equipo.</p></div>
+      <div class="step"><div class="n">4</div><h3>Recibe</h3><p>Te entregamos el producto final en tu correo, listo para usar, con su control de calidad documentado. Incluye <b>una ronda de ajustes</b> sobre observaciones al entregable, sin costo adicional.</p></div>
     </div>
   </div>
 </section>
@@ -339,7 +380,7 @@
         <p class="muted">Toda entrega es revisada y validada por especialistas humanos. La IA es una herramienta de aceleración y control de calidad, no un sustituto del juicio profesional ni de la responsabilidad legal.</p>
       </div>
       <div class="kpis">
-        <div class="kpi"><b>5</b><span>servicios productizados</span></div>
+        <div class="kpi"><b>11</b><span>servicios productizados</span></div>
         <div class="kpi"><b>100%</b><span>entregas con trazabilidad</span></div>
         <div class="kpi"><b>&lt;72h</b><span>opción de entrega express</span></div>
         <div class="kpi"><b>3</b><span>disciplinas: derecho, economía, ingeniería</span></div>
@@ -352,7 +393,7 @@
         <p class="lead center" style="margin:0 auto">Cada entregable lo elabora y firma un equipo multidisciplinario de especialistas colegiados. La IA acelera el análisis documental y el control de calidad; nunca reemplaza el criterio ni la responsabilidad profesional.</p>
       </div>
       <div class="team-grid">
-        <div class="team-card"><div class="t-ico" aria-hidden="true">⚖️</div><h4>Derecho público y contrataciones</h4><p>Contrataciones del Estado, OSCE, opinión legal y análisis regulatorio.</p><span class="cred">● Profesionales colegiados</span></div>
+        <div class="team-card"><div class="t-ico" aria-hidden="true">⚖️</div><h4>Derecho público y contrataciones</h4><p>Contrataciones públicas (Ley N.° 32069), OECE, opinión legal y análisis regulatorio.</p><span class="cred">● Profesionales colegiados</span></div>
         <div class="team-card"><div class="t-ico" aria-hidden="true">🏗️</div><h4>Inversión pública e ingeniería</h4><p>Invierte.pe, expedientes técnicos, IOARR y documentos equivalentes.</p><span class="cred">● Colegiatura CIP</span></div>
         <div class="team-card"><div class="t-ico" aria-hidden="true">📊</div><h4>Economía y finanzas públicas</h4><p>Ejecución presupuestal, gestión financiera y organismos multilaterales.</p><span class="cred">● Profesionales colegiados</span></div>
         <div class="team-card"><div class="t-ico" aria-hidden="true">🤖</div><h4>Ciencia de datos e IA</h4><p>Procesamiento documental, automatización y control de calidad asistido.</p><span class="cred">● Validación humana</span></div>
@@ -373,6 +414,8 @@
   </div>
 </section>
 
+</main>
+
 <!-- FOOTER -->
 <footer class="site-footer">
   <div class="container">
@@ -390,6 +433,10 @@
         <p><a href="#servicios">Análisis regulatorio</a></p>
         <p><a href="#servicios">Gestión financiera</a></p>
         <p><a href="#servicios">Evaluación de comités</a></p>
+        <p><a href="#servicios">Adquisiciones BID</a></p>
+        <p><a href="#servicios">Monitoreo y reportes BID</a></p>
+        <p><a href="#servicios">Auditoría y EFA</a></p>
+        <p><a href="#servicios">Salvaguardias (MPAS)</a></p>
       </div>
       <div><h4>Plataforma</h4>
         <p><a href="#proceso">Cómo funciona</a></p>
@@ -451,6 +498,12 @@
               <ul class="filelist" id="fileList"></ul>
               <p class="file-err" id="fileErr" hidden></p>
             </div>
+            <div class="field">
+              <label class="check" for="ordConsent" style="align-items:flex-start">
+                <input type="checkbox" id="ordConsent">
+                <span>Autorizo el tratamiento de mis datos personales y de la documentación que adjunto, únicamente para elaborar y entregar este servicio, conforme a la <a href="privacidad.html" target="_blank" rel="noopener">Política de Privacidad</a> y a la Ley N.° 29733. Declaro contar con derecho a compartir dicha documentación.</span>
+              </label>
+            </div>
           </div>
         </div>
         <aside>
@@ -499,7 +552,7 @@
         </div>
       </div>
       <div id="osFields" hidden>
-        <div class="notice" style="margin-bottom:14px">🏛️ <b>Contratación directa por Orden de Servicio.</b> Para montos ≤ 8 UIT (S/ 44,000 · UIT 2026 = S/ 5,500) generamos el <b>TDR</b> automáticamente y aceptamos el servicio, sin procedimiento de selección.</div>
+        <div class="notice" style="margin-bottom:14px">🏛️ <b>Contratación directa por Orden de Servicio.</b> Para montos ≤ 8 UIT (S/ 44,000 · UIT 2026 = S/ 5,500) generamos el <b>TDR</b> automáticamente y aceptamos el servicio, sin procedimiento de selección. Estas contrataciones están sujetas a supervisión del <b>OECE</b> y a registro conforme a la Ley N.° 32069.</div>
         <div class="field"><label for="osEntidad">Entidad pública</label><input type="text" id="osEntidad" placeholder="Ej: Municipalidad Distrital de…"></div>
         <div class="field"><label for="osRuc">RUC de la entidad</label><input type="text" id="osRuc" placeholder="20XXXXXXXXX"></div>
         <div class="field"><label for="osArea">Área usuaria</label><input type="text" id="osArea" placeholder="Ej: Gerencia de Infraestructura"></div>

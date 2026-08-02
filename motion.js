@@ -4,16 +4,97 @@
    entrada del hero, reveals con stagger, parallax, contadores,
    marquee y botones magnéticos. Respeta prefers-reduced-motion.
    Es 100% aditivo: si GSAP no carga, el sitio funciona igual.
+
+   PARCHE 2026-07-31 — contadores:
+   Los contadores usaban gsap.to() con duration 1.6s, pero GSAP
+   aplica lagSmoothing: cuando el hilo principal se satura (aquí
+   compiten Three.js + el canvas de fondo + Lenis), GSAP estira
+   la animación y el conteo tardaba >10 s en llegar al valor real.
+   Durante ese tiempo la web mostraba cifras FALSAS y visibles:
+   "2 disciplinas (derecho, economía, ingeniería)", "66% entregas
+   con trazabilidad" (contradiciendo "trazabilidad total"),
+   "S/ 29,702" en vez de S/ 44,000 y "49h" en vez de 72h.
+   El respaldo existente no ayudaba porque solo actuaba si el
+   texto seguía siendo exactamente "0".
+   Solución: contador propio con requestAnimationFrame sobre
+   performance.now() (inmune a lagSmoothing) + snap incondicional
+   al valor final a los 1200 ms.
    ============================================================ */
 (function () {
   "use strict";
   const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  /* ---- Contador independiente de GSAP -------------------------------
+     duration en ms. Usa tiempo real, así que aunque el hilo principal
+     se sature el valor final llega SIEMPRE dentro del plazo. */
+  function countUp(el, target, render, duration) {
+    const dur = duration || 1100;
+    const t0 = performance.now();
+    let done = false;
+    const finish = () => { if (!done) { done = true; render(target); } };
+    const step = (now) => {
+      if (done) return;
+      const p = Math.min(1, (now - t0) / dur);
+      const eased = 1 - Math.pow(1 - p, 3);          // easeOutCubic
+      render(target * eased);
+      if (p < 1) requestAnimationFrame(step); else finish();
+    };
+    requestAnimationFrame(step);
+    // Red de seguridad: pase lo que pase, el valor real se ve al final.
+    setTimeout(finish, dur + 100);
+  }
+
+  /* Dispara fn la primera vez que el elemento entra en pantalla.
+     Si no hay IntersectionObserver, dispara de inmediato. */
+  function onceVisible(el, fn) {
+    if (!("IntersectionObserver" in window)) { fn(); return; }
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { io.unobserve(e.target); fn(); } });
+    }, { threshold: 0.1, rootMargin: "0px 0px -8% 0px" });
+    io.observe(el);
+    // Si ya está visible al cargar, no esperamos al observer.
+    const r = el.getBoundingClientRect();
+    if (r.top < (window.innerHeight || 800) && r.bottom > 0) { io.unobserve(el); fn(); }
+  }
+
   function start() {
     const gsap = window.gsap;
+
+    /* ================================================================
+       CONTADORES — fuera del bloque que depende de GSAP, para que
+       funcionen aunque GSAP no cargue.
+       ================================================================ */
+
+    /* ---- Contadores de KPIs (#confianza) ---- */
+    try {
+      document.querySelectorAll("#confianza .kpi b").forEach(el => {
+        const m = el.textContent.trim().match(/^(\D*)(\d+)(.*)$/);
+        if (!m) return;
+        const pre = m[1], num = parseInt(m[2], 10), suf = m[3];
+        const render = v => { el.textContent = pre + Math.round(v) + suf; };
+        if (reduce) { render(num); return; }
+        el.textContent = pre + "0" + suf;
+        onceVisible(el, () => countUp(el, num, render, 1000));
+      });
+    } catch (_) {}
+
+    /* ---- Contadores de la sección Datos ---- */
+    try {
+      document.querySelectorAll(".b-metric[data-count]").forEach(el => {
+        const target = parseInt(el.dataset.count, 10) || 0;
+        const pre = el.dataset.prefix || "", suf = el.dataset.suffix || "";
+        const render = v => { el.textContent = pre + Math.round(v).toLocaleString("es-PE") + suf; };
+        if (reduce) { render(target); return; }
+        onceVisible(el, () => countUp(el, target, render, 1200));
+      });
+    } catch (_) {}
+
     if (!gsap) return;                       // sin GSAP: sitio normal
     if (window.ScrollTrigger) gsap.registerPlugin(window.ScrollTrigger);
     const ST = window.ScrollTrigger;
+
+    /* Evita que un frame lento estire TODAS las animaciones de GSAP. */
+    try { if (gsap.ticker && gsap.ticker.lagSmoothing) gsap.ticker.lagSmoothing(200, 24); } catch (_) {}
 
     /* ---- Scroll suave (Lenis) — solo en escritorio (en táctil rompe el scroll) ---- */
     const isTouch = (window.matchMedia && window.matchMedia("(hover: none), (pointer: coarse)").matches) || window.innerWidth < 800;
@@ -50,12 +131,30 @@
         gsap.set(heroBits, { opacity: 0, y: 34 });
         gsap.timeline({ defaults: { ease: "power3.out", duration: 0.9 } })
           .to(heroBits, { opacity: 1, y: 0, stagger: 0.12 }, 0.1);
-        // Respaldo: si el ticker de GSAP no corre (rAF throttled, etc.), revela el hero a fuerza
+        // Respaldo suave: si el ticker de GSAP no corre, al menos revela el hero.
         const heroFailsafe = () => heroBits.forEach(el => {
           if (parseFloat(getComputedStyle(el).opacity) < 0.05) { el.style.opacity = "1"; el.style.transform = "none"; }
         });
         setTimeout(heroFailsafe, 1400);
         window.addEventListener("load", () => setTimeout(heroFailsafe, 500));
+
+        /* Asentamiento duro. La timeline dura ~1.8 s, pero si el hilo principal
+           se satura (Three.js + canvas + Lenis) GSAP la estira y queda a medias:
+           el H1 se quedaba desplazado ~28 px hacia abajo y se encimaba con el
+           párrafo. Pasados 3 s forzamos la posición final.
+           Se excluye .hero-art porque su transform lo controla el parallax. */
+        setTimeout(() => {
+          heroBits.forEach(el => {
+            if (el.classList.contains("hero-art")) { el.style.opacity = "1"; return; }
+            const cs = getComputedStyle(el);
+            const moved = cs.transform && cs.transform !== "none" && cs.transform !== "matrix(1, 0, 0, 1, 0, 0)";
+            if (parseFloat(cs.opacity) < 0.99 || moved) {
+              try { gsap.killTweensOf(el); } catch (_) {}
+              el.style.opacity = "1";
+              el.style.transform = "none";
+            }
+          });
+        }, 3000);
       }
       // parallax de la tarjeta del hero
       if (ST && document.querySelector(".hero-art")) {
@@ -103,36 +202,6 @@
           setTimeout(() => targets.forEach(el => el.classList.add("in")), 3500);
         }
       }
-    } catch (_) {}
-
-    /* ---- Contadores de KPIs ---- */
-    try {
-      document.querySelectorAll("#confianza .kpi b").forEach(el => {
-        const m = el.textContent.trim().match(/^(\D*)(\d+)(.*)$/);
-        if (!m) return;
-        const pre = m[1], num = parseInt(m[2], 10), suf = m[3];
-        const o = { v: 0 };
-        const apply = () => { el.textContent = pre + Math.round(o.v) + suf; };
-        if (ST && !reduce) {
-          gsap.to(o, { v: num, duration: 1.5, ease: "power2.out", onUpdate: apply,
-            scrollTrigger: { trigger: el, start: "top 88%", once: true } });
-        }
-      });
-    } catch (_) {}
-
-    /* ---- Contadores de la sección Datos ---- */
-    try {
-      document.querySelectorAll(".b-metric[data-count]").forEach(el => {
-        const target = parseInt(el.dataset.count, 10) || 0;
-        const pre = el.dataset.prefix || "", suf = el.dataset.suffix || "";
-        const o = { v: 0 };
-        const setFinal = () => { el.textContent = pre + target.toLocaleString("es-PE") + suf; };
-        const fmt = () => { el.textContent = pre + Math.round(o.v).toLocaleString("es-PE") + suf; };
-        if (ST && !reduce) gsap.to(o, { v: target, duration: 1.6, ease: "power2.out", onUpdate: fmt, scrollTrigger: { trigger: el, start: "top 90%", once: true } });
-        else setFinal();
-        // Respaldo: si el contador no avanzó (ticker detenido), fija el valor final
-        setTimeout(() => { if (el.textContent.trim() === "0" || el.textContent.trim() === pre + "0" + suf) setFinal(); }, 3000);
-      });
     } catch (_) {}
 
     /* ---- Marquee infinito ---- */

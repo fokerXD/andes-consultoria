@@ -11,6 +11,8 @@
 <meta name="theme-color" content="#070B16">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="patch.css">
+<script src="legal-config.js"></script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><path d='M4 26 L13 9 L18 17 L22 12 L28 26 Z' fill='none' stroke='%2334E5C4' stroke-width='2.2' stroke-linejoin='round'/><circle cx='13' cy='9' r='2.4' fill='%238B7BFF'/><circle cx='22' cy='12' r='2' fill='%23F6B73C'/></svg>">
 </head>
 <body>
@@ -35,14 +37,14 @@
   <div class="legal-wrap">
     <p class="eyebrow">Legal</p>
     <h1>Política de Privacidad</h1>
-    <p class="legal-meta">Última actualización: <span class="ph">[completar fecha]</span></p>
+    <p class="legal-meta">Última actualización: <span class="ph" data-legal="actualizado">[completar fecha]</span></p>
 
-    <div class="legal-note">⚠️ <b>Plantilla referencial.</b> Este documento debe ser revisado por un abogado y completado con los datos de la empresa (razón social, RUC, domicilio, correo del responsable) antes de su publicación oficial. No constituye asesoría legal.</div>
+    <div class="legal-note" data-template-warning>⚠️ <b>Plantilla referencial.</b> Este documento debe ser revisado por un abogado y completado con los datos de la empresa (razón social, RUC, domicilio, correo del responsable) en <code>legal-config.js</code> antes de su publicación oficial. Este aviso desaparece automáticamente cuando esos datos estén completos. No constituye asesoría legal.</div>
 
-    <p>En <b>Andes Consultoría Inteligente</b> (<span class="ph">[razón social]</span>, RUC <span class="ph">[RUC]</span>, con domicilio en <span class="ph">[domicilio]</span>, en adelante "Andes") respetamos tu privacidad y protegemos tus datos personales conforme a la <b>Ley N.° 29733, Ley de Protección de Datos Personales</b>, su Reglamento (D.S. N.° 003-2013-JUS) y demás normativa aplicable en el Perú.</p>
+    <p>En <b>Andes Consultoría Inteligente</b> (<span class="ph" data-legal="razon-social">[razón social]</span>, RUC <span class="ph" data-legal="ruc">[RUC]</span>, con domicilio en <span class="ph" data-legal="domicilio">[domicilio]</span>, en adelante "Andes") respetamos tu privacidad y protegemos tus datos personales conforme a la <b>Ley N.° 29733, Ley de Protección de Datos Personales</b>, su Reglamento (D.S. N.° 003-2013-JUS) y demás normativa aplicable en el Perú.</p>
 
     <h2>1. Responsable del tratamiento</h2>
-    <p>El responsable del banco de datos personales es Andes. Para consultas sobre privacidad puedes escribir a <a href="mailto:contacto@andesconsultoria.pe">contacto@andesconsultoria.pe</a> (<span class="ph">[correo del responsable de datos]</span>).</p>
+    <p>El responsable del banco de datos personales es Andes. Para consultas sobre privacidad puedes escribir a <a href="mailto:contacto@andesconsultoria.pe"><span data-legal="email-datos">contacto@andesconsultoria.pe</span></a>.</p>
 
     <h2>2. Datos que recopilamos</h2>
     <ul>
@@ -62,28 +64,28 @@
     </ul>
 
     <h2>4. Base legal y consentimiento</h2>
-    <p>El tratamiento se basa en tu consentimiento, en la ejecución de la relación contractual y en el cumplimiento de obligaciones legales. Puedes retirar tu consentimiento en cualquier momento, sin efecto retroactivo.</p>
+    <p>El tratamiento se basa en tu consentimiento —que otorgas de forma expresa al marcar la casilla correspondiente antes de enviar tu pedido—, en la ejecución de la relación contractual y en el cumplimiento de obligaciones legales. Puedes retirar tu consentimiento en cualquier momento, sin efecto retroactivo.</p>
 
     <h2>5. Encargados y terceros</h2>
     <p>Para prestar el servicio podemos compartir datos con encargados de tratamiento que actúan bajo nuestras instrucciones, entre ellos: <b>Culqi</b> (procesamiento de pagos), proveedores de <b>infraestructura y hosting</b> (p. ej. Vercel), proveedores de <b>correo</b> y proveedores de <b>modelos de IA</b> utilizados para acelerar el análisis. No vendemos tus datos personales.</p>
 
     <h2>6. Confidencialidad de la documentación</h2>
-    <p>Los documentos e insumos que cargas se tratan de forma confidencial y se usan únicamente para elaborar tu entregable. Aplicamos medidas de seguridad razonables para proteger su integridad y restringir su acceso.</p>
+    <p>Los documentos e insumos que cargas se tratan de forma confidencial y se usan únicamente para elaborar tu entregable. Aplicamos medidas de seguridad razonables para proteger su integridad y restringir su acceso. Si la documentación que nos entregas contiene datos personales de terceros, el cliente declara contar con la base legal necesaria para compartirlos.</p>
 
     <h2>7. Conservación</h2>
-    <p>Conservamos los datos durante el tiempo necesario para cumplir las finalidades descritas y las obligaciones legales aplicables, tras lo cual se eliminan o anonimizan.</p>
+    <p>Conservamos los datos del pedido y la documentación asociada durante <b>doce (12) meses</b> desde la entrega del servicio, salvo que una obligación legal, contable o tributaria exija un plazo mayor. Cumplido el plazo, los datos se eliminan o anonimizan.</p>
 
     <h2>8. Transferencias internacionales</h2>
     <p>Algunos encargados pueden ubicarse fuera del Perú. En tales casos adoptamos garantías adecuadas conforme a la Ley N.° 29733 para proteger tus datos.</p>
 
     <h2>9. Tus derechos (ARCO)</h2>
-    <p>Tienes derecho a <b>acceder, rectificar, cancelar y oponerte</b> al tratamiento de tus datos, así como a revocar tu consentimiento. Para ejercerlos, escríbenos a <a href="mailto:contacto@andesconsultoria.pe">contacto@andesconsultoria.pe</a>. También puedes presentar reclamos ante la <b>Autoridad Nacional de Protección de Datos Personales</b> del Ministerio de Justicia.</p>
+    <p>Tienes derecho a <b>acceder, rectificar, cancelar y oponerte</b> al tratamiento de tus datos, así como a revocar tu consentimiento. Para ejercerlos, escríbenos a <a href="mailto:contacto@andesconsultoria.pe">contacto@andesconsultoria.pe</a>. También puedes presentar reclamos ante la <b>Autoridad Nacional de Protección de Datos Personales</b> del Ministerio de Justicia y Derechos Humanos.</p>
 
     <h2>10. Seguridad</h2>
     <p>Aplicamos medidas técnicas y organizativas razonables para proteger los datos contra acceso no autorizado, pérdida o alteración.</p>
 
     <h2>11. Cookies</h2>
-    <p>El sitio utiliza cookies o almacenamiento local estrictamente necesarios para su funcionamiento (por ejemplo, recordar el seguimiento de tu pedido). <span class="ph">[Completar detalle de cookies si se añaden analíticas o terceros.]</span></p>
+    <p>El sitio utiliza cookies o almacenamiento local <b>estrictamente necesarios</b> para su funcionamiento (por ejemplo, recordar el seguimiento de tu pedido). No usamos cookies de publicidad ni de perfilado. Si en el futuro se incorporan herramientas de analítica, se actualizará esta sección y se solicitará el consentimiento correspondiente.</p>
 
     <h2>12. Cambios</h2>
     <p>Podemos actualizar esta política. Publicaremos la versión vigente en esta página con su fecha de actualización.</p>

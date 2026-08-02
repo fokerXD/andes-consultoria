@@ -11,6 +11,8 @@
 <meta name="theme-color" content="#070B16">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="patch.css">
+<script src="legal-config.js"></script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><path d='M4 26 L13 9 L18 17 L22 12 L28 26 Z' fill='none' stroke='%2334E5C4' stroke-width='2.2' stroke-linejoin='round'/><circle cx='13' cy='9' r='2.4' fill='%238B7BFF'/><circle cx='22' cy='12' r='2' fill='%23F6B73C'/></svg>">
 </head>
 <body>
@@ -35,12 +37,12 @@
   <div class="legal-wrap">
     <p class="eyebrow">Legal</p>
     <h1>Términos y Condiciones</h1>
-    <p class="legal-meta">Última actualización: <span class="ph">[completar fecha]</span></p>
+    <p class="legal-meta">Última actualización: <span class="ph" data-legal="actualizado">[completar fecha]</span></p>
 
-    <div class="legal-note">⚠️ <b>Plantilla referencial.</b> Debe ser revisada por un abogado y completada con los datos de la empresa antes de su publicación. No constituye asesoría legal.</div>
+    <div class="legal-note" data-template-warning>⚠️ <b>Plantilla referencial.</b> Debe ser revisada por un abogado y completada con los datos de la empresa en <code>legal-config.js</code> antes de su publicación. Este aviso desaparece automáticamente cuando esos datos estén completos. No constituye asesoría legal.</div>
 
     <h2>1. Objeto</h2>
-    <p>Estos Términos regulan el uso del sitio y la contratación de los servicios de <b>Andes Consultoría Inteligente</b> (<span class="ph">[razón social]</span>, RUC <span class="ph">[RUC]</span>, "Andes"): elaboración de expedientes técnicos y documentos equivalentes, formulación de políticas públicas, análisis regulatorio, gestión financiera y evaluación a comités de selección, entre otros. Al contratar, el cliente acepta estos Términos.</p>
+    <p>Estos Términos regulan el uso del sitio y la contratación de los servicios de <b>Andes Consultoría Inteligente</b> (<span class="ph" data-legal="razon-social">[razón social]</span>, RUC <span class="ph" data-legal="ruc">[RUC]</span>, "Andes"): elaboración de expedientes técnicos y documentos equivalentes, formulación de políticas públicas, análisis regulatorio, gestión financiera y evaluación a comités de selección, entre otros. Al contratar, el cliente acepta estos Términos.</p>
 
     <h2>2. Naturaleza del servicio y responsabilidad profesional</h2>
     <p>Los entregables son <b>elaborados y validados por especialistas colegiados</b>, quienes asumen la responsabilidad profesional correspondiente. La inteligencia artificial se utiliza como herramienta de aceleración del análisis y del control de calidad, y <b>no reemplaza</b> el criterio ni la firma profesional. El cliente es responsable de tramitar las aprobaciones y firmas que la normativa exija a su cargo.</p>
@@ -56,20 +58,26 @@
       <li>Andes emitirá los comprobantes de pago electrónicos conforme a la normativa de SUNAT.</li>
     </ul>
 
-    <h2>5. Plazos y aceleración de entrega</h2>
-    <p>Los plazos son estimados en días hábiles y pueden ajustarse según la complejidad y los insumos. El cliente puede optar por modalidades de entrega acelerada (prioritaria/express) con un costo adicional, dentro de lo razonable.</p>
+    <h2>5. Plazos, ajustes y aceleración de entrega</h2>
+    <p>Los plazos son estimados en días hábiles y pueden ajustarse según la complejidad y los insumos. Cada servicio incluye <b>una ronda de ajustes</b> sobre observaciones al entregable, dentro del alcance contratado y solicitada dentro de los <b>diez (10) días hábiles</b> siguientes a la entrega. El cliente puede optar por modalidades de entrega acelerada (prioritaria/express) con un costo adicional, dentro de lo razonable.</p>
 
     <h2>6. Contratación con entidades públicas</h2>
-    <p>Cuando el cliente sea una entidad del Estado, la contratación se sujeta a la normativa de contrataciones públicas aplicable (Ley de Contrataciones del Estado, OSCE, SEACE). En esos casos, los servicios se formalizan por los canales y procedimientos que correspondan, y no necesariamente mediante el pago en línea.</p>
+    <p>Cuando el cliente sea una entidad del Estado, la contratación se sujeta a la normativa de contrataciones públicas vigente: la <b>Ley N.° 32069, Ley General de Contrataciones Públicas</b>, y su Reglamento, bajo la rectoría del <b>Organismo Especializado para las Contrataciones Públicas Eficientes (OECE)</b> y a través de las plataformas que este administra. Las contrataciones por montos iguales o menores a 8 UIT se sujetan asimismo a los alcances de supervisión y registro que dicha normativa establece. En esos casos, los servicios se formalizan por los canales y procedimientos que correspondan, y no necesariamente mediante el pago en línea.</p>
 
     <h2>7. Propiedad y uso del entregable</h2>
-    <p>Una vez pagado el servicio, el cliente puede usar el entregable para los fines acordados. Andes conserva el derecho de usar conocimientos y metodologías generales empleados en su elaboración. <span class="ph">[Definir alcance de cesión de derechos si aplica.]</span></p>
+    <p>Una vez pagado íntegramente el servicio, Andes cede al cliente los derechos patrimoniales sobre el entregable para los fines propios de su gestión institucional, incluida su reproducción, adaptación y presentación ante las autoridades que corresponda. Andes conserva el derecho de usar los conocimientos, metodologías, plantillas y componentes generales empleados en su elaboración, así como de referirse al servicio de forma agregada y anonimizada.</p>
 
     <h2>8. Confidencialidad</h2>
     <p>Andes tratará como confidencial la información del cliente y sus documentos, usándolos únicamente para prestar el servicio, conforme a la <a href="privacidad.html">Política de Privacidad</a> y la Ley N.° 29733.</p>
 
     <h2>9. Cancelaciones y reembolsos</h2>
-    <p><span class="ph">[Definir política de cancelación y reembolsos: condiciones, porcentajes según etapa del servicio, plazos.]</span></p>
+    <ul>
+      <li><b>Antes del inicio de la elaboración</b> (mientras el pedido no haya pasado del primer hito): reembolso del <b>100%</b> del monto pagado.</li>
+      <li><b>Con la elaboración iniciada y hasta el 50% de avance por hitos</b>: reembolso del <b>50%</b>.</li>
+      <li><b>Con más del 50% de avance</b>: no procede reembolso, pero el cliente recibe el trabajo desarrollado hasta ese punto.</li>
+      <li>Los reembolsos se procesan por el mismo medio de pago dentro de los <b>diez (10) días hábiles</b> siguientes a la solicitud.</li>
+      <li>Si el incumplimiento del plazo es atribuible a Andes, el cliente puede optar por el reembolso íntegro.</li>
+    </ul>
 
     <h2>10. Limitación de responsabilidad</h2>
     <p>Andes pone su mejor esfuerzo profesional en la calidad de los entregables. En la máxima medida permitida por la ley, su responsabilidad se limita al valor del servicio contratado. Andes no responde por decisiones, trámites o usos del entregable fuera del alcance acordado, ni por insumos inexactos provistos por el cliente.</p>
@@ -78,7 +86,7 @@
     <p>El cliente se compromete a usar el sitio de forma lícita y a no afectar su funcionamiento. Las animaciones, demostraciones y el cotizador con IA son ilustrativos y no constituyen una oferta vinculante hasta la confirmación del servicio.</p>
 
     <h2>12. Ley aplicable y jurisdicción</h2>
-    <p>Estos Términos se rigen por las leyes de la República del Perú. Cualquier controversia se someterá a los jueces y tribunales de <span class="ph">[distrito judicial, p. ej. Lima]</span>, sin perjuicio de los medios alternativos de solución de conflictos que las partes acuerden.</p>
+    <p>Estos Términos se rigen por las leyes de la República del Perú. Cualquier controversia se someterá a los jueces y tribunales del distrito judicial de <span data-legal="distrito-judicial">Lima</span>, sin perjuicio de los medios alternativos de solución de conflictos que las partes acuerden.</p>
 
     <h2>13. Modificaciones</h2>
     <p>Andes puede actualizar estos Términos; la versión vigente se publicará en esta página con su fecha de actualización.</p>
