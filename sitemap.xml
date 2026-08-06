@@ -6,6 +6,66 @@
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>https://andes-consultoria-web.vercel.app/?pais=PE</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://andes-consultoria-web.vercel.app/?pais=CO</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://andes-consultoria-web.vercel.app/?pais=CL</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://andes-consultoria-web.vercel.app/?pais=EC</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://andes-consultoria-web.vercel.app/?pais=MX</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://andes-consultoria-web.vercel.app/?pais=AR</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://andes-consultoria-web.vercel.app/?pais=BR</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://andes-consultoria-web.vercel.app/?pais=DO</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://andes-consultoria-web.vercel.app/?pais=PA</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://andes-consultoria-web.vercel.app/?pais=CR</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://andes-consultoria-web.vercel.app/?pais=GT</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://andes-consultoria-web.vercel.app/?pais=UY</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://andes-consultoria-web.vercel.app/privacidad.html</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>

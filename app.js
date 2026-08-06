@@ -5,7 +5,11 @@
 "use strict";
 
 /* ---------- Utilidades ---------- */
-const PEN = n => "S/ " + Math.round(n).toLocaleString("es-PE");
+/* El modelo de precios está denominado en soles. region.js decide cómo
+   se MUESTRA según el país de la entidad: soles en Perú, equivalente
+   referencial en dólares fuera. Si region.js no cargó, se cae a soles. */
+const PEN = n => (window.REGION ? window.REGION.money(n)
+                                : "S/ " + Math.round(n).toLocaleString("es-PE"));
 const $ = (s, c = document) => c.querySelector(s);
 const $$ = (s, c = document) => [...c.querySelectorAll(s)];
 const IGV = 0.18; // referencial: precios mostrados incluyen IGV
@@ -17,7 +21,7 @@ const IGV = 0.18; // referencial: precios mostrados incluyen IGV
    - perUnit (en numéricos: precio por unidad sobre 'incluidas')
    También aporta 'days' al plazo estimado.                      */
 const SERVICES = {
-  expediente: {
+  expediente: { alcance: "nacional",
     tag: "Inversión pública",
     icon: '<svg class="ic" aria-hidden="true"><use href="#i-ruler"/></svg>',
     name: "Expediente Técnico / Documento Equivalente",
@@ -95,7 +99,7 @@ const SERVICES = {
     ]
   },
 
-  politicas: {
+  politicas: { alcance: "regional",
     tag: "Gobernanza",
     icon: '<svg class="ic" aria-hidden="true"><use href="#i-bank"/></svg>',
     name: "Formulación de Políticas Públicas",
@@ -130,7 +134,7 @@ const SERVICES = {
     ]
   },
 
-  regulatorio: {
+  regulatorio: { alcance: "regional",
     tag: "Legal & regulatorio",
     icon: '<svg class="ic" aria-hidden="true"><use href="#i-scale"/></svg>',
     name: "Análisis Regulatorio",
@@ -160,7 +164,7 @@ const SERVICES = {
     ]
   },
 
-  financiera: {
+  financiera: { alcance: "regional",
     tag: "Gestión financiera",
     icon: '<svg class="ic" aria-hidden="true"><use href="#i-chart"/></svg>',
     name: "Servicios de Gestión Financiera",
@@ -173,7 +177,7 @@ const SERVICES = {
       "Periodo y unidades ejecutoras a analizar",
       "Marco aplicable (nacional o del organismo multilateral)"
     ],
-    miniInsumos: ["Reportes SIAF/SIGA", "PIM y metas", "Periodo y UE a analizar"],
+    miniInsumos: ["Reportes de ejecución del sistema financiero", "Presupuesto vigente y metas", "Periodo y unidad ejecutora a analizar"],
     kw: ["presupuesto", "presupuestal", "siaf", "siga", "pim", "bid", "banco mundial", "multilateral", "tablero", "bi", "avance financiero", "devengado", "ejecución"],
     note(v) { const mul = v.marco === "mul"; return { cls: "", html: `<h5>Enfoque del servicio</h5><span class="doc">${mul ? "Marco multilateral (BID / BM)" : "Marco nacional (MEF)"}</span> Análisis a partir de SIAF/SIGA y PIM, con conciliación por unidad ejecutora y, si corresponde, tablero de control.${mul ? " Alineado a la reportería del organismo." : ""}` }; },
     fields: [
@@ -190,7 +194,7 @@ const SERVICES = {
     ]
   },
 
-  evaluacion: {
+  evaluacion: { alcance: "nacional",
     tag: "Contrataciones",
     icon: '<svg class="ic" aria-hidden="true"><use href="#i-clipboard"/></svg>',
     name: "Evaluación a Comités de Selección",
@@ -222,17 +226,30 @@ const SERVICES = {
 
   /* ===== Servicios en incorporación (Próximamente) — también cotizables ===== */
   /* ---------- Operaciones con banca multilateral (BID) ----------
+     Esta línea es la columna REGIONAL del catálogo: las obligaciones
+     nacen del contrato de préstamo y de las políticas del Banco, no de
+     la ley de cada país, así que aplican igual en los 26 países
+     prestatarios del BID.
+
      Marco de referencia:
-       · Normas Generales del Contrato de Préstamo — Art. 4.01/4.02 (condiciones previas),
-         7.02 (planes e informes), 7.03 (auditoría financiera externa)
+       · Normas Generales del Contrato de Préstamo — Art. 4.01 y 4.02
+         (condiciones previas al primer desembolso y su plazo)
+       · Capítulo de supervisión de las Normas Generales — planes, informes
+         y auditoría financiera externa
        · GN-2349-15 — Política de Adquisiciones de Bienes, Obras y Servicios Diferentes
          de Consultoría (mayo 2019, vigente desde enero 2020)
        · GN-2350-15 — Política de Selección y Contratación de Consultores (íd.)
-       · OP-273-12 — Guía de Gestión Financiera (17.06.2019, reemplaza OP-273-2)
+       · OP-273-12 — Guía de Gestión Financiera para Proyectos Financiados por el BID
+         (17.06.2019, reemplaza OP-273-2)
        · MPAS / ESPF — Marco de Política Ambiental y Social (vigente 31.10.2021), NDAS 1-10
-     Los plazos concretos los fija cada contrato en sus Estipulaciones Especiales. ------- */
 
-  bidmonitoreo: {
+     ⚠ Ojo con la numeración: 4.01 y 4.02 son estables en toda la cartera,
+     pero los artículos del capítulo de supervisión (7.0x) NO tienen contenido
+     uniforme entre generaciones de Normas Generales ni entre países. No se
+     citan números ahí. Los plazos concretos los fija cada contrato en sus
+     Estipulaciones Especiales. ------------------------------------------- */
+
+  bidmonitoreo: { alcance: "multilateral",
     tag: "BID · Monitoreo", icon: '<svg class="ic" aria-hidden="true"><use href="#i-trend"/></svg>',
     name: "Monitoreo y reportes de operación BID",
     short: "PEP, POA, Informe Semestral de Progreso y Matriz de Resultados, en el formato y la oportunidad que exige el Banco.",
@@ -249,7 +266,7 @@ const SERVICES = {
     note(v) {
       const atraso = v.estado === "atraso";
       return { cls: atraso ? "warn" : "", html: `<h5>Base contractual</h5>
-        <span class="doc">Normas Generales, Art. 7.02</span>
+        <span class="doc">Normas Generales — supervisión de la ejecución</span>
         El Prestatario y el Organismo Ejecutor deben presentar los planes e informes <b>en la forma y con el
         contenido que el Banco razonablemente solicite</b>. El <b>Informe Semestral de Progreso (ISP)</b> reporta
         los resultados y productos alcanzados en la ejecución del <b>POA</b>, del <b>Plan de Adquisiciones</b> y de
@@ -267,7 +284,7 @@ const SERVICES = {
         { label: "Plan Operativo Anual (POA)", value: "poa", factor: 1.0, days: 0 },
         { label: "Informe Semestral de Progreso (ISP)", value: "isp", factor: 1.11, days: 3 },
         { label: "Matriz de Resultados: revisión y reformulación de indicadores", value: "mdr", factor: 1.33, days: 8 },
-        { label: "Plan de Ejecución del Proyecto (PEP) plurianual", value: "pep", factor: 1.5, days: 11 },
+        { label: "Plan de Ejecución Plurianual (PEP)", value: "pep", factor: 1.5, days: 11 },
         { label: "Paquete completo (PEP + POA + ISP)", value: "full", factor: 2.11, days: 17 } ]},
       { key: "componentes", label: "Componentes del programa", type: "select", options: [
         { label: "1 a 2 componentes", value: "c2", factor: 1.0, days: 0 },
@@ -279,7 +296,7 @@ const SERVICES = {
     ]
   },
 
-  bidadquisiciones: {
+  bidadquisiciones: { alcance: "multilateral",
     tag: "BID · Adquisiciones", icon: '<svg class="ic" aria-hidden="true"><use href="#i-package"/></svg>',
     name: "Adquisiciones bajo políticas BID",
     short: "Plan de Adquisiciones, documentos de licitación, informes de evaluación y el expediente que sustenta la no objeción.",
@@ -341,7 +358,7 @@ const SERVICES = {
     ]
   },
 
-  bidfinanciero: {
+  bidfinanciero: { alcance: "multilateral",
     tag: "BID · Financiero", icon: '<svg class="ic" aria-hidden="true"><use href="#i-cash"/></svg>',
     name: "Gestión financiera y desembolsos BID",
     short: "Plan financiero, solicitudes de desembolso, rendición del 80% y control de elegibilidad del gasto.",
@@ -392,24 +409,24 @@ const SERVICES = {
     ]
   },
 
-  bidauditoria: {
+  bidauditoria: { alcance: "multilateral",
     tag: "BID · Auditoría", icon: '<svg class="ic" aria-hidden="true"><use href="#i-receipt"/></svg>',
     name: "Auditoría externa y Estados Financieros Auditados",
     short: "TDR de auditoría, preparación del EFA y respuesta a observaciones y revisiones ex post.",
     base: 6000, baseDays: 6,
     insumos: [
-      "Contrato de Préstamo (Art. 7.03 y Estipulaciones Especiales aplicables)",
+      "Contrato de Préstamo, con el capítulo de supervisión y las Estipulaciones Especiales aplicables",
       "Estados financieros del proyecto y conciliaciones del período",
       "Expedientes de adquisiciones del período a revisar",
       "Informe de auditoría anterior y estado de las recomendaciones",
       "Fecha de corte acordada con el Banco"
     ],
     miniInsumos: ["Contrato de préstamo", "Estados financieros", "Expedientes de adquisiciones"],
-    kw: ["bid", "auditoría", "efa", "estados financieros auditados", "auditor externo", "tdr de auditoría", "revisión ex post", "nia", "intosai", "contraloría", "oci", "suspensión de desembolsos", "op-273-12", "artículo 7.03"],
+    kw: ["bid", "auditoría", "efa", "estados financieros auditados", "auditor externo", "tdr de auditoría", "revisión ex post", "nia", "intosai", "contraloría", "oci", "suspensión de desembolsos", "op-273-12", "auditoría externa"],
     note(v) {
       const tarde = v.situacion === "vencido";
       return { cls: tarde ? "warn" : "", html: `<h5>Base contractual</h5>
-        <span class="doc">Normas Generales, Art. 7.03</span>
+        <span class="doc">Normas Generales — supervisión de la gestión financiera</span>
         Los <b>Estados Financieros Auditados</b> se presentan <b>dentro de los 120 días siguientes al cierre de
         cada ejercicio fiscal del Proyecto</b> y <b>dentro de los 120 días siguientes a la fecha del último
         desembolso</b>. El plazo puede extenderse a <b>180 días</b> cuando se usan los sistemas de gestión
@@ -442,7 +459,7 @@ const SERVICES = {
     ]
   },
 
-  bidsalvaguardias: {
+  bidsalvaguardias: { alcance: "multilateral",
     tag: "BID · Salvaguardias", icon: '<svg class="ic" aria-hidden="true"><use href="#i-leaf"/></svg>',
     name: "Salvaguardias ambientales y sociales (MPAS)",
     short: "Sistema de Gestión Ambiental y Social, PGAS, especificaciones en pliegos e informe semestral de cumplimiento.",
@@ -503,7 +520,7 @@ const SERVICES = {
     ]
   },
 
-  bidunidadejecutora: {
+  bidunidadejecutora: { alcance: "multilateral",
     tag: "BID · Unidad ejecutora", icon: '<svg class="ic" aria-hidden="true"><use href="#i-compass"/></svg>',
     name: "Puesta en marcha y fortalecimiento de la unidad ejecutora",
     short: "Manual Operativo, condiciones previas al primer desembolso, elegibilidad y plan de ejecutabilidad.",
@@ -555,7 +572,7 @@ const SERVICES = {
         { label: "Paquete integral de puesta en marcha", value: "full", factor: 2.46, days: 27 } ]}
     ]
   },
-  defensa: {
+  defensa: { alcance: "nacional",
     soon: true, tag: "Derecho administrativo", icon: '<svg class="ic" aria-hidden="true"><use href="#i-shield"/></svg>',
     name: "Defensa en controversias y arbitrajes con el Estado",
     short: "Estrategia y elaboración de escritos en controversias contractuales y arbitrajes ante el Estado.",
@@ -575,7 +592,7 @@ const SERVICES = {
         { label: "Más de S/ 2 M", value: "c", factor: 2.2, days: 10 } ]}
     ]
   },
-  duediligence: {
+  duediligence: { alcance: "nacional",
     soon: true, tag: "Inversión privada", icon: '<svg class="ic" aria-hidden="true"><use href="#i-users"/></svg>',
     name: "Due diligence legal-regulatorio para APP y Obras por Impuestos",
     short: "Revisión integral de viabilidad legal y regulatoria para Asociaciones Público-Privadas y OxI.",
@@ -593,7 +610,7 @@ const SERVICES = {
         { label: "Integral", value: "int", factor: 1.0, days: 0 } ]}
     ]
   },
-  osce: {
+  osce: { alcance: "nacional",
     soon: true, tag: "Control & sanción", icon: '<svg class="ic" aria-hidden="true"><use href="#i-shield"/></svg>',
     name: "Asistencia en procedimientos ante el OECE y la Contraloría",
     short: "Descargos y respuestas en procedimientos sancionadores y observaciones de control.",
@@ -611,7 +628,7 @@ const SERVICES = {
         { label: "Urgente (plazo perentorio)", value: "urg", factor: 1.4, days: -4 } ]}
     ]
   },
-  alertas: {
+  alertas: { alcance: "nacional",
     soon: true, tag: "Monitoreo con IA", icon: '<svg class="ic" aria-hidden="true"><use href="#i-bell"/></svg>',
     name: "Sistema de alertas normativas (El Peruano) con IA",
     short: "Monitoreo automatizado de normas publicadas y alertas personalizadas por sector y entidad.",
@@ -628,7 +645,7 @@ const SERVICES = {
       { key: "usuarios", label: "N.° de destinatarios", type: "number", included: 3, perUnit: 60, min: 1, max: 200, days: 0, unitLabel: "destinatario adicional" }
     ]
   },
-  tableros: {
+  tableros: { alcance: "regional",
     soon: true, tag: "Inteligencia de datos", icon: '<svg class="ic" aria-hidden="true"><use href="#i-trend"/></svg>',
     name: "Tableros de inteligencia de inversión pública",
     short: "Dashboards de avance físico-financiero de la cartera de inversiones de la entidad.",
@@ -647,7 +664,7 @@ const SERVICES = {
         { label: "Mantenimiento mensual", value: "m", factor: 1.4, days: 0 } ]}
     ]
   },
-  capacitacion: {
+  capacitacion: { alcance: "regional",
     soon: true, tag: "Capacitación", icon: '<svg class="ic" aria-hidden="true"><use href="#i-cap"/></svg>',
     name: "Capacitación y certificación en contrataciones del Estado",
     short: "Programas a medida para comités de selección y áreas usuarias, con casos prácticos.",
@@ -690,7 +707,7 @@ const AGENTS = [
   { icon: "🤖", name: "Agente de Datos & IA", role: "Ingesta y análisis documental",
     logs: ["Procesando los archivos recibidos…", "Extrayendo datos clave (OCR + NLP)…", "Estructurando la información base…", "Clasificando insumos por componente…"] },
   { icon: "⚖️", name: "Agente Legal", role: "Marco normativo y cumplimiento",
-    logs: ["Verificando la normativa vigente…", "Cruzando directivas del MEF…", "Sustentando la base legal…", "Revisando requisitos formales…"] },
+    logs: ["Verificando la normativa vigente…", "Cruzando las directivas aplicables…", "Sustentando la base legal…", "Revisando requisitos formales…"] },
   { icon: "📐", name: "Agente Técnico", role: "Ingeniería y especificaciones",
     logs: ["Estructurando especificaciones técnicas…", "Dimensionando los componentes…", "Redactando la memoria descriptiva…", "Consolidando metrados…"] },
   { icon: "📊", name: "Agente Financiero", role: "Presupuesto y costos",
@@ -727,7 +744,7 @@ const AGENTS_BY_SERVICE = {
     { icon: "🌐", name: "Agente de Benchmarking", role: "Comparado normativo", logs: ["Comparando normativa nacional e internacional…", "Sistematizando hallazgos…"] }, QA],
   financiera: [IA_DOC,
     { icon: "📊", name: "Analista Presupuestal", role: "Ejecución y PIM", logs: ["Analizando ejecución presupuestal…", "Cruzando PIM y metas…", "Detectando desviaciones…"] },
-    { icon: "🗄️", name: "Especialista SIAF/SIGA", role: "Datos financieros", logs: ["Procesando reportes SIAF/SIGA…", "Conciliando devengados…", "Consolidando por unidad ejecutora…"] },
+    { icon: "🗄️", name: "Especialista en Sistemas Financieros", role: "Datos financieros", logs: ["Procesando los reportes de ejecución…", "Conciliando devengados…", "Consolidando por unidad ejecutora…"] },
     { icon: "🏦", name: "Agente Multilateral", role: "BID / Banco Mundial", logs: ["Verificando marco del organismo…", "Alineando reportería multilateral…"] }, QA],
   evaluacion: [IA_DOC,
     { icon: "📋", name: "Especialista en Contrataciones", role: "Bases y admisión", logs: ["Revisando bases integradas…", "Verificando requisitos de calificación…", "Ordenando expedientes de postores…"] },
@@ -758,7 +775,24 @@ const AGENTS_BY_SERVICE = {
     { icon: "📋", name: "Especialista en Contrataciones", role: "Contenido técnico", logs: ["Estructurando el contenido técnico…", "Actualizando con normativa vigente…"] },
     { icon: "✅", name: "Evaluación", role: "Certificación", logs: ["Diseñando la evaluación…", "Preparando la certificación…"] }, QA]
 };
-function agentsFor(key) { return AGENTS_BY_SERVICE[key] || AGENTS; }
+/* Los seis servicios de la línea BID caían en el equipo genérico, cuyo perfil
+   es el de un expediente técnico. Se les da un equipo fiduciario propio: es lo
+   que un especialista del Banco espera ver, y es el equipo que mira TODO
+   comprador fuera del Perú. */
+const AGENTS_BID = [IA_DOC,
+  { icon: "🏦", name: "Especialista Fiduciario", role: "Adquisiciones y gestión financiera",
+    logs: ["Cotejando con GN-2349-15 y GN-2350-15…", "Revisando el anexo fiduciario del contrato…", "Verificando la elegibilidad del gasto…", "Conciliando con la OP-273-12…"] },
+  { icon: "📈", name: "Especialista en Monitoreo", role: "PEP, POA y Matriz de Resultados",
+    logs: ["Alineando productos con la Matriz de Resultados…", "Actualizando el POA del ejercicio…", "Recalculando el avance físico-financiero…"] },
+  { icon: "🌱", name: "Especialista Ambiental y Social", role: "Salvaguardias (MPAS)",
+    logs: ["Clasificando el riesgo conforme al MPAS…", "Revisando las NDAS aplicables…", "Verificando el plan de gestión ambiental y social…"] },
+  QA];
+
+function agentsFor(key) {
+  if (AGENTS_BY_SERVICE[key]) return AGENTS_BY_SERVICE[key];
+  if (String(key).indexOf("bid") === 0) return AGENTS_BID;
+  return AGENTS;
+}
 /* progreso objetivo de cada agente según la etapa [ia, legal, tec, fin, auditor] */
 const AGENT_TARGETS = {
   0: [12, 5, 4, 3, 0], 1: [65, 22, 16, 13, 6], 2: [92, 56, 50, 46, 22],
@@ -823,17 +857,47 @@ function cardHTML(key, s) {
       </div>
     </article>`;
 }
+/* Un servicio de alcance "nacional" está construido sobre el sistema de
+   inversión pública y la ley de contrataciones del Perú. Mostrárselo a una
+   entidad de otro país sería ofrecerle un producto que no le aplica, así que
+   fuera del Perú se retira del grid y en su lugar aparece una tarjeta que
+   ofrece cotizar la línea nacional de ESE país a medida. */
+function aplicaEnPais(s) {
+  if (!window.REGION) return true;
+  return s.alcance !== "nacional" || REGION.esPeru();
+}
+
+function cardNacionalHTML() {
+  const p = window.REGION ? REGION.pais.nombre : "tu país";
+  return `<article class="svc svc-medida">
+      <div class="svc-top">
+        <div class="svc-ico" aria-hidden="true"><svg class="ic" aria-hidden="true"><use href="#i-compass"/></svg></div>
+        <span class="svc-tag">Línea nacional · ${p}</span>
+        <h3>Servicios sobre el marco nacional de ${p}</h3>
+        <p>Los productos de inversión pública y contrataciones que ves para Perú están construidos sobre su
+           normativa. Para ${p} los cotizamos a medida sobre su propio sistema, sin plantillas prestadas.</p>
+        <ul class="insumos-mini"><li>Describe la necesidad</li><li>Precio y plazo en minutos</li><li>Propuesta formal por correo</li></ul>
+      </div>
+      <div class="svc-foot">
+        <div class="svc-price">A medida<b>Cotización en minutos</b></div>
+        <a class="btn btn-dark" href="#asistente">Describir la necesidad</a>
+      </div>
+    </article>`;
+}
+
 function renderServices(q = "") {
   const grid = $("#svcGrid");
   const term = (q || "").trim().toLowerCase();
   const words = term.split(/\s+/).filter(Boolean);
   const entries = Object.entries(SERVICES).filter(([k, s]) =>
-    !k.startsWith("__") && !s.soon && (!words.length || words.some(w => svcHaystack(s).includes(w))));
+    !k.startsWith("__") && !s.soon && aplicaEnPais(s) &&
+    (!words.length || words.some(w => svcHaystack(s).includes(w))));
+  const conMedida = !words.length && window.REGION && !REGION.esPeru();
   if (!entries.length) {
     grid.innerHTML = `<div class="no-results">No encontramos servicios para <b>"${q}"</b>.<br>
       Prueba con otra palabra o revisa la sección <a href="#proximamente">Próximamente</a>.</div>`;
   } else {
-    grid.innerHTML = entries.map(([k, s]) => cardHTML(k, s)).join("");
+    grid.innerHTML = entries.map(([k, s]) => cardHTML(k, s)).join("") + (conMedida ? cardNacionalHTML() : "");
     $$("[data-svc]", grid).forEach(b => b.addEventListener("click", () => openService(b.dataset.svc)));
   }
   $("#svcCount").textContent = term ? `${entries.length} servicio(s) para “${q}”` : "";
@@ -841,7 +905,7 @@ function renderServices(q = "") {
 
 function renderFuture() {
   const grid = $("#futureGrid");
-  const soon = Object.entries(SERVICES).filter(([, s]) => s.soon);
+  const soon = Object.entries(SERVICES).filter(([, s]) => s.soon && aplicaEnPais(s));
   grid.innerHTML = soon.map(([k, s]) => `
     <div class="future">
       <span class="soon">Próximamente</span>
@@ -945,6 +1009,7 @@ const REFINE_Q = [
     { label: "Gobierno local", v: "local", factor: 1.0, txt: "ámbito local" },
     { label: "Gobierno regional", v: "reg", factor: 1.25, txt: "ámbito regional" },
     { label: "Nacional / sectorial", v: "nac", factor: 1.5, txt: "ámbito nacional" },
+    { label: "Unidad ejecutora de operación multilateral", v: "mul", factor: 1.6, txt: "unidad ejecutora de una operación con banca multilateral" },
     { label: "Consultor / empresa", v: "priv", factor: 0.95, txt: "cliente privado" }
   ]},
   { id: "urgencia", label: "¿Qué tan urgente es?", opts: [
@@ -1302,13 +1367,15 @@ function openCheckout() {
   const s = SERVICES[current.key];
   current.note = $("#ordNote").value.trim();
   current.speed = "std";
-  current.method = "culqi";
+  /* Culqi solo procesa tarjetas peruanas. Fuera del Perú el camino real de
+     una entidad pública es una propuesta formal, no un pago con tarjeta. */
+  current.method = (window.REGION && !REGION.esPeru()) ? "os" : "culqi";
   current.payTotal = current.price;
   current.payDays = current.days;
   $("#coSvcName").textContent = s.name;
-  $("#osFields").hidden = true;
+  $("#osFields").hidden = current.method !== "os";
   $("#coErr").hidden = true;
-  $$("#coMethod .opt").forEach(x => x.classList.toggle("sel", x.dataset.method === "culqi"));
+  $$("#coMethod .opt").forEach(x => x.classList.toggle("sel", x.dataset.method === current.method));
   renderCoSpeed();
   closeModal("#svcModal");
   openModal("#checkoutModal");
@@ -1333,7 +1400,8 @@ function updateCoTotals() {
   current.payDays = Math.max(1, Math.ceil(current.days * s.factor));
   $("#coSvcPrice").textContent = PEN(current.price);
   $("#coTotal").textContent = PEN(current.payTotal);
-  $("#payBtn").textContent = current.method === "os" ? "Generar TDR y aceptar servicio" : "Pagar " + PEN(current.payTotal);
+  $("#payBtn").textContent = current.method !== "os" ? "Pagar " + PEN(current.payTotal)
+    : (window.REGION && !REGION.esPeru() ? "Generar propuesta formal" : "Generar TDR y aceptar servicio");
 }
 
 function validEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
@@ -1452,6 +1520,8 @@ function showSuccess(code, email, server) {
    ============================================================ */
 function submitCheckout() { if (current.method === "os") submitOrdenServicio(); else pay(); }
 
+function REGION_ES_PE() { return !window.REGION || REGION.esPeru(); }
+
 function stripTags(html) { return String(html).replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim(); }
 
 async function submitOrdenServicio() {
@@ -1460,15 +1530,25 @@ async function submitOrdenServicio() {
   const entidad = $("#osEntidad").value.trim(), ruc = $("#osRuc").value.trim();
   const area = $("#osArea").value.trim(), func = $("#osFunc").value.trim();
   const err = $("#coErr"); err.hidden = true;
-  if (!entidad || !ruc || !area || !func) { err.hidden = false; err.textContent = "Completa los datos de la entidad (entidad, RUC, área usuaria y responsable) para generar el TDR."; return; }
+  if (!entidad || !ruc || !area || !func) {
+    err.hidden = false;
+    err.textContent = REGION_ES_PE()
+      ? "Completa los datos de la entidad (entidad, RUC, área usuaria y responsable) para generar el TDR."
+      : "Completa los datos de la entidad (nombre, identificación tributaria, área usuaria y responsable) para generar la propuesta.";
+    return;
+  }
   if (!validEmail(email)) { $("#coEmail").focus(); return shake("#coEmail"); }
   const total = current.payTotal || current.price;
-  if (total > MAX_OS) {
+  /* El tope de 8 UIT para contratación directa por Orden de Servicio es una
+     regla de la Ley N.° 32069: no aplica fuera del Perú, donde cada país tiene
+     sus propios umbrales de contratación menor. */
+  if (REGION_ES_PE() && total > MAX_OS) {
     err.hidden = false;
     err.innerHTML = `El monto (<b>${PEN(total)}</b>) supera el tope de <b>8 UIT (${PEN(MAX_OS)})</b> para contratación directa por Orden de Servicio. Reduce el alcance/velocidad o tramita un procedimiento de selección.`;
     return;
   }
-  const btn = $("#payBtn"); btn.disabled = true; btn.textContent = "Generando TDR…";
+  const btn = $("#payBtn"); btn.disabled = true;
+  btn.textContent = REGION_ES_PE() ? "Generando TDR…" : "Generando propuesta…";
   await sleep(900);
   const code = "ACI-" + rand();
   const alcance = (typeof s.note === "function") ? stripTags(s.note(current.values).html) : s.short;
@@ -1480,8 +1560,11 @@ async function submitOrdenServicio() {
 function buildTDR(d) {
   const fecha = new Date().toLocaleDateString("es-PE", { day: "2-digit", month: "long", year: "numeric" });
   const insumos = (d.insumos || []).map(i => `      - ${i}`).join("\n");
-  return `TÉRMINOS DE REFERENCIA (TDR)
-Contratación por monto igual o inferior a 8 UIT
+  const encabezado = REGION_ES_PE()
+    ? "TÉRMINOS DE REFERENCIA (TDR)\nContratación por monto igual o inferior a 8 UIT"
+    : "TÉRMINOS DE REFERENCIA / PROPUESTA FORMAL\nPaís de la entidad: " + (window.REGION ? REGION.pais.nombre : "") +
+      "\nLos umbrales y la modalidad de contratación se ajustan a la normativa aplicable en el país.";
+  return `${encabezado}
 
 Código de servicio : ${d.code}
 Fecha              : ${fecha}
@@ -1785,10 +1868,45 @@ function shake(sel){ const el = $(sel); el.style.borderColor = "#C0392B"; el.ani
 /* ============================================================
    INIT
    ============================================================ */
+/* Cuenta de servicios cotizables en el país activo, para el KPI de "Nosotros". */
+function contarServicios() {
+  return Object.entries(SERVICES).filter(([k, s]) => !k.startsWith("__") && !s.soon && aplicaEnPais(s)).length;
+}
+function pintarKpiServicios() {
+  const el = document.getElementById("kpiServicios");
+  if (!el) return;
+  const n = contarServicios();
+  /* motion.js anima este contador al entrar en pantalla y lee data-target en
+     ese momento. Si todavía está en "0" es que la animación no ha corrido:
+     dejamos el 0 para no romperla y solo actualizamos el objetivo. */
+  el.setAttribute("data-target", n);
+  if (el.textContent.trim() !== "0") el.textContent = n;
+
+  /* La misma cuenta aparece en el bento de #datos. Ahí motion.js lee
+     data-count, también de forma diferida. */
+  const bento = document.getElementById("bentoServicios");
+  if (bento) {
+    bento.setAttribute("data-count", n);
+    if (bento.textContent.trim() !== "0") bento.textContent = n;
+  }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   $("#yr").textContent = new Date().getFullYear();
   renderServices();
   renderFuture();
+  pintarKpiServicios();
+
+  /* Al cambiar de país cambian el catálogo, la moneda y el KPI. Se repinta
+     todo lo que muestra precios o depende del alcance. */
+  if (window.REGION) REGION.onChange(() => {
+    const si = document.getElementById("svcSearchInput");
+    renderServices(si ? si.value : "");
+    renderFuture();
+    pintarKpiServicios();
+    if (current && current.key && document.querySelector("#checkoutModal.open")) updateCoTotals();
+    if (current && current.key && document.querySelector("#svcModal.open")) recompute();
+  });
 
   $("#svcModalClose").addEventListener("click", () => closeModal("#svcModal"));
   $("#coClose").addEventListener("click", () => closeModal("#checkoutModal"));

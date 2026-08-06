@@ -72,20 +72,30 @@
         if (!m) return;
         const pre = m[1], num = parseInt(m[2], 10), suf = m[3];
         const render = v => { el.textContent = pre + Math.round(v) + suf; };
-        if (reduce) { render(num); return; }
+        /* El objetivo se lee en el momento de animar, no al cargar: el KPI de
+           servicios cambia cuando el visitante cambia de país y, si lo
+           capturáramos aquí, animaría hacia el número del país anterior. */
+        const objetivo = () => {
+          const d = el.getAttribute("data-target");
+          const n = d == null ? NaN : parseInt(d, 10);
+          return isNaN(n) ? num : n;
+        };
+        if (reduce) { render(objetivo()); return; }
         el.textContent = pre + "0" + suf;
-        onceVisible(el, () => countUp(el, num, render, 1000));
+        onceVisible(el, () => countUp(el, objetivo(), render, 1000));
       });
     } catch (_) {}
 
     /* ---- Contadores de la sección Datos ---- */
     try {
       document.querySelectorAll(".b-metric[data-count]").forEach(el => {
-        const target = parseInt(el.dataset.count, 10) || 0;
+        /* data-count se lee al animar, no al cargar: la métrica de servicios
+           cambia con el país seleccionado. */
+        const target = () => parseInt(el.dataset.count, 10) || 0;
         const pre = el.dataset.prefix || "", suf = el.dataset.suffix || "";
         const render = v => { el.textContent = pre + Math.round(v).toLocaleString("es-PE") + suf; };
-        if (reduce) { render(target); return; }
-        onceVisible(el, () => countUp(el, target, render, 1200));
+        if (reduce) { render(target()); return; }
+        onceVisible(el, () => countUp(el, target(), render, 1200));
       });
     } catch (_) {}
 

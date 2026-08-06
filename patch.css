@@ -84,7 +84,7 @@
    Se replican aquí los estilos del desplegable porque en
    styles.css viven dentro del @media de 680px.
    ----------------------------------------------------------- */
-@media (min-width:681px) and (max-width:1000px){
+@media (min-width:681px) and (max-width:1259px){
   .nav-links,.nav-cta .btn-ghost{display:none}
   .menu-toggle{display:block}
   .nav-links.show{display:flex;position:absolute;top:74px;left:0;right:0;flex-direction:column;
@@ -193,3 +193,123 @@ h2{font-size:clamp(1.6rem,2.5vw,2.15rem)}
 .chip{letter-spacing:0;font-size:.86rem}
 .kw{letter-spacing:0}
 .svc-count{letter-spacing:0}
+
+/* ===========================================================
+   Ronda 3 — Giro regional (agosto 2026)
+   El sitio pasó de "sector público peruano" a los sectores
+   públicos de América Latina y el Caribe. Esto añade tres
+   piezas nuevas: el selector de país del header, la sección
+   de cobertura y la tarjeta de "línea nacional a medida".
+   =========================================================== */
+
+/* -----------------------------------------------------------
+   SELECTOR DE PAÍS — vive en el header, junto a los CTA.
+   Es la pieza que cambia el catálogo, la moneda y el marco
+   normativo mostrado, así que tiene que verse como un control,
+   no como un adorno.
+   ----------------------------------------------------------- */
+.pais-picker{display:inline-flex;align-items:center;gap:6px;margin-right:4px}
+.pais-lbl{display:inline-flex;align-items:center;color:var(--muted);flex:none}
+.pais-lbl .ic{width:1.05em;height:1.05em}
+.pais-sel{appearance:none;-webkit-appearance:none;
+  background:var(--surface-2, rgba(255,255,255,.06));color:inherit;
+  border:1px solid var(--line);border-radius:10px;
+  font-family:var(--font-body);font-size:.88rem;font-weight:500;
+  padding:.5em 2em .5em .7em;min-height:44px;cursor:pointer;
+  background-image:linear-gradient(45deg,transparent 50%,currentColor 50%),
+                   linear-gradient(135deg,currentColor 50%,transparent 50%);
+  background-position:calc(100% - 15px) 52%,calc(100% - 10px) 52%;
+  background-size:5px 5px,5px 5px;background-repeat:no-repeat}
+.pais-sel:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+.pais-sel option{background:#0B1626;color:#EAF0FA}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+  clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+/* Entre 681 y 1000px el nav ya está colapsado pero la barra tiene sitio:
+   el selector se queda en el header. Por debajo de 680px region.js lo mueve
+   dentro del desplegable, porque en la barra no cabe (desbordaba a 390px). */
+.pais-sel{max-width:11.5rem;text-overflow:ellipsis}
+@media (max-width:820px){ .pais-sel{max-width:10rem} }
+.pais-picker.pais-en-menu{display:flex;width:100%;margin:2px 0 0;
+  padding-top:14px;border-top:1px solid var(--line-soft,var(--line))}
+.pais-picker.pais-en-menu .pais-sel{flex:1;max-width:none;min-height:48px}
+.pais-picker.pais-en-menu::before{content:"País de la entidad";
+  position:absolute;transform:translateY(-22px);
+  font-family:var(--font-mono);font-size:.68rem;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--muted)}
+.pais-picker.pais-en-menu{position:relative;margin-top:12px}
+
+/* -----------------------------------------------------------
+   COBERTURA — una ficha por país. El contenido lo pinta
+   region.js desde la tabla COUNTRIES.
+   ----------------------------------------------------------- */
+#cobertura{padding-top:72px}
+#cobertura .section-head{max-width:62ch}
+
+.cob-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr));
+  gap:18px;margin:30px 0 34px;padding:22px 24px;
+  background:var(--surface);border:1px solid var(--line);border-radius:16px}
+.cob-stats div{display:flex;flex-direction:column;gap:5px}
+.cob-stats b{font-family:var(--font-head);font-size:1.75rem;line-height:1;color:var(--cyan)}
+.cob-stats span{font-size:.84rem;color:var(--muted);max-width:30ch}
+
+/* min() en lugar de un mínimo fijo: con minmax(320px,·) la ficha no podía
+   encoger por debajo de 320px y desbordaba en pantallas de 320px. */
+.cob-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(320px,100%),1fr));gap:18px}
+.cob-card{display:flex;flex-direction:column;gap:12px;padding:22px;
+  background:var(--surface);border:1px solid var(--line);border-radius:16px}
+.cob-card.cob-full{border-color:rgba(52,229,196,.4);
+  box-shadow:0 0 0 1px rgba(52,229,196,.12) inset}
+.cob-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.cob-head h3{font-size:1.12rem;margin:0}
+.cob-tag{font-size:.7rem;letter-spacing:.04em;text-transform:uppercase;font-weight:600;
+  color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:.28em .65em;flex:none}
+.cob-card.cob-full .cob-tag{color:var(--cyan);border-color:rgba(52,229,196,.45)}
+
+.cob-dl{margin:0;display:grid;gap:9px}
+.cob-dl dt{font-family:var(--font-mono);font-size:.68rem;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--muted)}
+/* --muted-2 (#6E7EA3) da 4.23:1 sobre la tarjeta a 13.8px: por debajo del
+   4.5:1 que exige WCAG AA para texto normal. Con --muted (#94A4C6) sube a
+   6.85:1. Es texto normativo denso, precisamente el que hay que poder leer. */
+.cob-dl dd{margin:2px 0 0;font-size:.86rem;line-height:1.45;color:var(--muted)}
+
+.cob-nota{margin:0;font-size:.8rem;line-height:1.45;color:var(--muted);
+  border-left:2px solid var(--amber);padding-left:11px}
+
+.cob-cta{margin-top:auto;align-self:flex-start;min-height:44px;
+  background:none;border:1px solid var(--line);border-radius:10px;
+  color:var(--ink);font-family:var(--font-body);font-size:.86rem;font-weight:600;
+  padding:.55em 1.05em;cursor:pointer;transition:border-color .18s,color .18s}
+.cob-cta:hover{border-color:var(--cyan);color:var(--cyan)}
+.cob-cta:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+
+.cob-rev{margin-top:26px;font-size:.82rem;line-height:1.55;color:var(--muted);max-width:78ch}
+
+/* -----------------------------------------------------------
+   TARJETA "LÍNEA NACIONAL A MEDIDA" — sustituye, fuera del
+   Perú, a los servicios construidos sobre Invierte.pe y la
+   Ley 32069, que allí no aplican.
+   ----------------------------------------------------------- */
+.svc-medida{border-style:dashed}
+.svc-medida .svc-price b{font-size:1rem;color:var(--muted-2)}
+
+/* Sin animación para quien la haya desactivado en el sistema. */
+@media (prefers-reduced-motion:reduce){
+  .cob-cta{transition:none}
+}
+
+/* El selector de país añadió un control más a la barra: entre 1181 y 1400px
+   el nav completo + dos botones + selector ya no caben (medido: 1325px de
+   contenido en una ventana de 1280). Se retira el CTA secundario, que está
+   duplicado en el pie y en la sección de trazabilidad. */
+/* "Seguir mi pedido" y el enlace "Trazabilidad" del nav apuntan al MISMO
+   destino (#seguimiento). Con el selector de país, siete enlaces y dos
+   botones la barra ya no cabe en ningún ancho razonable, así que se retira
+   el botón duplicado: el enlace del nav (y el del pie) siguen ahí. */
+@media (min-width:681px){
+  .nav-cta .btn-ghost{display:none}
+}
+/* Los botones de la barra nunca deben partirse en dos líneas. */
+.nav-cta .btn{white-space:nowrap}
+.nav-links a{white-space:nowrap}
