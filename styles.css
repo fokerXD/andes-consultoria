@@ -625,6 +625,32 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
 .rv{opacity:0;transform:translateY(36px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
 .rv.in{opacity:1;transform:none}
 
+/* Selector de país / idioma (tropicalización BID) */
+.pais-sel{appearance:none;-webkit-appearance:none;background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.28);
+  border-radius:10px;padding:8px 30px 8px 12px;font:600 .82rem/1 "Inter",system-ui,sans-serif;cursor:pointer;max-width:200px;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%23ffffff' stroke-width='2'><path d='M2 4l4 4 4-4'/></svg>");
+  background-repeat:no-repeat;background-position:right 10px center}
+.pais-sel:hover{border-color:var(--cyan)}
+.pais-sel option,.pais-sel optgroup{color:#0E2A47;background:#fff}
+@media (max-width:920px){ .pais-sel{max-width:150px;font-size:.76rem} }
+
+/* Panel de contexto normativo por país */
+.pais-ctx{margin:8px 0 26px}
+.pais-ctx:empty{display:none}
+.pc-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.pc-flag{font-size:1.35rem;line-height:1}
+.pc-head strong{font:700 1.05rem/1.2 "Space Grotesk","Inter",sans-serif;color:#fff}
+.pc-title{color:var(--muted);font-size:.8rem;margin-left:auto}
+.pc-badge{font:600 .68rem/1 "Space Mono",monospace;text-transform:uppercase;letter-spacing:.04em;padding:4px 8px;border-radius:999px}
+.pc-badge.ok{background:rgba(52,229,196,.16);color:var(--cyan);border:1px solid rgba(52,229,196,.4)}
+.pc-badge.warn{background:rgba(246,183,60,.16);color:var(--amber);border:1px solid rgba(246,183,60,.42)}
+.pc-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.08);border-radius:14px;overflow:hidden}
+@media (max-width:760px){ .pc-grid{grid-template-columns:1fr} }
+.pc-row{background:var(--surface,#111B30);padding:11px 14px;display:flex;flex-direction:column;gap:3px}
+.pc-k{font:600 .68rem/1.2 "Space Mono",monospace;text-transform:uppercase;letter-spacing:.03em;color:var(--cyan)}
+.pc-v{font-size:.9rem;color:#dfe8f5}
+.pc-note{margin:10px 2px 0;font-size:.76rem;color:var(--muted)}
+
 /* Movimiento reducido */
 @media (prefers-reduced-motion: reduce){
   *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;

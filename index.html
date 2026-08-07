@@ -3,17 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- ============================================================
-     DOMINIO — cuando conectes andesconsultoria.pe en Vercel,
-     reemplaza en este archivo y en sitemap.xml / robots.txt todas
-     las apariciones de:   andes-consultoria-web.vercel.app
-     por:                  andesconsultoria.pe
-     (Hoy la URL canónica apunta al dominio que SÍ resuelve; no la
-     cambies antes de que el dominio esté activo o Google
-     desindexará el sitio.)
-     ============================================================ -->
 <title>Andes Consultoría Inteligente — Servicios de asesoría al sector público con IA</title>
-<meta name="description" content="Expedientes técnicos, políticas públicas, análisis regulatorio, gestión financiera y evaluación de comités. Línea especializada en operaciones con banca multilateral: adquisiciones BID (GN-2349-15 y GN-2350-15), monitoreo PEP/POA/ISP, desembolsos, auditoría y salvaguardias. Servicios productizados con IA para el sector público de América Latina y el Caribe.">
+<meta name="description" content="Expedientes técnicos, políticas públicas, análisis regulatorio, gestión financiera y evaluación de comités de selección. Servicios productizados con inteligencia artificial para el sector público peruano. Cotiza, paga en línea y recibe tu entregable con trazabilidad en tiempo real.">
 <meta name="theme-color" content="#070B16">
 <meta name="author" content="Andes Consultoría Inteligente">
 <!-- Open Graph / compartir en redes y mensajería -->
@@ -34,47 +25,13 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": ["Organization", "ProfessionalService"],
+  "@type": "Organization",
   "name": "Andes Consultoría Inteligente",
   "url": "https://andes-consultoria-web.vercel.app/",
   "logo": "https://andes-consultoria-web.vercel.app/og-image.png",
-  "description": "Servicios de asesoría y consultoría al sector público de América Latina y el Caribe, productizados con inteligencia artificial. Línea multilateral aplicable en los 26 países prestatarios del BID: monitoreo, adquisiciones, gestión financiera, auditoría y salvaguardias. Línea nacional operativa en Perú.",
-  "areaServed": [
-    { "@type": "Country", "name": "Perú" },
-    { "@type": "Country", "name": "Colombia" },
-    { "@type": "Country", "name": "Chile" },
-    { "@type": "Country", "name": "Ecuador" },
-    { "@type": "Country", "name": "México" },
-    { "@type": "Country", "name": "Argentina" },
-    { "@type": "Country", "name": "Brasil" },
-    { "@type": "Country", "name": "República Dominicana" },
-    { "@type": "Country", "name": "Panamá" },
-    { "@type": "Country", "name": "Costa Rica" },
-    { "@type": "Country", "name": "Guatemala" },
-    { "@type": "Country", "name": "Uruguay" }
-  ],
-  "address": { "@type": "PostalAddress", "addressLocality": "Lima", "addressCountry": "PE" },
-  "knowsAbout": [
-    "Invierte.pe",
-    "IOARR",
-    "Expediente Técnico",
-    "Documento Equivalente",
-    "Ley N.° 32069 — Ley General de Contrataciones Públicas",
-    "OECE",
-    "PLADICOP",
-    "SEACE",
-    "Políticas Públicas",
-    "Análisis de Impacto Regulatorio",
-    "BID — Banco Interamericano de Desarrollo",
-    "GN-2349-15 — Política de Adquisiciones de Bienes, Obras y Servicios Diferentes de Consultoría",
-    "GN-2350-15 — Política de Selección y Contratación de Consultores",
-    "OP-273-12 — Guía de Gestión Financiera del BID",
-    "Marco de Política Ambiental y Social (MPAS/ESPF)",
-    "Estados Financieros Auditados (EFA)",
-    "Plan de Ejecución Plurianual (PEP)",
-    "Plan Operativo Anual (POA)",
-    "Informe Semestral de Progreso (ISP)"
-  ],
+  "description": "Servicios de asesoría y consultoría al sector público peruano, productizados con inteligencia artificial: expedientes técnicos, documentos equivalentes, políticas públicas, análisis regulatorio, gestión financiera y evaluación de comités de selección.",
+  "areaServed": { "@type": "Country", "name": "Perú" },
+  "knowsAbout": ["Invierte.pe", "IOARR", "Expediente Técnico", "Documento Equivalente", "Contrataciones del Estado", "Políticas Públicas", "Análisis Regulatorio"],
   "email": "contacto@andesconsultoria.pe"
 }
 </script>
@@ -82,46 +39,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
-<link rel="stylesheet" href="patch.css">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><path d='M4 26 L13 9 L18 17 L22 12 L28 26 Z' fill='none' stroke='%2334E5C4' stroke-width='2.2' stroke-linejoin='round'/><circle cx='13' cy='9' r='2.4' fill='%238B7BFF'/><circle cx='22' cy='12' r='2' fill='%23F6B73C'/></svg>">
 </head>
 <body>
-<!-- Sprite de iconos. Trazo de 1.8, 24×24, heredan currentColor.
-     Uso:  <svg class="ic" aria-hidden="true"><use href="#i-scale"/></svg>   -->
-<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
-<g id="i-base" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></g>
-</defs>
-<symbol id="i-ruler" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16L4 4v16Z"/><path d="M8 16v-3M12 16v-5"/></symbol>
-<symbol id="i-bank" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5 12 4l9 5.5"/><path d="M5 10v8M9.5 10v8M14.5 10v8M19 10v8"/><path d="M3 21h18"/></symbol>
-<symbol id="i-scale" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v16M7 20h10"/><path d="M5 8h14"/><path d="M5 8 2.5 14h5L5 8ZM19 8l-2.5 6h5L19 8Z"/></symbol>
-<symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V4"/><path d="M4 20h16"/><path d="M8 20v-6M12.5 20v-9M17 20v-4"/></symbol>
-<symbol id="i-clipboard" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4h6v3H9z"/><path d="M15 5.5h2A1.5 1.5 0 0 1 18.5 7v12A1.5 1.5 0 0 1 17 20.5H7A1.5 1.5 0 0 1 5.5 19V7A1.5 1.5 0 0 1 7 5.5h2"/><path d="m8.8 13.6 2 2 3.9-4"/></symbol>
-<symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 5 6v6c0 4.2 2.9 7.6 7 9 4.1-1.4 7-4.8 7-9V6l-7-3Z"/><path d="m9 12 2 2 4-4"/></symbol>
-<symbol id="i-trend" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5"/><path d="M4 19h16"/><path d="m7 15 3.5-4 3 2.5L20 7"/><path d="M20 7h-3.5M20 7v3.5"/></symbol>
-<symbol id="i-package" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 8 4.2v9.6L12 21l-8-4.2V7.2L12 3Z"/><path d="M4.2 7.3 12 11.4l7.8-4.1M12 11.4V21"/></symbol>
-<symbol id="i-cash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="6" width="19" height="12" rx="2"/><circle cx="12" cy="12" r="2.6"/><path d="M6 10v4M18 10v4"/></symbol>
-<symbol id="i-receipt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12v18l-2-1.4-2 1.4-2-1.4-2 1.4-2-1.4L6 21V3Z"/><path d="M9.5 8h5M9.5 12h5"/></symbol>
-<symbol id="i-leaf" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20c0-8 5-13 16-13 0 9-5 13-11 13-2.8 0-5-1.5-5-1.5Z"/><path d="M9 15c2.5-2.5 5-4 9-5.5"/></symbol>
-<symbol id="i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.6"/><path d="M3.4 12h17.2"/><path d="M12 3.4c2.2 2.4 3.4 5.4 3.4 8.6s-1.2 6.2-3.4 8.6c-2.2-2.4-3.4-5.4-3.4-8.6S9.8 5.8 12 3.4Z"/></symbol>
-<symbol id="i-compass" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="m15.2 8.8-1.9 4.5-4.5 1.9 1.9-4.5 4.5-1.9Z"/></symbol>
-<symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 16V11a6 6 0 1 0-12 0v5l-1.5 2.5h15L18 16Z"/><path d="M10 20.5a2.2 2.2 0 0 0 4 0"/></symbol>
-<symbol id="i-cap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m2.5 9 9.5-4.5L21.5 9 12 13.5 2.5 9Z"/><path d="M6.5 11v5c0 1.5 2.6 3 5.5 3s5.5-1.5 5.5-3v-5"/></symbol>
-<symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8.5" r="3.2"/><path d="M3 19.5c0-3 2.7-5 6-5s6 2 6 5"/><path d="M16 5.6a3.2 3.2 0 0 1 0 5.8M17.5 14.9c2 .7 3.5 2.4 3.5 4.6"/></symbol>
-<symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="10" rx="2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/><path d="M12 14.5v2"/></symbol>
-<symbol id="i-file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13.5 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8.5L13.5 3Z"/><path d="M13.5 3v5.5H19"/><path d="M9 13h6M9 16.5h6"/></symbol>
-<symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 1.8"/></symbol>
-<symbol id="i-cpu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6.5" y="6.5" width="11" height="11" rx="2"/><rect x="10" y="10" width="4" height="4" rx="1"/><path d="M9.5 3v3.5M14.5 3v3.5M9.5 17.5V21M14.5 17.5V21M3 9.5h3.5M3 14.5h3.5M17.5 9.5H21M17.5 14.5H21"/></symbol>
-<symbol id="i-zap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13.5 2.5 5 13.5h6l-.5 8L19 10.5h-6l.5-8Z"/></symbol>
-<symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.4-4.4"/></symbol>
-<symbol id="i-route" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="6" r="2.5"/><path d="M8.5 18h5a3.5 3.5 0 0 0 0-7h-3a3.5 3.5 0 0 1 0-7h5"/></symbol>
-<symbol id="i-bulb" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 17.5a5.8 5.8 0 1 1 6 0v1.5H9v-1.5Z"/><path d="M10 21.5h4"/></symbol>
-<symbol id="i-spark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9L12 3Z"/><path d="M18.5 16.5 19 18l1.5.5-1.5.5-.5 1.5-.5-1.5L16.5 18l1.5-.5.5-1.5Z"/></symbol>
-<symbol id="i-card" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5.5" width="19" height="13" rx="2"/><path d="M2.5 10h19M6 14.5h3"/></symbol>
-<symbol id="i-clip" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11.5 12.2 19.3a5 5 0 0 1-7.1-7.1l8.3-8.3a3.4 3.4 0 0 1 4.8 4.8l-8.3 8.3a1.8 1.8 0 0 1-2.5-2.5l7.5-7.5"/></symbol>
-<symbol id="i-helmet" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 16.5a8.5 8.5 0 0 1 17 0"/><path d="M2.5 16.5h19v2h-19z"/><path d="M9.5 8.2V4.8h5v3.4"/></symbol>
-<symbol id="i-server" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="4" width="17" height="6" rx="1.6"/><rect x="3.5" y="14" width="17" height="6" rx="1.6"/><path d="M7 7h.01M7 17h.01"/></symbol>
-</svg>
-<a class="skip-link" href="#main">Saltar al contenido</a>
 <canvas id="bgmesh" aria-hidden="true"></canvas>
 <div class="grain" aria-hidden="true"></div>
 
@@ -138,18 +58,17 @@
       <span>Andes Consultoría<br><small>Inteligente</small></span>
     </a>
     <nav class="nav-links" id="navLinks" aria-label="Principal">
-      <a href="#asistente">Cotizador IA</a>
-      <a href="#servicios">Servicios</a>
-      <a href="#datos">Datos</a>
-      <a href="#control">Control</a>
-      <a href="#proceso">Proceso</a>
-      <a href="#cobertura">Cobertura</a>
-      <a href="#seguimiento">Trazabilidad</a>
+      <a href="#asistente" data-i18n="nav1">Cotizador IA</a>
+      <a href="#servicios" data-i18n="nav2">Servicios</a>
+      <a href="#datos" data-i18n="nav3">Datos</a>
+      <a href="#control" data-i18n="nav4">Control</a>
+      <a href="#proceso" data-i18n="nav5">Proceso</a>
+      <a href="#seguimiento" data-i18n="nav6">Trazabilidad</a>
     </nav>
     <div class="nav-cta">
-      <div class="pais-picker" id="paisPicker"></div>
-      <a href="#seguimiento" class="btn btn-ghost">Seguir mi pedido</a>
-      <a href="#servicios" class="btn btn-primary">Cotizar ahora</a>
+      <select id="paisSel" class="pais-sel" aria-label="País / idioma"></select>
+      <a href="#seguimiento" class="btn btn-ghost" data-i18n="btn_track">Seguir mi pedido</a>
+      <a href="#servicios" class="btn btn-primary" data-i18n="btn_quote">Cotizar ahora</a>
       <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú" aria-expanded="false">
         <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0E2A47" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
       </button>
@@ -157,65 +76,51 @@
   </div>
 </header>
 
-<main id="main">
-
 <!-- HERO -->
 <section class="hero" id="inicio">
   <div class="container">
     <div class="hero-grid">
       <div>
-        <span class="eyebrow">Consultoría pública potenciada con IA · América Latina y el Caribe</span>
-        <h1>Servicios de asesoría al Estado, productizados y con resultados trazables.</h1>
-        <p class="lead">Expedientes técnicos, políticas públicas, análisis regulatorio, gestión financiera, evaluación de comités y ejecución de operaciones con banca multilateral. Definimos los insumos, dimensionamos el trabajo y entregamos un producto profesional —con seguimiento en tiempo real— bajo las políticas del banco financiador y la normativa vigente en <b data-pais-txt="ambito">Perú</b>.</p>
+        <span class="eyebrow"><span data-i18n="hero_eyebrow">Consultoría pública potenciada con IA</span> · <span id="ctxPais">Perú</span></span>
+        <h1 data-i18n="hero_h1">Servicios de asesoría al Estado, productizados y con resultados trazables.</h1>
+        <p class="lead" data-i18n="hero_lead">Expedientes técnicos, políticas públicas, análisis regulatorio, gestión financiera y evaluación de comités de selección. Definimos los insumos, dimensionamos el trabajo y te entregamos un producto profesional —con seguimiento en tiempo real— bajo las directivas vigentes del MEF y la normativa nacional.</p>
         <div class="hero-badges">
-          <span class="chip">✔ Cotización transparente en minutos</span>
-          <span class="chip" data-solo-pe>✔ Pago seguro con Culqi</span>
-          <span class="chip" data-salvo-pe hidden>✔ Propuesta formal para tu entidad</span>
-          <span class="chip">✔ Entrega al correo con trazabilidad</span>
-          <span class="chip">✔ Incluye una ronda de ajustes</span>
+          <span class="chip" data-i18n="chip1">✔ Cotización transparente en minutos</span>
+          <span class="chip" data-i18n="chip2">✔ Pago seguro con Culqi</span>
+          <span class="chip" data-i18n="chip3">✔ Entrega al correo con trazabilidad</span>
+          <span class="chip" data-i18n="chip4">☕ Café Starbucks a tu oficina al recibir</span>
         </div>
         <div class="hero-cta">
-          <a href="#servicios" class="btn btn-primary btn-lg">Explorar servicios</a>
-          <a href="#proceso" class="btn btn-ghost btn-lg" style="color:#fff;border-color:rgba(255,255,255,.3)">Ver cómo funciona</a>
+          <a href="#servicios" class="btn btn-primary btn-lg" data-i18n="cta_explore">Explorar servicios</a>
+          <a href="#proceso" class="btn btn-ghost btn-lg" style="color:#fff;border-color:rgba(255,255,255,.3)" data-i18n="cta_how">Ver cómo funciona</a>
         </div>
       </div>
       <div class="hero-art">
-        <div class="hero-card hero-panel">
-          <div class="hp-top">
-            <div>
-              <span class="hp-id">Pedido ACI-2048</span>
-              <b class="hp-name">Expediente Técnico · IOARR</b>
-            </div>
-            <span class="hp-state"><i></i>En elaboración</span>
+        <div class="hero-card">
+          <svg class="hero-peaks" width="100%" height="170" viewBox="0 0 320 170" aria-hidden="true">
+            <defs><linearGradient id="g1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C2602F"/><stop offset="1" stop-color="#8f421e"/></linearGradient></defs>
+            <polyline points="10,150 70,150" stroke="rgba(255,255,255,.2)" stroke-width="2"/>
+            <path d="M10 150 L80 50 L120 100 L165 35 L210 95 L255 60 L310 150 Z" fill="url(#g1)" opacity=".9"/>
+            <path d="M10 150 L80 50 L110 90 L70 150 Z" fill="#0E7C66" opacity=".85"/>
+            <circle cx="165" cy="35" r="5" fill="#fff"/><circle cx="255" cy="60" r="4" fill="#C9A227"/>
+            <text x="14" y="168" fill="#bcd0e3" font-size="9" font-family="Inter">Insumos</text>
+            <text x="150" y="168" fill="#bcd0e3" font-size="9" font-family="Inter">Análisis IA</text>
+            <text x="270" y="168" fill="#bcd0e3" font-size="9" font-family="Inter">Entrega</text>
+          </svg>
+          <div style="display:flex;justify-content:space-between;font-size:.82rem;color:#cfe0ef;margin-top:10px">
+            <span>Pedido #ACI-2048</span><span style="color:#7be0c4">● En elaboración</span>
           </div>
-
-          <div class="hp-bar"><i style="width:62%"></i></div>
-          <div class="hp-barmeta"><span>Hito 4 de 6</span><span>62&nbsp;% avanzado</span></div>
-
-          <ol class="hp-steps">
-            <li class="ok">Insumos validados</li>
-            <li class="ok">Análisis normativo</li>
-            <li class="ok">Redacción técnica</li>
-            <li class="now">Control de calidad</li>
-            <li>Firma del especialista</li>
-            <li>Entrega</li>
-          </ol>
-
-          <div class="hp-foot">
-            <div><b>10</b><span>días hábiles restantes</span></div>
-            <div><b>14 ago</b><span>entrega estimada</span></div>
-          </div>
+          <div class="track-bar" style="margin-top:8px"><i style="width:62%"></i></div>
+          <div style="font-size:.78rem;color:#9fb6cc;margin-top:6px">Hito 4 de 6 · Control de calidad estimado: 2 días</div>
         </div>
-</div>
       </div>
     </div>
   </div>
   <div class="trust-strip">
-    <span><svg class="ic" aria-hidden="true"><use href="#i-lock"/></svg> <span data-pais-txt="datos">Datos protegidos</span></span>
-    <span><svg class="ic" aria-hidden="true"><use href="#i-file"/></svg> <span data-pais-txt="marco">Conforme al marco aplicable</span></span>
-    <span><svg class="ic" aria-hidden="true"><use href="#i-globe"/></svg> Operaciones BID en los 26 países prestatarios</span>
-    <span><svg class="ic" aria-hidden="true"><use href="#i-users"/></svg> Equipo multidisciplinario: derecho, economía e ingeniería</span>
-    <span><svg class="ic" aria-hidden="true"><use href="#i-clock"/></svg> Plazos garantizados por contrato</span>
+    <span>🔒 Datos protegidos (Ley N.° 29733)</span>
+    <span>📑 Conforme a directivas MEF / Invierte.pe</span>
+    <span>🤝 Equipo multidisciplinario: derecho, economía e ingeniería</span>
+    <span>⏱️ Plazos garantizados por contrato</span>
   </div>
 </section>
 
@@ -229,11 +134,6 @@
     <span>Gestión Financiera</span><span class="dot">◆</span>
     <span>Evaluación de Comités</span><span class="dot">◆</span>
     <span>IOARR &amp; Tecnología</span><span class="dot">◆</span>
-    <span>Adquisiciones BID</span><span class="dot">◆</span>
-    <span>Monitoreo PEP · POA · ISP</span><span class="dot">◆</span>
-    <span>Unidades Ejecutoras</span><span class="dot">◆</span>
-    <span>Desembolsos y EFA</span><span class="dot">◆</span>
-    <span>Salvaguardias MPAS</span><span class="dot">◆</span>
   </div>
 </div>
 
@@ -243,22 +143,21 @@
     <div class="section-head center">
       <span class="eyebrow">Por qué Andes</span>
       <h2>Expertise diverso, ejecución acelerada con IA</h2>
-      <p class="lead center" style="margin:0 auto">Combinamos especialistas en derecho público, contrataciones públicas, economía e ingeniería con modelos de IA que aceleran el análisis documental, la redacción técnica y el control de calidad —sin sacrificar el criterio profesional ni la responsabilidad humana.</p>
+      <p class="lead center" style="margin:0 auto">Combinamos especialistas en derecho público, contrataciones del Estado, economía e ingeniería con modelos de IA que aceleran el análisis documental, la redacción técnica y el control de calidad —sin sacrificar el criterio profesional ni la responsabilidad humana.</p>
     </div>
     <div class="grid-3">
       <div class="card value">
-        <div class="ico" aria-hidden="true"><svg class="ic" aria-hidden="true"><use href="#i-scale"/></svg></div>
+        <div class="ico" aria-hidden="true">⚖️</div>
         <h3>Rigor normativo</h3>
-        <p data-solo-pe>Cada entregable se elabora conforme a la normativa vigente: Invierte.pe, la <b>Ley N.° 32069 — Ley General de Contrataciones Públicas</b> y su Reglamento, las directivas del MEF y las políticas de los organismos multilaterales.</p>
-      <p data-salvo-pe hidden>Cada entregable se elabora conforme a las políticas del organismo financiador —GN-2349-15, GN-2350-15, OP-273-12 y el MPAS en el caso del BID— y a la normativa vigente en <b data-pais-txt="ambito">el país</b>: <b data-pais-txt="contratacion">su ley de contrataciones</b> y su sistema nacional de inversión pública.</p>
+        <p>Cada entregable se elabora conforme a la normativa vigente: Invierte.pe, Ley de Contrataciones del Estado, directivas del MEF y lineamientos de organismos multilaterales.</p>
       </div>
       <div class="card value">
-        <div class="ico" aria-hidden="true"><svg class="ic" aria-hidden="true"><use href="#i-zap"/></svg></div>
+        <div class="ico" aria-hidden="true">⚡</div>
         <h3>Velocidad con control</h3>
         <p>La IA acelera la revisión de expedientes, normas y data financiera. Un especialista valida y firma cada resultado: tecnología que potencia, no que reemplaza el criterio.</p>
       </div>
       <div class="card value">
-        <div class="ico" aria-hidden="true"><svg class="ic" aria-hidden="true"><use href="#i-search"/></svg></div>
+        <div class="ico" aria-hidden="true">🔎</div>
         <h3>Trazabilidad total</h3>
         <p>Desde que cargas tus insumos hasta la entrega, sigues el avance por hitos en una línea de tiempo en vivo. Sabes siempre en qué etapa está tu servicio.</p>
       </div>
@@ -275,14 +174,11 @@
       <p class="lead center" style="margin:0 auto">Fortalecemos la gestión pública con IA y datos: más velocidad, más trazabilidad y mejores decisiones que se traducen en mejores servicios para las personas.</p>
     </div>
     <div class="bento">
-      <div class="b-card"><div class="b-metric" data-count="2037">0</div><div class="b-label">préstamos del BID con garantía soberana en ejecución en la región, cada uno con su unidad ejecutora (al 31.12.2025)</div></div>
-        <div class="b-card" data-solo-pe><div class="b-metric" data-count="1800" data-suffix="+">0</div><div class="b-label">entidades públicas como mercado potencial en el Perú</div></div>
-      <div class="b-card"><div class="b-metric v" id="bentoServicios" data-count="11">0</div><div class="b-label">servicios productizados, incluida la línea BID aplicable en los 26 países prestatarios</div></div>
+      <div class="b-card"><div class="b-metric" data-count="1800" data-suffix="+">0</div><div class="b-label">entidades públicas como mercado potencial en el Perú</div></div>
+      <div class="b-card"><div class="b-metric v" data-count="5">0</div><div class="b-label">servicios productizados + 6 en incorporación</div></div>
       <div class="b-card"><div class="b-metric a" data-count="72" data-suffix="h">0</div><div class="b-label">opción de entrega express</div></div>
       <div class="b-card"><div class="b-metric" data-count="100" data-suffix="%">0</div><div class="b-label">entregas con trazabilidad por hitos</div></div>
-      <div class="b-card wide" data-salvo-pe hidden><div class="b-metric" data-count="36000" data-prefix="US$ " data-suffix=" M">0</div><div class="b-label">saldo aprobado y todavía no desembolsado de la cartera del BID al cierre de 2025: dinero comprometido esperando capacidad de ejecución</div>
-          <div class="b-spark"><i style="height:30%"></i><i style="height:55%"></i><i style="height:42%"></i><i style="height:70%"></i><i style="height:85%"></i><i style="height:60%"></i><i style="height:100%"></i></div></div>
-        <div class="b-card wide" data-solo-pe><div class="b-metric" data-count="44000" data-prefix="S/ ">0</div><div class="b-label">tope de contratación directa por Orden de Servicio (≤ 8 UIT · UIT 2026 = S/ 5,500), con TDR automático</div>
+      <div class="b-card wide"><div class="b-metric" data-count="44000" data-prefix="S/ ">0</div><div class="b-label">contratación directa por Orden de Servicio (≤ 8 UIT) con TDR automático</div>
         <div class="b-spark"><i style="height:30%"></i><i style="height:55%"></i><i style="height:42%"></i><i style="height:70%"></i><i style="height:85%"></i><i style="height:60%"></i><i style="height:100%"></i></div></div>
       <div class="b-card wide"><div class="b-metric v" data-count="3">0</div><div class="b-label">disciplinas (derecho, economía, ingeniería) + IA, con validación profesional colegiada</div>
         <div class="b-spark"><i style="height:50%"></i><i style="height:40%"></i><i style="height:75%"></i><i style="height:55%"></i><i style="height:90%"></i><i style="height:65%"></i><i style="height:82%"></i></div></div>
@@ -322,7 +218,7 @@
 <section id="asistente">
   <div class="container">
     <div class="section-head">
-      <span class="eyebrow ai-eyebrow"><svg class="ic" aria-hidden="true"><use href="#i-spark"/></svg> Cotizador con IA</span>
+      <span class="eyebrow ai-eyebrow">✨ Cotizador con IA</span>
       <h2>Describe lo que necesitas y te armamos el servicio al instante</h2>
       <p class="lead">¿No encaja en una de nuestras cajas? Escríbelo con tus palabras —cualquier necesidad del sector público— y nuestra IA te propone un servicio a medida con alcance, insumos, plazo y costo. Luego lo personalizas y pagas como cualquier otro.</p>
     </div>
@@ -332,15 +228,13 @@
         <textarea id="aiNeed" class="ai-input" placeholder="Ej.: Necesito un informe que sustente la contratación directa de un proveedor de software para mi municipalidad, con análisis legal y de riesgos…"></textarea>
       </div>
       <div class="ai-examples" id="aiExamples">
-        <button class="ai-ex" data-solo-pe data-ex="Necesito el documento equivalente de una IOARR de reposición de servidores y equipos de cómputo para mi entidad, con especificaciones técnicas y presupuesto."><svg class="ic" aria-hidden="true"><use href="#i-server"/></svg> Reposición de servidores (IOARR)</button>
-        <button class="ai-ex" data-ex="Quiero un informe legal sobre la aplicación de penalidades a un contratista que incumplió plazos en una obra pública."><svg class="ic" aria-hidden="true"><use href="#i-scale"/></svg> Penalidades a contratista</button>
-        <button class="ai-ex" data-ex="Necesito un tablero de control para monitorear la ejecución presupuestal mensual de 12 unidades ejecutoras de mi región."><svg class="ic" aria-hidden="true"><use href="#i-chart"/></svg> Tablero de ejecución (12 UE)</button>
-        <button class="ai-ex" data-salvo-pe hidden data-ex="Necesito preparar el informe semestral de progreso y actualizar la matriz de resultados de un préstamo del BID que lleva dos años de ejecución con retraso en los desembolsos."><svg class="ic" aria-hidden="true"><use href="#i-trend"/></svg> Informe de progreso BID</button>
-        <button class="ai-ex" data-salvo-pe hidden data-ex="Mi unidad ejecutora tiene observaciones del Banco en los expedientes de adquisiciones y necesito ordenarlos antes de la revisión ex post."><svg class="ic" aria-hidden="true"><use href="#i-clipboard"/></svg> Adquisiciones observadas</button>
-        <button class="ai-ex" data-solo-pe data-ex="Diseñar una estrategia de transformación digital para la atención al ciudadano en una municipalidad distrital."><svg class="ic" aria-hidden="true"><use href="#i-bulb"/></svg> Estrategia de gobierno digital</button>
+        <button class="ai-ex" data-ex="Necesito el documento equivalente de una IOARR de reposición de servidores y equipos de cómputo para mi entidad, con especificaciones técnicas y presupuesto.">📐 Reposición de servidores (IOARR)</button>
+        <button class="ai-ex" data-ex="Quiero un informe legal sobre la aplicación de penalidades a un contratista que incumplió plazos en una obra pública.">⚖️ Penalidades a contratista</button>
+        <button class="ai-ex" data-ex="Necesito un tablero de control para monitorear la ejecución presupuestal mensual de 12 unidades ejecutoras de mi región.">📊 Tablero de ejecución (12 UE)</button>
+        <button class="ai-ex" data-ex="Diseñar una estrategia de transformación digital para la atención al ciudadano en una municipalidad distrital.">💡 Estrategia de gobierno digital</button>
       </div>
       <div class="ai-row">
-        <button class="btn btn-primary btn-lg" id="aiGen"><svg class="ic" aria-hidden="true"><use href="#i-spark"/></svg> Afinar y generar</button>
+        <button class="btn btn-primary btn-lg" id="aiGen">✨ Afinar y generar</button>
         <span class="ai-hint">Te haremos un par de preguntas rápidas para afinar el alcance y darte un precio más preciso.</span>
       </div>
       <div class="ai-loading" id="aiLoading" hidden><span class="ai-spin"></span> Analizando tu necesidad y dimensionando el servicio…</div>
@@ -353,27 +247,24 @@
 <section id="servicios">
   <div class="container">
     <div class="section-head">
-      <span class="eyebrow">Servicios</span>
-      <h2>Elige tu servicio, define los insumos y obtén una cotización inmediata</h2>
-      <p class="lead">Cada servicio indica qué insumos necesita, dimensiona el trabajo y calcula el precio al instante. Para entidades públicas, unidades ejecutoras de operaciones con banca multilateral y proveedores del Estado en <b data-pais-txt="ambito">Perú</b>.</p>
+      <span class="eyebrow" data-i18n="servicios_eyebrow">Servicios</span>
+      <h2 data-i18n="servicios_h1">Elige tu servicio, define los insumos y obtén una cotización inmediata</h2>
+      <p class="lead" data-i18n="servicios_lead">Cada servicio te indica exactamente qué insumos necesitamos. Con base en ellos dimensionamos el trabajo y calculamos un precio justo y transparente. Diseñado para funcionarios públicos, consultores independientes y firmas proveedoras del Estado.</p>
     </div>
+    <div id="paisCtx" class="pais-ctx"><!-- contexto normativo por país (tropicalize.js) --></div>
     <div class="svc-toolbar">
       <div class="svc-search" id="svcSearch">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-        <input type="search" id="svcSearchInput" placeholder="Busca: BID, EFA, desembolsos, salvaguardias…" aria-label="Buscar servicios">
+        <input type="search" id="svcSearchInput" placeholder="Busca por palabra clave: expediente, IOARR, presupuesto, AIR, comité…" aria-label="Buscar servicios">
         <button class="clear" id="svcSearchClear" aria-label="Limpiar búsqueda">✕</button>
       </div>
       <div class="svc-help">
         <span>Sugerencias:</span>
-        <button class="kw" data-solo-pe data-kw="expediente técnico">Expediente técnico</button>
-        <button class="kw" data-solo-pe data-kw="IOARR documento equivalente">IOARR</button>
-        <button class="kw" data-salvo-pe hidden data-kw="unidad ejecutora">Unidad ejecutora</button>
-        <button class="kw" data-salvo-pe hidden data-kw="adquisiciones GN-2349-15">Adquisiciones BID</button>
-        <button class="kw" data-salvo-pe hidden data-kw="salvaguardias MPAS">Salvaguardias</button>
+        <button class="kw" data-kw="expediente técnico">Expediente técnico</button>
+        <button class="kw" data-kw="IOARR documento equivalente">IOARR</button>
+        <button class="kw" data-kw="presupuesto ejecución">Presupuesto</button>
         <button class="kw" data-kw="regulatorio AIR">Análisis regulatorio</button>
-        <button class="kw" data-solo-pe data-kw="comité selección propuestas">Comité de selección</button>
-        <button class="kw" data-kw="bid banca multilateral préstamo">BID / multilateral</button>
-        <button class="kw" data-kw="desembolso justificación efa auditoría">Desembolsos y EFA</button>
+        <button class="kw" data-kw="comité selección propuestas">Comité de selección</button>
       </div>
     </div>
     <p class="svc-count" id="svcCount" aria-live="polite"></p>
@@ -393,7 +284,7 @@
       <div class="step"><div class="n">1</div><h3>Cotiza</h3><p>Selecciona el servicio y completa los insumos. Calculamos el alcance y el precio al instante, sin reuniones previas.</p></div>
       <div class="step"><div class="n">2</div><h3>Paga seguro</h3><p>Confirma y paga en línea con Culqi (tarjeta o Yape). Recibes comprobante y código de seguimiento al correo.</p></div>
       <div class="step"><div class="n">3</div><h3>Elaboramos</h3><p>Procesamos tus insumos con IA y un especialista valida cada etapa. Sigues el avance por hitos en vivo.</p></div>
-      <div class="step"><div class="n">4</div><h3>Recibe</h3><p>Te entregamos el producto final en tu correo, listo para usar, con su control de calidad documentado. Incluye <b>una ronda de ajustes</b> sobre observaciones al entregable, sin costo adicional.</p></div>
+      <div class="step"><div class="n">4</div><h3>Recibe</h3><p>Te entregamos el producto final en tu correo, listo para usar, con su control de calidad documentado. Y como cortesía, al recibir tu entregable enviamos un <b>café Starbucks ☕</b> a la oficina de tu equipo.</p></div>
     </div>
   </div>
 </section>
@@ -440,47 +331,20 @@
 </section>
 
 <!-- CONFIANZA / NOSOTROS -->
-<!-- COBERTURA REGIONAL -->
-<section id="cobertura">
-  <div class="container">
-    <div class="section-head">
-      <span class="eyebrow">Cobertura</span>
-      <h2>El mismo contrato de préstamo, doce marcos nacionales distintos</h2>
-      <p class="lead">Una operación del BID impone las mismas obligaciones en Lima que en Santo Domingo: los reportes,
-        las adquisiciones, los desembolsos y las salvaguardias salen de las políticas del Banco, no de la ley del país.
-        Esa es nuestra línea regional y funciona igual en los <b>26 países prestatarios</b>.
-        Lo que sí cambia en cada frontera es el marco nacional sobre el que la unidad ejecutora tiene que operar en
-        paralelo. Aquí está mapeado, país por país.</p>
-    </div>
-
-    <div class="cob-stats">
-      <div><b>26</b><span>países prestatarios del BID</span></div>
-      <div><b>US$&nbsp;17.881&nbsp;M</b><span>aprobaciones soberanas del BID en 2025, en 100 operaciones</span></div>
-      <div><b>12</b><span>marcos nacionales mapeados y verificados</span></div>
-    </div>
-
-    <div class="cob-grid" id="coberturaGrid"></div>
-
-    <p class="cob-rev">Marcos verificados contra fuentes oficiales de cada país en <b id="coberturaRev">agosto de 2026</b>.
-      Es una región que legisla rápido: si detectas algo desactualizado, escríbenos y lo corregimos.
-      Esta tabla es orientativa y no sustituye la asesoría legal en la jurisdicción correspondiente.</p>
-  </div>
-</section>
-
 <section id="confianza">
   <div class="container">
     <div class="grid-2" style="align-items:center;gap:40px">
       <div>
         <span class="eyebrow">Nosotros</span>
         <h2>Una firma que une criterio experto y tecnología</h2>
-        <p class="lead">Andes Consultoría Inteligente acerca consultoría de alto nivel a los sectores públicos de América Latina y el Caribe de forma ágil, transparente y verificable. La línea multilateral aplica igual en los 26 países prestatarios del BID, porque sus obligaciones nacen del contrato de préstamo y no de la ley de cada país; la línea nacional se construye sobre el marco de cada Estado. Productizamos servicios que antes tomaban semanas de coordinación, manteniendo la responsabilidad profesional de un equipo multidisciplinario.</p>
+        <p class="lead">Andes Consultoría Inteligente nace para acercar consultoría de alto nivel al sector público peruano de forma ágil, transparente y verificable. Productizamos servicios que antes tomaban semanas de coordinación, manteniendo la responsabilidad profesional de un equipo multidisciplinario.</p>
         <p class="muted">Toda entrega es revisada y validada por especialistas humanos. La IA es una herramienta de aceleración y control de calidad, no un sustituto del juicio profesional ni de la responsabilidad legal.</p>
       </div>
       <div class="kpis">
-        <div class="kpi"><b id="kpiServicios">11</b><span>servicios cotizables en <span data-pais-txt="ambito">Perú</span></span></div>
+        <div class="kpi"><b>5</b><span>servicios productizados</span></div>
         <div class="kpi"><b>100%</b><span>entregas con trazabilidad</span></div>
         <div class="kpi"><b>&lt;72h</b><span>opción de entrega express</span></div>
-        <div class="kpi"><b>12</b><span>países con marco normativo mapeado</span></div>
+        <div class="kpi"><b>3</b><span>disciplinas: derecho, economía, ingeniería</span></div>
       </div>
     </div>
     <div class="team-wrap" style="margin-top:54px">
@@ -490,17 +354,16 @@
         <p class="lead center" style="margin:0 auto">Cada entregable lo elabora y firma un equipo multidisciplinario de especialistas colegiados. La IA acelera el análisis documental y el control de calidad; nunca reemplaza el criterio ni la responsabilidad profesional.</p>
       </div>
       <div class="team-grid">
-        <div class="team-card"><div class="t-ico" aria-hidden="true"><svg class="ic" aria-hidden="true"><use href="#i-scale"/></svg></div><h4>Derecho público y contrataciones</h4><p>Contrataciones públicas —<span data-pais-txt="contratacion">Ley N.° 32069</span>—, opinión legal y análisis regulatorio.</p><span class="cred">● Profesionales colegiados</span></div>
-        <div class="team-card"><div class="t-ico" aria-hidden="true"><svg class="ic" aria-hidden="true"><use href="#i-helmet"/></svg></div><h4>Inversión pública e ingeniería</h4><p data-solo-pe>Invierte.pe, expedientes técnicos, IOARR y documentos equivalentes.</p><p data-salvo-pe hidden>Formulación y ejecución de inversión pública sobre el sistema nacional de cada país.</p><span class="cred">● Profesionales colegiados</span></div>
-        <div class="team-card"><div class="t-ico" aria-hidden="true"><svg class="ic" aria-hidden="true"><use href="#i-chart"/></svg></div><h4>Economía y finanzas públicas</h4><p>Ejecución presupuestal, gestión financiera y organismos multilaterales.</p><span class="cred">● Profesionales colegiados</span></div>
-        <div class="team-card"><div class="t-ico" aria-hidden="true"><svg class="ic" aria-hidden="true"><use href="#i-cpu"/></svg></div><h4>Ciencia de datos e IA</h4><p>Procesamiento documental, automatización y control de calidad asistido.</p><span class="cred">● Validación humana</span></div>
+        <div class="team-card"><div class="t-ico" aria-hidden="true">⚖️</div><h4>Derecho público y contrataciones</h4><p>Contrataciones del Estado, OSCE, opinión legal y análisis regulatorio.</p><span class="cred">● Profesionales colegiados</span></div>
+        <div class="team-card"><div class="t-ico" aria-hidden="true">🏗️</div><h4>Inversión pública e ingeniería</h4><p>Invierte.pe, expedientes técnicos, IOARR y documentos equivalentes.</p><span class="cred">● Colegiatura CIP</span></div>
+        <div class="team-card"><div class="t-ico" aria-hidden="true">📊</div><h4>Economía y finanzas públicas</h4><p>Ejecución presupuestal, gestión financiera y organismos multilaterales.</p><span class="cred">● Profesionales colegiados</span></div>
+        <div class="team-card"><div class="t-ico" aria-hidden="true">🤖</div><h4>Ciencia de datos e IA</h4><p>Procesamiento documental, automatización y control de calidad asistido.</p><span class="cred">● Validación humana</span></div>
       </div>
       <div class="trust-badges">
-        <span class="trust-badge"><svg class="ic" aria-hidden="true"><use href="#i-shield"/></svg> Validación por especialistas colegiados</span>
-        <span class="trust-badge"><svg class="ic" aria-hidden="true"><use href="#i-lock"/></svg> <span data-pais-txt="datos">Confidencialidad</span></span>
-        <span class="trust-badge"><svg class="ic" aria-hidden="true"><use href="#i-route"/></svg> Trazabilidad documentada</span>
-        <span class="trust-badge" data-solo-pe><svg class="ic" aria-hidden="true"><use href="#i-receipt"/></svg> Comprobantes electrónicos (SUNAT)</span>
-        <span class="trust-badge" data-salvo-pe hidden><svg class="ic" aria-hidden="true"><use href="#i-receipt"/></svg> Facturación internacional</span>
+        <span class="trust-badge">🛡️ Validación por especialistas colegiados</span>
+        <span class="trust-badge">🔒 Confidencialidad · Ley N.° 29733</span>
+        <span class="trust-badge">🧭 Trazabilidad documentada</span>
+        <span class="trust-badge">📄 Comprobantes electrónicos (SUNAT)</span>
       </div>
     </div>
 
@@ -512,8 +375,6 @@
   </div>
 </section>
 
-</main>
-
 <!-- FOOTER -->
 <footer class="site-footer">
   <div class="container">
@@ -523,7 +384,7 @@
           <svg width="34" height="34" viewBox="0 0 40 40" aria-hidden="true"><path d="M4 33 L15 10 L22 22 L27 14 L36 33" fill="none" stroke="#34E5C4" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/><circle cx="15" cy="10" r="3" fill="#8B7BFF"/><circle cx="27" cy="14" r="2.6" fill="#F6B73C"/><circle cx="22" cy="22" r="2.2" fill="#34E5C4"/></svg>
           <span>Andes Consultoría<br><small>Inteligente</small></span>
         </div>
-        <p style="max-width:34ch">Asesoría y consultoría al sector público, productizada con inteligencia artificial. Operamos en América Latina y el Caribe desde Lima, Perú.</p>
+        <p style="max-width:34ch">Asesoría y consultoría al sector público, productizada con inteligencia artificial. Lima, Perú.</p>
       </div>
       <div><h4>Servicios</h4>
         <p><a href="#servicios">Expedientes técnicos</a></p>
@@ -531,21 +392,16 @@
         <p><a href="#servicios">Análisis regulatorio</a></p>
         <p><a href="#servicios">Gestión financiera</a></p>
         <p><a href="#servicios">Evaluación de comités</a></p>
-        <p><a href="#servicios">Adquisiciones BID</a></p>
-        <p><a href="#servicios">Monitoreo y reportes BID</a></p>
-        <p><a href="#servicios">Auditoría y EFA</a></p>
-        <p><a href="#servicios">Salvaguardias (MPAS)</a></p>
       </div>
       <div><h4>Plataforma</h4>
         <p><a href="#proceso">Cómo funciona</a></p>
         <p><a href="#seguimiento">Trazabilidad</a></p>
         <p><a href="#proximamente">Próximamente</a></p>
-        <p><a href="#cobertura">Cobertura por país</a></p>
         <p><a href="#confianza">Nosotros</a></p>
       </div>
       <div><h4>Contacto</h4>
         <p><a href="mailto:contacto@andesconsultoria.pe">contacto@andesconsultoria.pe</a></p>
-        <p>Lima, Perú · América Latina y el Caribe</p>
+        <p>Lima, Perú</p>
         <div class="pay-methods" style="margin-top:10px">
           <span class="pm">Visa</span><span class="pm">Mastercard</span><span class="pm">Yape</span><span class="pm">Culqi</span>
         </div>
@@ -553,7 +409,7 @@
     </div>
     <div class="foot-bottom">
       <span>© <span id="yr"></span> Andes Consultoría Inteligente. Todos los derechos reservados.</span>
-      <span><a href="privacidad.html">Política de Privacidad</a> · <a href="terminos.html">Términos y Condiciones</a> · <a href="#cobertura">Cobertura por país</a></span>
+      <span><a href="privacidad.html">Política de Privacidad</a> · <a href="terminos.html">Términos y Condiciones</a> · Pagos por Culqi · Ley N.° 29733</span>
     </div>
   </div>
 </footer>
@@ -589,19 +445,13 @@
               <label for="ordFiles">Archivos a considerar</label>
               <div class="hint">PDF, Word, Excel, imágenes, DWG o ZIP. Hasta 10 archivos · 25 MB en total.</div>
               <label class="dropzone" id="dropzone" for="ordFiles">
-                <span class="dz-ico"><svg class="ic" aria-hidden="true"><use href="#i-clip"/></svg></span>
+                <span class="dz-ico">📎</span>
                 <p><b>Arrastra tus archivos aquí</b> o haz clic para seleccionar</p>
                 <small>Tus insumos: estudios, fichas, bases, reportes, planos…</small>
                 <input type="file" id="ordFiles" multiple>
               </label>
               <ul class="filelist" id="fileList"></ul>
               <p class="file-err" id="fileErr" hidden></p>
-            </div>
-            <div class="field">
-              <label class="check" for="ordConsent" style="align-items:flex-start">
-                <input type="checkbox" id="ordConsent">
-                <span>Autorizo el tratamiento de mis datos personales y de la documentación que adjunto, únicamente para elaborar y entregar este servicio, conforme a la <a href="privacidad.html" target="_blank" rel="noopener">Política de Privacidad</a> y a la Ley N.° 29733. Declaro contar con derecho a compartir dicha documentación.</span>
-              </label>
             </div>
           </div>
         </div>
@@ -611,17 +461,15 @@
             <div id="quoteLines"></div>
             <div class="quote-total">
               <div><small>Total estimado</small><br><b id="quoteTotal">S/ 0</b></div>
-              <small id="quoteIgv" data-solo-pe>IGV incluido</small>
-              <small data-salvo-pe hidden>Referencial en US$</small>
+              <small id="quoteIgv">IGV incluido</small>
             </div>
-            <div class="deliv" id="quoteDeliv"><svg class="ic" aria-hidden="true"><use href="#i-clock"/></svg> Plazo estimado: —</div>
+            <div class="deliv" id="quoteDeliv">⏱️ Plazo estimado: —</div>
             <button class="btn btn-primary btn-block" id="goCheckout" style="margin-top:16px">Continuar al pago</button>
             <p class="muted" style="font-size:.76rem;margin:10px 0 0">Cotización referencial. El alcance final se confirma al validar tus insumos.</p>
-            <p class="muted" style="font-size:.76rem;margin:8px 0 0" data-salvo-pe hidden data-pais-txt="fx"></p>
           </div>
         </aside>
       </div>
-      <div class="dlv-head" style="margin-top:26px"><svg class="ic" aria-hidden="true"><use href="#i-spark"/></svg> Vista previa de tu entregable</div>
+      <div class="dlv-head" style="margin-top:26px">✨ Vista previa de tu entregable</div>
       <div id="svcPreview"></div>
     </div>
   </div>
@@ -638,26 +486,24 @@
       <div class="quote" style="position:static;margin-bottom:18px">
         <h4>Resumen del pedido</h4>
         <div class="quote-line"><span id="coSvcName">—</span><span id="coSvcPrice">—</span></div>
-        <div class="quote-total"><div><small>Total a pagar</small><br><b id="coTotal">S/ 0</b></div><small data-solo-pe>IGV incluido</small><small data-salvo-pe hidden>Referencial en US$</small></div>
-        <p class="muted" style="font-size:.76rem;margin:8px 0 0" data-salvo-pe hidden data-pais-txt="fx"></p>
+        <div class="quote-total"><div><small>Total a pagar</small><br><b id="coTotal">S/ 0</b></div><small>IGV incluido</small></div>
       </div>
       <div class="accel" style="margin-bottom:18px">
-        <h4><svg class="ic" aria-hidden="true"><use href="#i-zap"/></svg> Velocidad de entrega</h4>
+        <h4>⚡ Velocidad de entrega</h4>
         <p class="sub">Acelera tu entrega pagando un adicional, dentro de lo razonable.</p>
         <div class="speed-opts" id="coSpeed"></div>
       </div>
       <div class="field">
         <label>Método de contratación</label>
         <div class="rq-opts" id="coMethod" role="group" aria-label="Método de contratación">
-          <button type="button" class="opt sel" data-method="culqi" data-solo-pe><svg class="ic" aria-hidden="true"><use href="#i-card"/></svg> Pago en línea (Culqi)</button>
-          <button type="button" class="opt" data-method="os"><svg class="ic" aria-hidden="true"><use href="#i-bank"/></svg> <span data-solo-pe>Orden de Servicio (Entidad pública)</span><span data-salvo-pe hidden>Propuesta formal para la entidad</span></button>
+          <button type="button" class="opt sel" data-method="culqi">💳 Pago en línea (Culqi)</button>
+          <button type="button" class="opt" data-method="os">🏛️ Orden de Servicio (Entidad pública)</button>
         </div>
       </div>
       <div id="osFields" hidden>
-        <div class="notice" style="margin-bottom:14px" data-salvo-pe hidden><svg class="ic" aria-hidden="true"><use href="#i-globe"/></svg> <b>Propuesta formal.</b> Generamos los términos de referencia y la propuesta económica para que tu entidad los tramite por su vía de contratación habitual. El cobro con tarjeta solo está disponible en Perú; fuera, el pago se acuerda por transferencia contra la propuesta aceptada.</div>
-        <div class="notice" style="margin-bottom:14px" data-solo-pe><svg class="ic" aria-hidden="true"><use href="#i-bank"/></svg> <b>Contratación directa por Orden de Servicio.</b> Para montos ≤ 8 UIT (S/ 44,000 · UIT 2026 = S/ 5,500) generamos el <b>TDR</b> automáticamente y aceptamos el servicio, sin procedimiento de selección. Estas contrataciones están sujetas a supervisión del <b>OECE</b> y a registro conforme a la Ley N.° 32069.</div>
+        <div class="notice" style="margin-bottom:14px">🏛️ <b>Contratación directa por Orden de Servicio.</b> Para montos ≤ 8 UIT (S/ 44,000 · UIT 2026 = S/ 5,500) generamos el <b>TDR</b> automáticamente y aceptamos el servicio, sin procedimiento de selección.</div>
         <div class="field"><label for="osEntidad">Entidad pública</label><input type="text" id="osEntidad" placeholder="Ej: Municipalidad Distrital de…"></div>
-        <div class="field"><label for="osRuc"><span data-solo-pe>RUC de la entidad</span><span data-salvo-pe hidden>Identificación tributaria de la entidad</span></label><input type="text" id="osRuc" placeholder="RUC / NIT / RUT / CUIT / CNPJ"></div>
+        <div class="field"><label for="osRuc">RUC de la entidad</label><input type="text" id="osRuc" placeholder="20XXXXXXXXX"></div>
         <div class="field"><label for="osArea">Área usuaria</label><input type="text" id="osArea" placeholder="Ej: Gerencia de Infraestructura"></div>
         <div class="field"><label for="osFunc">Funcionario responsable</label><input type="text" id="osFunc" placeholder="Nombre y cargo"></div>
       </div>
@@ -669,7 +515,7 @@
       <div class="field">
         <label for="coEmail">Correo para la entrega</label>
         <div class="hint">Enviaremos el comprobante, el código de seguimiento y el entregable a este correo.</div>
-        <input type="email" id="coEmail" placeholder="tucorreo@entidad.gob" required>
+        <input type="email" id="coEmail" placeholder="tucorreo@entidad.gob.pe" required>
       </div>
       <div class="field">
         <label for="coProfile">Tipo de cliente</label>
@@ -684,7 +530,7 @@
       <div class="pay-methods"><span class="pm">Visa</span><span class="pm">Mastercard</span><span class="pm">Amex</span><span class="pm">Yape</span></div>
     </div>
     <div class="modal-foot">
-      <span class="muted" style="font-size:.82rem"><svg class="ic" aria-hidden="true"><use href="#i-lock"/></svg> Conexión segura · Culqi</span>
+      <span class="muted" style="font-size:.82rem">🔒 Conexión segura · Culqi</span>
       <button class="btn btn-primary btn-lg" id="payBtn">Pagar S/ 0</button>
     </div>
   </div>
@@ -715,7 +561,7 @@
 <script defer src="office3d.js"></script>
 <script defer src="bg.js"></script>
 <script defer src="motion.js"></script>
-<script src="region.js"></script>
 <script src="app.js"></script>
+<script src="tropicalize.js"></script>
 </body>
 </html>
