@@ -661,3 +661,148 @@ a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,te
   .rv.in{opacity:1!important}
   #bgmesh{display:none}
 }
+
+/* ===========================================================
+   TEMA GRUPO BID — rediseño institucional (v3)
+   Paleta oficial extraída del design system del BID:
+   Responsible Blue #004E70 · Link #0573AE · Cyan Near #1E9ADD
+   Green Quality #8DBA38 · Green Guarantee #308144 · Yellow #F4DB4E
+   Motion: Emil Kowalski (transform-only, 150-260ms, ease-out-quint)
+   Layout/jerarquía: limpieza tipo pbakaus (escala, aire, bordes > sombras)
+   =========================================================== */
+:root{
+  /* --- Núcleo BID --- */
+  --bid-blue:#004E70; --bid-blue-d1:#00374E; --bid-blue-d2:#002536;
+  --bid-blue-l1:#38758F; --bid-blue-l2:#9EBCC9; --bid-blue-l3:#CCDCE2;
+  --bid-blue-l4:#E0EAEE; --bid-blue-l5:#F0F4F6;
+  --bid-link:#0573AE; --bid-cyan:#1E9ADD; --bid-cyan-l:#73BAE5;
+  --bid-green:#308144; --bid-lime:#8DBA38; --bid-yellow:#F4DB4E; --bid-gold:#AB9937;
+  /* --- Superficies claras institucionales --- */
+  --bg:#FFFFFF; --bg-2:var(--bid-blue-l5);
+  --surface:#FFFFFF; --surface-2:var(--bid-blue-l5); --surface-3:var(--bid-blue-l4);
+  --line:#D8E2E8; --line-soft:#E8EEF2;
+  --ink:var(--bid-blue-d2); --muted:#4A6473; --muted-2:#6B8494;
+  /* --- Acentos remapeados --- */
+  --cyan:var(--bid-link); --violet:var(--bid-blue); --amber:var(--bid-gold);
+  --blue:var(--bid-link); --ok:var(--bid-green); --warn:var(--bid-gold);
+  --teal:var(--bid-link); --copper:var(--bid-gold); --gold:var(--bid-gold);
+  --navy:var(--bid-blue-d2); --navy-700:var(--bid-blue-d1);
+  --grad:linear-gradient(92deg,var(--bid-blue),var(--bid-link));
+  --grad-warm:linear-gradient(92deg,var(--bid-link),var(--bid-cyan));
+  /* --- Elevación: bordes por encima de sombras (pbakaus) --- */
+  --shadow:0 1px 2px rgba(0,37,54,.06),0 8px 24px -12px rgba(0,37,54,.18);
+  --shadow-lg:0 24px 60px -28px rgba(0,37,54,.28);
+  --glow:0 0 0 1px rgba(5,115,174,.18),0 8px 30px -12px rgba(5,115,174,.22);
+  --radius:14px; --radius-sm:10px;
+  /* --- Motion (Kowalski) --- */
+  --dur-1:150ms; --dur-2:200ms; --dur-3:260ms;
+  --ease-out:cubic-bezier(.22,1,.36,1);
+  --ease-in-out:cubic-bezier(.65,0,.35,1);
+  --font-head:"Inter",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+}
+body{background:var(--bg);color:var(--ink)}
+#bgmesh{opacity:.10}
+.grain{opacity:.16;mix-blend-mode:multiply}
+/* Tipografía: escala más contenida y jerarquía nítida */
+h1,h2,h3,h4{color:var(--ink);letter-spacing:-.021em}
+h1{font-size:clamp(2.1rem,4.6vw,3.6rem);font-weight:700;line-height:1.06}
+h2{font-size:clamp(1.6rem,2.9vw,2.3rem);font-weight:650;line-height:1.14}
+h3{font-size:1.16rem;font-weight:640}
+p,li{color:var(--muted)}
+.lead{color:var(--muted);font-size:clamp(1rem,1.15vw,1.08rem)}
+a{color:var(--bid-link)}
+.eyebrow{color:var(--bid-link);letter-spacing:.10em;font-weight:650}
+/* Header claro, borde fino */
+.site-header{background:rgba(255,255,255,.86);backdrop-filter:saturate(180%) blur(14px);
+  border-bottom:1px solid var(--line)}
+.site-header .brand span,.site-header .brand small{color:var(--ink)}
+.nav-links a{color:var(--muted)}
+.nav-links a:hover{color:var(--bid-blue);text-decoration:none}
+.pais-sel{background:var(--bid-blue-l5);color:var(--bid-blue-d1);border-color:var(--line);
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%23004E70' stroke-width='2'><path d='M2 4l4 4 4-4'/></svg>")}
+/* HERO: bloque institucional profundo (contraste y foco) */
+.hero{background:linear-gradient(180deg,var(--bid-blue-d2),var(--bid-blue));color:#fff}
+.hero h1,.hero .lead,.hero .eyebrow{color:#fff}
+.hero .lead{color:#CFE0E8}
+.hero .eyebrow{color:var(--bid-cyan-l)}
+.hero .chip{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.22);color:#EAF3F7}
+.hero-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16)}
+/* Botones */
+.btn{transition:transform var(--dur-1) var(--ease-out),background var(--dur-2) var(--ease-out),
+  border-color var(--dur-2) var(--ease-out),box-shadow var(--dur-2) var(--ease-out)}
+.btn:active{transform:translateY(1px) scale(.985)}
+.btn-primary{background:var(--bid-blue);color:#fff;border:1px solid var(--bid-blue)}
+.btn-primary:hover{background:var(--bid-blue-d1);border-color:var(--bid-blue-d1);box-shadow:var(--glow)}
+.btn-dark{background:var(--bid-link);border-color:var(--bid-link);color:#fff}
+.btn-ghost{color:var(--bid-blue);border:1px solid var(--line)}
+.btn-ghost:hover{border-color:var(--bid-blue-l1);background:var(--bid-blue-l5)}
+.hero .btn-ghost{color:#fff!important;border-color:rgba(255,255,255,.36)!important}
+.hero .btn-ghost:hover{background:rgba(255,255,255,.10)}
+/* Tarjetas: superficie blanca, borde fino, elevación al hover */
+.card,.svc,.step,.future,.b-card,.team-card,.ai-card,.track-demo,.control-demo-wrap,.kpi{
+  background:var(--surface);border:1px solid var(--line);box-shadow:none;
+  transition:transform var(--dur-2) var(--ease-out),box-shadow var(--dur-2) var(--ease-out),border-color var(--dur-2) var(--ease-out)}
+.svc:hover,.card:hover,.b-card:hover,.team-card:hover{transform:translateY(-2px);
+  border-color:var(--bid-blue-l2);box-shadow:var(--shadow)}
+.svc h3,.card h3,.step h3,.team-card h3{color:var(--ink)}
+.svc .tag,.tag,.badge,.pill{background:var(--bid-blue-l5);color:var(--bid-blue);border:1px solid var(--bid-blue-l3)}
+.svc li,.card p,.step p{color:var(--muted)}
+/* Secciones alternas para ritmo visual */
+#valor,#proceso,#confianza{background:var(--bid-blue-l5)}
+#servicios,#asistente,#seguimiento,#proximamente{background:var(--bg)}
+.section-head h2{color:var(--ink)}
+/* Datos / bento con acento BID */
+#datos{background:linear-gradient(180deg,var(--bid-blue-d2),var(--bid-blue-d1));color:#fff}
+#datos h2,#datos .section-head h2{color:#fff}
+#datos .lead,#datos .b-label{color:#BFD6E0}
+#datos .b-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16)}
+#datos .b-metric{color:var(--bid-cyan-l)}
+#datos .b-metric.a{color:var(--bid-yellow)}
+/* Panel de contexto normativo por país */
+.pc-grid{background:var(--line);border-color:var(--line)}
+.pc-row{background:var(--surface)}
+.pc-k{color:var(--bid-link)}
+.pc-v{color:var(--ink)}
+.pc-head strong{color:var(--ink)}
+.pc-badge.ok{background:rgba(48,129,68,.10);color:var(--bid-green);border-color:rgba(48,129,68,.34)}
+.pc-badge.warn{background:rgba(171,153,55,.12);color:var(--bid-gold);border-color:rgba(171,153,55,.36)}
+/* Control / oficina 3D: panel oscuro intencional (foco) */
+#control{background:var(--bid-blue-d2);color:#fff}
+#control h2,#control .section-head h2{color:#fff}
+#control .lead,#control .control-points li span{color:#BFD6E0}
+#control .control-points li b{color:#fff}
+.office3d{background:radial-gradient(120% 100% at 50% 12%,#0B3A52,#00374E 60%,#002536)!important}
+/* Buscador e inputs */
+.svc-search,input[type="text"],input[type="search"],input[type="email"],textarea,select{
+  background:var(--surface);border:1px solid var(--line);color:var(--ink);
+  transition:border-color var(--dur-1) var(--ease-out),box-shadow var(--dur-1) var(--ease-out)}
+input:focus,textarea:focus,select:focus,.svc-search:focus-within{
+  border-color:var(--bid-link);box-shadow:0 0 0 3px rgba(5,115,174,.16);outline:none}
+.kw{background:var(--bid-blue-l5);border:1px solid var(--bid-blue-l3);color:var(--bid-blue)}
+.kw:hover{background:var(--bid-blue-l4);border-color:var(--bid-blue-l1)}
+/* Modales */
+.modal .modal-card,.modal-card{background:var(--surface);border:1px solid var(--line);color:var(--ink)}
+.modal-head h3{color:var(--ink)}
+.modal-foot{border-top:1px solid var(--line);background:var(--bid-blue-l5)}
+/* Pie institucional */
+footer{background:var(--bid-blue-d2);color:#CFE0E8;border-top:1px solid var(--bid-blue-d1)}
+footer a{color:#BFD6E0}
+footer a:hover{color:#fff}
+footer h4,footer strong{color:#fff}
+/* Marquee sobrio */
+.marquee{background:var(--bid-blue);color:#fff;border-block:1px solid var(--bid-blue-d1)}
+.marquee .m-item,.marquee span{color:#DCEAF0}
+/* CTA final */
+.cta-band{background:linear-gradient(92deg,var(--bid-blue),var(--bid-link));color:#fff;border:none}
+.cta-band h2,.cta-band p{color:#fff}
+.cta-band .btn-primary{background:#fff;color:var(--bid-blue);border-color:#fff}
+.cta-band .btn-primary:hover{background:var(--bid-blue-l5)}
+/* Reveals con la curva de motion nueva */
+.rv{transition:opacity var(--dur-3) var(--ease-out),transform var(--dur-3) var(--ease-out);
+  transform:translateY(14px)}
+/* Foco visible accesible en toda la interfaz */
+:focus-visible{outline:2px solid var(--bid-link);outline-offset:2px;border-radius:6px}
+@media (prefers-reduced-motion: reduce){
+  .card,.svc,.b-card,.team-card,.btn{transition:none!important}
+  .svc:hover,.card:hover,.b-card:hover,.team-card:hover{transform:none}
+}

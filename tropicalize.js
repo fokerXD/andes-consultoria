@@ -246,10 +246,12 @@
     const c = C[iso]; if (!c) return;
     try { localStorage.setItem("andes_pais", iso); } catch (_) {}
     window.__pais = iso; window.__lang = c.lang;
+    try { document.documentElement.setAttribute("data-pais", iso); } catch (_) {}
     applyLang(c.lang);
     const cp = document.getElementById("ctxPais");
     if (cp) cp.textContent = c.n;
     renderCtx(iso);
+    translateAll(iso, c.lang);
   }
 
   function buildSelector() {
@@ -265,6 +267,157 @@
     sel.addEventListener("change", () => applyCountry(sel.value));
   }
 
+  /* ============================================================
+     Capa v2: traducción del contenido renderizado (catálogo,
+     secciones, cotizador, pie) + ocultamiento de bloques
+     comerciales peruanos cuando el país != PE.
+     D[origen_es] = { es2?, pt, en, fr }  (es2 = español genérico
+     para países hispanos que no son Perú; si falta, se deja igual)
+     ============================================================ */
+  const D = {
+    // ---- Catálogo: nombres de servicio ----
+    "Expediente Técnico / Documento Equivalente": { pt:"Projeto técnico / documento de execução", en:"Technical file / execution document", fr:"Dossier technique / document d'exécution" },
+    "Formulación de Políticas Públicas": { pt:"Formulação de políticas públicas", en:"Public policy design", fr:"Formulation de politiques publiques" },
+    "Análisis Regulatorio": { pt:"Análise regulatória", en:"Regulatory analysis", fr:"Analyse réglementaire" },
+    "Servicios de Gestión Financiera": { pt:"Serviços de gestão financeira", en:"Financial management services", fr:"Services de gestion financière" },
+    "Evaluación a Comités de Selección": { pt:"Apoio a comissões de licitação", en:"Bid-committee support", fr:"Appui aux commissions d'appel d'offres" },
+    "Monitoreo y reportes de operación BID": { pt:"Monitoramento e relatórios de operação BID", en:"IDB operation monitoring & reporting", fr:"Suivi et rapports d'opération BID" },
+    "Adquisiciones bajo políticas BID": { pt:"Aquisições sob políticas BID", en:"Procurement under IDB policies", fr:"Passation de marchés selon les politiques BID" },
+    "Gestión financiera y desembolsos BID": { pt:"Gestão financeira e desembolsos BID", en:"IDB financial management & disbursements", fr:"Gestion financière et décaissements BID" },
+    "Auditoría externa y Estados Financieros Auditados": { pt:"Auditoria externa e demonstrações financeiras auditadas", en:"External audit & Audited Financial Statements", fr:"Audit externe et états financiers audités" },
+    "Salvaguardias ambientales y sociales (MPAS)": { pt:"Salvaguardas ambientais e sociais (MPAS)", en:"Environmental & social safeguards (ESPF)", fr:"Sauvegardes environnementales et sociales" },
+    "Puesta en marcha y fortalecimiento de la unidad ejecutora": { pt:"Implantação e fortalecimento da unidade executora", en:"Executing-unit setup & strengthening", fr:"Mise en place et renforcement de l'unité d'exécution" },
+    "Defensa en controversias y arbitrajes con el Estado": { pt:"Defesa em controvérsias e arbitragens com o Estado", en:"Disputes & arbitration defense with the State", fr:"Défense en litiges et arbitrages avec l'État" },
+    "Due diligence legal-regulatorio para APP y Obras por Impuestos": { pt:"Due diligence jurídico-regulatório para PPP e obras por impostos", en:"Legal-regulatory due diligence for PPP & works-for-taxes", fr:"Due diligence juridique-réglementaire pour PPP" },
+    "Asistencia en procedimientos ante el OECE y la Contraloría": { es2:"Asistencia en procedimientos ante el órgano de contrataciones y el control", pt:"Assistência em procedimentos perante o órgão de contratações e o controle", en:"Support in proceedings before the procurement authority & audit office", fr:"Assistance dans les procédures devant l'autorité des marchés et le contrôle" },
+    "Sistema de alertas normativas (El Peruano) con IA": { es2:"Sistema de alertas normativas con IA", pt:"Sistema de alertas normativos com IA", en:"AI regulatory-alerts system", fr:"Système d'alertes réglementaires par IA" },
+    "Tableros de inteligencia de inversión pública": { pt:"Painéis de inteligência de investimento público", en:"Public-investment intelligence dashboards", fr:"Tableaux de bord d'investissement public" },
+    "Capacitación y certificación en contrataciones del Estado": { pt:"Capacitação e certificação em contratações públicas", en:"Public-procurement training & certification", fr:"Formation et certification en marchés publics" },
+    // ---- Catálogo: rubros (tags) ----
+    "Inversión pública": { pt:"Investimento público", en:"Public investment", fr:"Investissement public" },
+    "Gobernanza": { pt:"Governança", en:"Governance", fr:"Gouvernance" },
+    "Legal & regulatorio": { pt:"Jurídico & regulatório", en:"Legal & regulatory", fr:"Juridique & réglementaire" },
+    "Gestión financiera": { pt:"Gestão financeira", en:"Financial management", fr:"Gestion financière" },
+    "Contrataciones": { pt:"Contratações", en:"Procurement", fr:"Marchés publics" },
+    "BID · Monitoreo": { en:"IDB · Monitoring", pt:"BID · Monitoramento", fr:"BID · Suivi" },
+    "BID · Adquisiciones": { en:"IDB · Procurement", pt:"BID · Aquisições", fr:"BID · Marchés" },
+    "BID · Financiero": { en:"IDB · Financial", pt:"BID · Financeiro", fr:"BID · Financier" },
+    "BID · Auditoría": { en:"IDB · Audit", pt:"BID · Auditoria", fr:"BID · Audit" },
+    "BID · Salvaguardias": { en:"IDB · Safeguards", pt:"BID · Salvaguardas", fr:"BID · Sauvegardes" },
+    "BID · Unidad ejecutora": { en:"IDB · Executing unit", pt:"BID · Unidade executora", fr:"BID · Unité d'exécution" },
+    "Derecho administrativo": { en:"Administrative law", pt:"Direito administrativo", fr:"Droit administratif" },
+    "Inversión privada": { en:"Private investment", pt:"Investimento privado", fr:"Investissement privé" },
+    "Control & sanción": { en:"Oversight & sanctions", pt:"Controle & sanção", fr:"Contrôle & sanctions" },
+    "Monitoreo con IA": { en:"AI monitoring", pt:"Monitoramento com IA", fr:"Suivi par IA" },
+    "Inteligencia de datos": { en:"Data intelligence", pt:"Inteligência de dados", fr:"Intelligence des données" },
+    "Capacitación": { en:"Training", pt:"Capacitação", fr:"Formation" },
+    // ---- Secciones ----
+    "Por qué Andes": { pt:"Por que Andes", en:"Why Andes", fr:"Pourquoi Andes" },
+    "Expertise diverso, ejecución acelerada con IA": { pt:"Expertise diverso, execução acelerada com IA", en:"Diverse expertise, execution accelerated by AI", fr:"Expertise variée, exécution accélérée par l'IA" },
+    "Rigor normativo": { pt:"Rigor normativo", en:"Regulatory rigor", fr:"Rigueur réglementaire" },
+    "Cada entregable se elabora conforme a la normativa vigente: Invierte.pe, Ley de Contrataciones del Estado, directivas del MEF y lineamientos de organismos multilaterales.": { es2:"Cada entregable se elabora conforme al sistema nacional de inversión pública, la ley de contrataciones vigente y los lineamientos de organismos multilaterales.", pt:"Cada entrega é elaborada conforme o sistema nacional de investimento público, a lei de licitações vigente e as diretrizes de organismos multilaterais.", en:"Every deliverable follows your country's public-investment system, procurement law and multilateral guidelines.", fr:"Chaque livrable respecte le système national d'investissement public, la loi sur les marchés et les lignes directrices multilatérales." },
+    "Velocidad con control": { pt:"Velocidade com controle", en:"Speed with control", fr:"Rapidité maîtrisée" },
+    "Trazabilidad total": { pt:"Rastreabilidade total", en:"Full traceability", fr:"Traçabilité totale" },
+    "Control total": { pt:"Controle total", en:"Full control", fr:"Contrôle total" },
+    "Sabrás siempre en qué va tu servicio": { pt:"Você sempre saberá o andamento do seu serviço", en:"You always know how your service is progressing", fr:"Vous savez toujours où en est votre service" },
+    "Cómo funciona": { pt:"Como funciona", en:"How it works", fr:"Comment ça marche" },
+    "De los insumos al entregable, en cuatro pasos": { pt:"Dos insumos ao entregável, em quatro passos", en:"From inputs to deliverable, in four steps", fr:"Des intrants au livrable, en quatre étapes" },
+    "Cotiza": { pt:"Cote", en:"Get a quote", fr:"Devis" },
+    "Paga seguro": { pt:"Pague com segurança", en:"Pay securely", fr:"Payez en sécurité" },
+    "Elaboramos": { pt:"Elaboramos", en:"We build it", fr:"Nous réalisons" },
+    "Recibe": { pt:"Receba", en:"Receive", fr:"Recevez" },
+    "Sigue tu servicio en tiempo real": { pt:"Acompanhe seu serviço em tempo real", en:"Track your service in real time", fr:"Suivez votre service en temps réel" },
+    "Próximamente": { pt:"Em breve", en:"Coming soon", fr:"Bientôt" },
+    "Servicios clave que estamos incorporando": { pt:"Serviços-chave que estamos incorporando", en:"Key services we're adding", fr:"Services clés en cours d'ajout" },
+    "Nosotros": { pt:"Sobre nós", en:"About us", fr:"À propos" },
+    "Una firma que une criterio experto y tecnología": { pt:"Uma firma que une critério especializado e tecnologia", en:"A firm that blends expert judgment and technology", fr:"Un cabinet qui allie expertise et technologie" },
+    "Equipo y respaldo": { pt:"Equipe e respaldo", en:"Team & backing", fr:"Équipe et garanties" },
+    "Profesionales colegiados, acelerados con IA": { pt:"Profissionais habilitados, acelerados com IA", en:"Licensed professionals, accelerated by AI", fr:"Professionnels agréés, accélérés par l'IA" },
+    "¿Listo para empezar?": { pt:"Pronto para começar?", en:"Ready to start?", fr:"Prêt à commencer ?" },
+    "Plataforma": { pt:"Plataforma", en:"Platform", fr:"Plateforme" },
+    "Contacto": { pt:"Contato", en:"Contact", fr:"Contact" },
+    // ---- Cotizador / botones ----
+    "Describe lo que necesitas y te armamos el servicio al instante": { pt:"Descreva o que precisa e montamos o serviço na hora", en:"Describe what you need and we build the service instantly", fr:"Décrivez votre besoin et nous créons le service instantanément" },
+    "Describe tu necesidad": { pt:"Descreva sua necessidade", en:"Describe your need", fr:"Décrivez votre besoin" },
+    "Elige tu servicio, define los insumos y obtén una cotización inmediata": { pt:"Escolha seu serviço, defina os insumos e obtenha uma cotação imediata", en:"Pick your service, define the inputs and get an instant quote", fr:"Choisissez votre service, définissez les intrants et obtenez un devis immédiat" },
+    "Sugerencias:": { pt:"Sugestões:", en:"Suggestions:", fr:"Suggestions :" },
+    "Consultar": { pt:"Consultar", en:"Check", fr:"Consulter" },
+    "Código de seguimiento": { pt:"Código de acompanhamento", en:"Tracking code", fr:"Code de suivi" },
+    "Cotizar un servicio": { pt:"Cotar um serviço", en:"Quote a service", fr:"Demander un devis" },
+    "Continuar al pago": { pt:"Continuar para o pagamento", en:"Continue to payment", fr:"Passer au paiement" },
+    "Notificarme": { pt:"Avise-me", en:"Notify me", fr:"Me prévenir" },
+    "Tu correo": { pt:"Seu e-mail", en:"Your email", fr:"Votre e-mail" },
+    "Avísame cuando esté disponible": { pt:"Avise-me quando estiver disponível", en:"Notify me when available", fr:"Prévenez-moi dès que disponible" },
+    // ---- Catálogo: descripciones ----
+    "Elaboración integral conforme a Invierte.pe y directivas del MEF, para cualquier sector.": { es2:"Elaboración integral conforme al sistema nacional de inversión pública, para cualquier sector.", pt:"Elaboração integral conforme o sistema nacional de investimento público, para qualquer setor.", en:"End-to-end preparation under your country's public-investment system, for any sector.", fr:"Élaboration intégrale selon le système national d'investissement public, pour tout secteur." },
+    "Diseño de políticas, lineamientos y planes basados en evidencia, con matriz de seguimiento.": { pt:"Desenho de políticas, diretrizes e planos baseados em evidência, com matriz de acompanhamento.", en:"Evidence-based design of policies, guidelines and plans, with a monitoring matrix.", fr:"Conception de politiques, lignes directrices et plans fondés sur des données, avec matrice de suivi." },
+    "Análisis de impacto regulatorio (AIR), opinión legal y benchmarking normativo.": { pt:"Análise de impacto regulatório (AIR), parecer jurídico e benchmarking normativo.", en:"Regulatory impact assessment (RIA), legal opinion and regulatory benchmarking.", fr:"Analyse d'impact réglementaire (AIR), avis juridique et benchmarking réglementaire." },
+    "Análisis de ejecución presupuestal, avances financieros y tableros, marco nacional o multilateral.": { pt:"Análise de execução orçamentária, avanços financeiros e painéis, marco nacional ou multilateral.", en:"Budget-execution analysis, financial progress and dashboards, national or multilateral framework.", fr:"Analyse de l'exécution budgétaire, avancement financier et tableaux de bord, cadre national ou multilatéral." },
+    "Apoyo experto al comité: análisis de admisión, evaluación técnica y evaluaciones combinadas.": { pt:"Apoio especializado à comissão: análise de admissão, avaliação técnica e avaliações combinadas.", en:"Expert support to the committee: admissibility review, technical and combined evaluations.", fr:"Appui expert à la commission : analyse de recevabilité, évaluation technique et combinée." },
+    "PEP, POA, Informe Semestral de Progreso y Matriz de Resultados, en el formato y la oportunidad que exige el Banco.": { pt:"PEP, POA, Relatório Semestral de Progresso e Matriz de Resultados, no formato e prazo exigidos pelo Banco.", en:"PEP, AOP, Semiannual Progress Report and Results Matrix, in the Bank's required format and timing.", fr:"PEP, POA, rapport semestriel d'avancement et matrice de résultats, au format et délai exigés par la Banque." },
+    "Plan de Adquisiciones, documentos de licitación, informes de evaluación y el expediente que sustenta la no objeción.": { pt:"Plano de Aquisições, documentos de licitação, relatórios de avaliação e o processo que sustenta a não objeção.", en:"Procurement Plan, bidding documents, evaluation reports and the file supporting the no-objection.", fr:"Plan de passation, dossiers d'appel d'offres, rapports d'évaluation et le dossier justifiant la non-objection." },
+    "Plan financiero, solicitudes de desembolso, rendición del 80% y control de elegibilidad del gasto.": { pt:"Plano financeiro, solicitações de desembolso, prestação de contas de 80% e controle de elegibilidade da despesa.", en:"Financial plan, disbursement requests, 80% justification and expenditure-eligibility control.", fr:"Plan financier, demandes de décaissement, justification de 80 % et contrôle d'éligibilité des dépenses." },
+    "TDR de auditoría, preparación del EFA y respuesta a observaciones y revisiones ex post.": { es2:"Términos de referencia de auditoría, preparación del EFA y respuesta a observaciones y revisiones ex post.", pt:"Termos de referência de auditoria, preparação das DFA e resposta a observações e revisões ex post.", en:"Audit ToR, AFS preparation and response to findings and ex-post reviews.", fr:"TdR d'audit, préparation des EFA et réponse aux observations et revues ex post." },
+    "Sistema de Gestión Ambiental y Social, PGAS, especificaciones en pliegos e informe semestral de cumplimiento.": { pt:"Sistema de Gestão Ambiental e Social, PGAS, especificações nos editais e relatório semestral de conformidade.", en:"Environmental & Social Management System, ESMP, bidding specifications and semiannual compliance report.", fr:"Système de gestion environnementale et sociale, PGES, spécifications dans les dossiers et rapport semestriel de conformité." },
+    // ---- Catálogo: insumos (bullets) ----
+    "Ficha/estudio de preinversión": { pt:"Ficha/estudo de pré-investimento", en:"Pre-investment profile/study", fr:"Fiche/étude de préinvestissement" },
+    "CUI y estudios básicos": { es2:"Código de inversión y estudios básicos", pt:"Código de investimento e estudos básicos", en:"Investment code and basic studies", fr:"Code d'investissement et études de base" },
+    "Normativa sectorial": { pt:"Normativa setorial", en:"Sector regulations", fr:"Réglementation sectorielle" },
+    "Diagnóstico / línea base": { pt:"Diagnóstico / linha de base", en:"Diagnosis / baseline", fr:"Diagnostic / situation de référence" },
+    "Marco normativo y competencias": { pt:"Marco normativo e competências", en:"Legal framework and mandate", fr:"Cadre réglementaire et compétences" },
+    "Evidencia disponible": { pt:"Evidência disponível", en:"Available evidence", fr:"Preuves disponibles" },
+    "Norma o proyecto a analizar": { pt:"Norma ou projeto a analisar", en:"Rule or draft to analyze", fr:"Norme ou projet à analyser" },
+    "Exposición de motivos": { pt:"Exposição de motivos", en:"Explanatory statement", fr:"Exposé des motifs" },
+    "Normativa conexa": { pt:"Normativa correlata", en:"Related regulations", fr:"Réglementation connexe" },
+    "Reportes de ejecución del sistema financiero": { pt:"Relatórios de execução do sistema financeiro", en:"Financial-system execution reports", fr:"Rapports d'exécution du système financier" },
+    "Presupuesto vigente y metas": { pt:"Orçamento vigente e metas", en:"Current budget and targets", fr:"Budget en vigueur et objectifs" },
+    "Periodo y unidad ejecutora a analizar": { pt:"Período e unidade executora a analisar", en:"Period and executing unit to analyze", fr:"Période et unité d'exécution à analyser" },
+    "Bases integradas": { pt:"Edital integrado", en:"Consolidated bidding documents", fr:"Dossier d'appel d'offres consolidé" },
+    "Propuestas recibidas": { pt:"Propostas recebidas", en:"Bids received", fr:"Offres reçues" },
+    "Cronograma del proceso": { pt:"Cronograma do processo", en:"Process schedule", fr:"Calendrier du processus" }
+  };
+  const ORIG = new WeakMap();
+  // Marcadores comerciales peruanos: se ocultan cuando el país != PE
+  const COMM_RX = /(Culqi|Yape|S\/\s*\d|≤\s*8\s*UIT|UIT\b|Orden de Servicio|\bTDR\b|SUNAT|29733|Lima,\s*Perú|@andesconsultoria\.pe)/;
+  const HIDE_SEL = ".chip,#datos .b-card,#datos .bento > *,.kpi,.step,li,.pill,.pay,.pay-item,.co-method,.checkout-method,small,.hint,.badge,.foot-pay,.footer-pay,.foot-legal,.copy";
+  function injectCSS(){ if(document.getElementById("tropCss"))return; const s=document.createElement("style"); s.id="tropCss"; s.textContent=".peru-hidden{display:none!important}"; document.head.appendChild(s); }
+  function pick(entry, iso, lang){ if(!entry) return null; if(lang==="es"){ return iso==="PE" ? null : (entry.es2||null); } return entry[lang]||null; }
+  function walkTranslate(iso, lang){
+    const root=document.body; if(!root) return;
+    const w=document.createTreeWalker(root, NodeFilter.SHOW_TEXT, { acceptNode(n){
+      const p=n.parentNode; if(!p) return NodeFilter.FILTER_REJECT;
+      const tag=p.nodeName; if(tag==="SCRIPT"||tag==="STYLE"||tag==="NOSCRIPT"||tag==="OPTION"||tag==="SELECT") return NodeFilter.FILTER_REJECT;
+      if(p.closest && (p.closest("#paisSel")||p.closest("#paisCtx")||p.closest("[data-i18n]"))) return NodeFilter.FILTER_REJECT;
+      return (n.nodeValue && n.nodeValue.trim()) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+    }});
+    let n; while(n=w.nextNode()){
+      let orig=ORIG.get(n); if(orig===undefined){ orig=n.nodeValue; ORIG.set(n, orig); }
+      const key=orig.trim(); const rep=pick(D[key], iso, lang);
+      const target = rep!=null ? orig.replace(key, rep) : orig;
+      if(n.nodeValue!==target) n.nodeValue=target;
+    }
+  }
+  function applyHide(iso){
+    let els; try{ els=document.querySelectorAll(HIDE_SEL); }catch(_){ return; }
+    els.forEach(el=>{
+      if(el.querySelector && el.querySelector(HIDE_SEL)) { /* contenedor grande: no ocultar */ }
+      if(iso!=="PE" && COMM_RX.test(el.textContent||"") && (el.textContent||"").length<220 && !(el.querySelector&&el.querySelector(".svc,.section-head,.container"))){
+        el.classList.add("peru-hidden");
+      } else {
+        el.classList.remove("peru-hidden");
+      }
+    });
+  }
+  let _t; function translateAll(iso, lang){
+    try{ injectCSS(); walkTranslate(iso, lang); applyHide(iso); }catch(_){}
+  }
+  function startObserver(){
+    try{
+      const mo=new MutationObserver(()=>{ clearTimeout(_t); _t=setTimeout(()=>{ const iso=window.__pais||"PE"; const c=C[iso]; translateAll(iso, c?c.lang:"es"); }, 120); });
+      mo.observe(document.body, { childList:true, subtree:true, characterData:true });
+    }catch(_){}
+  }
+
   function init() {
     buildSelector();
     let iso = "PE";
@@ -272,6 +425,7 @@
     const sel = document.getElementById("paisSel");
     if (sel) sel.value = iso;
     applyCountry(iso);
+    startObserver();
   }
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
