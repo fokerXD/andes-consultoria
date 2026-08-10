@@ -651,7 +651,9 @@
      Sin llave válida el sitio funciona en MODO DEMO (pago simulado). */
   window.ACI_CONFIG = window.ACI_CONFIG || { culqiPublicKey: "" };
 </script>
-<script defer src="https://checkout.culqi.com/js/v4"></script>
+<!-- Culqi ya no se carga aquí: son 874 KB sin comprimir que no hacen falta
+     para ver la portada. editorial.js lo inyecta en la primera interacción
+     (o en el primer hueco libre), mucho antes del botón de pago. -->
 <!-- Orden deliberado: editorial.js publica window.REGION en su nivel superior
      y debe ejecutarse antes que app.js, que lo consulta en su DOMContentLoaded. -->
 <script defer src="paises.js"></script>

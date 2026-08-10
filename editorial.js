@@ -84,6 +84,45 @@
   }
 
   /* ==========================================================
+     0b. Carga diferida de Culqi
+     --------------------------------------------------------
+     El script de checkout pesa 874 KB y el servidor de Culqi lo
+     entrega SIN comprimir, así que ni defer lo arregla: se sigue
+     descargando y ejecutando en la carga inicial y era, con
+     diferencia, el mayor coste de la portada.
+
+     Solo hace falta cuando alguien va a pagar, y llegar ahí exige
+     abrir un servicio, completar el formulario y pulsar "Continuar
+     al pago". Se carga en la primera interacción del usuario y, si
+     no la hay, en el primer hueco libre: mucho antes de que nadie
+     pueda alcanzar el botón de pago.
+
+     app.js comprueba typeof window.Culqi antes de usarlo; si no
+     estuviera, caería a modo demo. De ahí el margen amplio.
+     ========================================================== */
+  function initCulqi() {
+    var SRC = "https://checkout.culqi.com/js/v4";
+    var pedido = false;
+    var eventos = ["pointerdown", "keydown", "touchstart", "wheel", "scroll"];
+
+    function cargar() {
+      if (pedido) return;
+      pedido = true;
+      eventos.forEach(function (e) { window.removeEventListener(e, cargar, true); });
+      var s = document.createElement("script");
+      s.src = SRC;
+      s.async = true;
+      document.head.appendChild(s);
+    }
+
+    eventos.forEach(function (e) {
+      window.addEventListener(e, cargar, { capture: true, passive: true });
+    });
+    if (window.requestIdleCallback) window.requestIdleCallback(cargar, { timeout: 4000 });
+    else setTimeout(cargar, 2500);
+  }
+
+  /* ==========================================================
      1. Reloj en vivo de la píldora
      ========================================================== */
   function initClock() {
@@ -433,6 +472,7 @@
      Arranque
      ========================================================== */
   function init() {
+    initCulqi();
     initClock();
     initPill();
     initOverlay();
