@@ -184,7 +184,13 @@
       var lbl = $("#awareLabel");
       if (lbl) lbl.textContent = on ? "Modo consciente activo" : "Modo consciente";
       if (persist) store.set("andes_aware", on ? "1" : "0");
-      if (window.AndesScene && window.AndesScene.refresh) window.AndesScene.refresh();
+      /* Solo se avisa a la escena si hay algo que cambiar: al pulsar el botón,
+         o al restaurar el modo ya activado. Llamarlo en cada carga forzaba el
+         arranque del canvas en DOMContentLoaded —antes de que hubiera layout—
+         y anulaba su diferido hasta después del primer pintado. */
+      if ((persist || on) && window.AndesScene && window.AndesScene.refresh) {
+        window.AndesScene.refresh();
+      }
     }
     apply(on, false);
     btn.addEventListener("click", function () { apply(!on, true); });

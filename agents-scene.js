@@ -67,10 +67,20 @@
     };
   }
 
+  var resizePendiente = false;
   function resize() {
     if (!canvas || !host) return;
     var r = host.getBoundingClientRect();
-    if (!r.width || !r.height) return;
+    if (!r.width || !r.height) {
+      /* El contenedor todavía no tiene medidas (layout incompleto). Antes se
+         abandonaba en silencio y el canvas se quedaba en los 300x150 por
+         defecto para siempre; ahora se reintenta. */
+      if (!resizePendiente) {
+        resizePendiente = true;
+        setTimeout(function () { resizePendiente = false; resize(); }, 120);
+      }
+      return;
+    }
     dpr = Math.min(window.devicePixelRatio || 1, 2);
     W = r.width; H = r.height;
     canvas.width = Math.round(W * dpr);
@@ -279,12 +289,10 @@
     elPhaseNum = document.getElementById("phaseNum");
 
     buildAgents();
-    resize();
+    /* onScroll es barato (no toca el canvas): deja el panel de fases
+       correcto desde el primer momento sin coste de render. */
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
-
-    if (window.ResizeObserver) new ResizeObserver(resize).observe(host);
-    else window.addEventListener("resize", resize);
 
     /* Solo pinta cuando la escena está en pantalla */
     if (window.IntersectionObserver) {
@@ -295,12 +303,36 @@
 
     /* Respeta la preferencia del sistema desde el arranque y en caliente */
     var mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    var wired = false;
     function apply() {
       if (mq.matches || document.body.classList.contains("aware-on")) { stop(); resetStatic(); }
-      else { resize(); start(); }
+      else {
+        /* El observador de tamaño dispara resize() al registrarse, que
+           reserva el búfer del canvas. Se registra aquí, ya fuera del
+           camino de render inicial. */
+        if (!wired) {
+          wired = true;
+          if (window.ResizeObserver) new ResizeObserver(resize).observe(host);
+          else window.addEventListener("resize", resize);
+        }
+        resize();
+        start();
+      }
     }
     mq.addEventListener ? mq.addEventListener("change", apply) : mq.addListener(apply);
-    apply();
+
+    /* Arranque diferido: dimensionar el canvas y lanzar el bucle compite con
+       el primer pintado. Se espera a 'load' y luego a que el hilo principal
+       quede libre; con timeout por si nunca hay hueco de inactividad. */
+    function afterPaint(fn) {
+      var go = function () {
+        if (window.requestIdleCallback) window.requestIdleCallback(fn, { timeout: 1500 });
+        else setTimeout(fn, 200);
+      };
+      if (document.readyState === "complete") go();
+      else window.addEventListener("load", go, { once: true });
+    }
+    afterPaint(apply);
 
     window.AndesScene = {
       start: start, stop: stop, refresh: apply,

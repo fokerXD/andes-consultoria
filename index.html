@@ -25,9 +25,10 @@
      andes-consultoria-web.vercel.app. No cambiarlo antes de que el dominio
      resuelva, o Google desindexa el sitio. -->
 <link rel="canonical" href="https://andes-consultoria-web.vercel.app/">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<!-- Fuentes self-hosted (@font-face en editorial.css). Se precargan las dos
+     que pinta el hero: Archivo 900 del titular e Inter 400 del subtítulo. -->
+<link rel="preload" href="fonts/archivo-900-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/inter-400-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="editorial.css">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><path d='M4 26 L13 9 L18 17 L22 12 L28 26 Z' fill='none' stroke='%230D9488' stroke-width='2.4' stroke-linejoin='round'/><circle cx='13' cy='9' r='2.4' fill='%23121212'/></svg>">
 </head>
@@ -122,7 +123,7 @@
 <section class="hero" id="inicio">
   <div class="fog" aria-hidden="true"><span></span><span></span><span></span></div>
   <div class="wrap hero-grid">
-    <div class="hero-head reveal" style="--d:80">
+    <div class="hero-head reveal-soft">
       <span class="hero-eyebrow">
         <b data-i18n="hero_eyebrow">Consultoría pública potenciada con IA</b> · <span id="ctxPais">Perú</span>
       </span>
@@ -132,12 +133,12 @@
         <em data-i18n="ed_h1c">trazar</em>
       </h1>
     </div>
-    <p class="hero-lead reveal" style="--d:260" data-i18n="ed_lead">Consultoría al sector público, productizada. Definimos los insumos, dimensionamos el trabajo y entregamos con seguimiento verificable en cada hito.</p>
-    <div class="hero-cta reveal" style="--d:420">
+    <p class="hero-lead reveal-soft" style="--d:120" data-i18n="ed_lead">Consultoría al sector público, productizada. Definimos los insumos, dimensionamos el trabajo y entregamos con seguimiento verificable en cada hito.</p>
+    <div class="hero-cta reveal-soft" style="--d:220">
       <a href="#servicios" class="btn btn-primary btn-lg" data-i18n="ed_cta1">Cotizar un servicio</a>
       <a href="#proceso" class="btn btn-ghost btn-lg" data-i18n="cta_how">Ver cómo funciona</a>
     </div>
-    <div class="hero-foot reveal" style="--d:580">
+    <div class="hero-foot reveal-soft" style="--d:320">
       <span class="scroll-cue"><i class="scroll-line" aria-hidden="true"></i><span data-i18n="ed_scroll">Desliza</span></span>
       <span class="hero-stat"><b>26</b><span data-i18n="ed_stat">países prestatarios del BID</span></span>
     </div>
@@ -650,12 +651,12 @@
      Sin llave válida el sitio funciona en MODO DEMO (pago simulado). */
   window.ACI_CONFIG = window.ACI_CONFIG || { culqiPublicKey: "" };
 </script>
-<script src="https://checkout.culqi.com/js/v4"></script>
+<script defer src="https://checkout.culqi.com/js/v4"></script>
 <!-- Orden deliberado: editorial.js publica window.REGION en su nivel superior
      y debe ejecutarse antes que app.js, que lo consulta en su DOMContentLoaded. -->
-<script src="paises.js"></script>
-<script src="editorial.js"></script>
+<script defer src="paises.js"></script>
+<script defer src="editorial.js"></script>
 <script defer src="agents-scene.js"></script>
-<script src="app.js"></script>
+<script defer src="app.js"></script>
 </body>
 </html>
