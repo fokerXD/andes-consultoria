@@ -294,8 +294,17 @@
       document.dispatchEvent(new CustomEvent("andes:pais", { detail: { iso: iso, lang: c.lang } }));
     }
 
+    /* sitemap.xml publica URLs del tipo /?pais=CO, así que el parámetro
+       manda sobre lo guardado: si no, todas esas URLs mostrarían el mismo
+       país y Google las leería como contenido duplicado. */
+    var qs = null;
+    try {
+      var q = new URLSearchParams(location.search).get("pais");
+      if (q) { q = q.toUpperCase(); if (C[q]) qs = q; }
+    } catch (_) {}
+
     var saved = store.get("andes_pais");
-    var iso = saved && C[saved] ? saved : "PE";
+    var iso = qs || (saved && C[saved] ? saved : "PE");
     sel.value = iso;
     apply(iso);
     sel.addEventListener("change", function () { apply(sel.value); });
