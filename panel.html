@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Pedidos · Andes Consultoría</title>
+<style>
+  :root{--bg:#0B1020;--surface:#131B2E;--surface2:#0F1626;--line:#263349;--ink:#EAF0FA;
+        --muted:#94A4C6;--cyan:#34E5C4;--amber:#F6B73C;--red:#FF8A80;--violet:#8B7BFF}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font:15px/1.55 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+  .wrap{max-width:1040px;margin:0 auto;padding:28px 20px 64px}
+  header{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:22px}
+  h1{font-size:1.4rem;margin:0;letter-spacing:-.01em}
+  .sub{color:var(--muted);font-size:.86rem}
+  button{font:inherit;cursor:pointer;border-radius:9px;border:1px solid var(--line);
+         background:var(--surface);color:var(--ink);padding:.55em 1em;min-height:42px}
+  button:hover{border-color:var(--cyan)}
+  button.p{background:var(--cyan);border-color:var(--cyan);color:#06121E;font-weight:650}
+  input{font:inherit;background:var(--surface2);color:var(--ink);border:1px solid var(--line);
+        border-radius:9px;padding:.6em .8em;min-height:42px;width:100%}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:14px}
+  .salud{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
+  .pill{font-size:.78rem;padding:.35em .75em;border-radius:999px;border:1px solid var(--line);color:var(--muted)}
+  .pill.on{color:var(--cyan);border-color:rgba(52,229,196,.45)}
+  .pill.off{color:var(--amber);border-color:rgba(246,183,60,.45)}
+  table{width:100%;border-collapse:collapse;font-size:.9rem}
+  th{text-align:left;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);
+     font-weight:600;padding:0 10px 8px 0;border-bottom:1px solid var(--line)}
+  td{padding:11px 10px 11px 0;border-bottom:1px solid var(--line);vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  .cod{font-family:ui-monospace,Menlo,monospace;font-size:.85rem;color:var(--cyan)}
+  .via{font-size:.7rem;padding:.2em .55em;border-radius:999px;border:1px solid var(--line);color:var(--muted);white-space:nowrap}
+  .via.tarjeta{color:var(--violet);border-color:rgba(139,123,255,.4)}
+  .monto{font-variant-numeric:tabular-nums;white-space:nowrap}
+  .etapa{display:flex;gap:4px;align-items:center}
+  .etapa i{width:14px;height:5px;border-radius:3px;background:var(--line);display:block}
+  .etapa i.on{background:var(--cyan)}
+  .aviso{background:rgba(246,183,60,.08);border:1px solid rgba(246,183,60,.3);border-radius:12px;
+         padding:14px 16px;font-size:.88rem;margin-bottom:18px}
+  .aviso b{color:var(--amber)}
+  .aviso ol{margin:8px 0 0;padding-left:20px}
+  .aviso li{margin:4px 0}
+  .vacio{color:var(--muted);text-align:center;padding:36px 12px}
+  code{background:var(--surface2);padding:.12em .4em;border-radius:5px;font-size:.85em}
+  .login{max-width:420px;margin:12vh auto}
+  .err{color:var(--red);font-size:.86rem;margin-top:10px}
+  @media (max-width:700px){ .ocultar-movil{display:none} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div id="login" class="login card" hidden>
+    <h1 style="margin-bottom:6px">Pedidos</h1>
+    <p class="sub" style="margin-top:0">Introduce la llave del panel (<code>ADMIN_KEY</code>).</p>
+    <input id="k" type="password" placeholder="Llave del panel" autocomplete="current-password">
+    <button class="p" id="entrar" style="width:100%;margin-top:12px">Entrar</button>
+    <p class="err" id="err" hidden></p>
+  </div>
+
+  <div id="app" hidden>
+    <header>
+      <div>
+        <h1>Pedidos</h1>
+        <div class="sub" id="resumen">—</div>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button id="recargar">Actualizar</button>
+        <button id="salir">Salir</button>
+      </div>
+    </header>
+
+    <div class="salud" id="salud"></div>
+    <div id="pendiente"></div>
+
+    <div class="card" style="padding:4px 18px">
+      <table>
+        <thead><tr>
+          <th>Código</th><th>Servicio</th><th>Cliente</th>
+          <th class="ocultar-movil">Vía</th><th>Monto</th><th>Avance</th>
+        </tr></thead>
+        <tbody id="filas"></tbody>
+      </table>
+      <div class="vacio" id="vacio" hidden>Todavía no hay pedidos registrados.</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ============================================================
+   panel.html — Los pedidos, con llave
+   La llave se guarda en sessionStorage: vive mientras la pestaña
+   esté abierta y no queda en el disco. Nunca viaja en la URL.
+   ============================================================ */
+"use strict";
+const $ = s => document.querySelector(s);
+const LLAVE = "andes.panel.key";
+const ETAPAS = ["Recibido","Insumos","Análisis","Elaboración","Calidad","Entrega"];
+
+function llave(){ try { return sessionStorage.getItem(LLAVE) || ""; } catch(_){ return ""; } }
+function guardarLlave(v){ try { sessionStorage.setItem(LLAVE, v); } catch(_){} }
+function borrarLlave(){ try { sessionStorage.removeItem(LLAVE); } catch(_){} }
+
+async function api(ruta, opciones){
+  const o = Object.assign({ headers:{} }, opciones||{});
+  o.headers["Authorization"] = "Bearer " + llave();
+  if (o.body) o.headers["Content-Type"] = "application/json";
+  const r = await fetch(ruta, o);
+  if (r.status === 401) { borrarLlave(); mostrarLogin("Llave incorrecta."); throw new Error("401"); }
+  return { ok:r.ok, status:r.status, datos: await r.json().catch(()=>({})) };
+}
+
+function mostrarLogin(msg){
+  $("#app").hidden = true; $("#login").hidden = false;
+  const e = $("#err"); e.hidden = !msg; e.textContent = msg || "";
+  $("#k").focus();
+}
+
+function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+function money(n,m){ return (m==="USD"?"US$ ":"S/ ") + Math.round(Number(n)||0).toLocaleString(m==="USD"?"en-US":"es-PE"); }
+function fecha(ts){ return ts ? new Date(ts).toLocaleDateString("es-PE",{day:"2-digit",month:"short"}) : "—"; }
+
+async function pintarSalud(){
+  try{
+    const r = await fetch("/api/estado",{cache:"no-store"});
+    const e = await r.json();
+    const p = (etiqueta, v) => `<span class="pill ${v==='activo'?'on':'off'}">${etiqueta}: ${v}</span>`;
+    $("#salud").innerHTML = p("registro",e.registro)+p("correo al cliente",e.correo)+
+                            p("aviso interno",e.aviso_interno)+p("cobro",e.cobro);
+    if (e.faltan && e.faltan.length){
+      $("#pendiente").innerHTML = `<div class="aviso"><b>Falta configurar ${e.faltan.length} cosa(s)</b>
+        para que el embudo funcione solo:<ol>${e.faltan.map(f=>`<li><code>${esc(f.que)}</code> — ${esc(f.como)}</li>`).join("")}</ol>
+        <div style="margin-top:10px;color:var(--muted)">Se ponen en Vercel → tu proyecto → Settings → Environment Variables, y luego un redeploy.</div></div>`;
+    } else $("#pendiente").innerHTML = "";
+  }catch(_){ $("#salud").innerHTML = '<span class="pill off">no se pudo leer el estado</span>'; }
+}
+
+async function cargar(){
+  const r = await api("/api/panel");
+  if (!r.ok){ $("#filas").innerHTML=""; $("#vacio").hidden=false;
+              $("#vacio").textContent = r.datos.error || "No se pudieron cargar los pedidos."; return; }
+  const { pedidos, cuenta, total } = r.datos;
+  $("#resumen").textContent = cuenta
+    ? `${cuenta} pedido(s) · ` + Object.entries(total||{}).map(([m,v])=>money(v,m)).join(" + ")
+    : "Sin pedidos todavía";
+  $("#vacio").hidden = !!cuenta;
+  $("#filas").innerHTML = (pedidos||[]).map(p=>{
+    const st = Math.min(6, Math.max(1, p.stage||1));
+    const barras = ETAPAS.map((_,i)=>`<i class="${i<st?'on':''}"></i>`).join("");
+    const ent = p.entidad && p.entidad.nombre ? `<div class="sub">${esc(p.entidad.nombre)}</div>` : "";
+    return `<tr>
+      <td><span class="cod">${esc(p.code)}</span><div class="sub">${fecha(p.creado)}</div></td>
+      <td>${esc(p.servicio&&p.servicio.nombre||"—")}${ent}</td>
+      <td>${esc(p.cliente&&p.cliente.nombre||"—")}<div class="sub">${esc(p.cliente&&p.cliente.email||"")}</div></td>
+      <td class="ocultar-movil"><span class="via ${p.via==='tarjeta'?'tarjeta':''}">${p.via==='tarjeta'?'tarjeta':'propuesta'}</span>
+          <div class="sub">${esc(p.cliente&&p.cliente.pais||"")}</div></td>
+      <td class="monto">${money(p.monto,p.moneda)}</td>
+      <td><div class="etapa">${barras}</div>
+          <div class="sub" style="margin-top:5px">${ETAPAS[st-1]}
+          ${st<6?`<button data-av="${esc(p.code)}" data-et="${st+1}" style="min-height:28px;padding:.15em .6em;font-size:.78rem;margin-left:6px">avanzar</button>`:""}</div></td>
+    </tr>`;
+  }).join("");
+  document.querySelectorAll("[data-av]").forEach(b=>b.addEventListener("click",async()=>{
+    b.disabled = true; b.textContent = "…";
+    await api("/api/panel",{method:"POST",body:JSON.stringify({code:b.dataset.av,etapa:+b.dataset.et,nota:"Avance registrado desde el panel"})});
+    cargar();
+  }));
+}
+
+async function entrar(){
+  const v = $("#k").value.trim();
+  if (!v) return;
+  guardarLlave(v);
+  $("#login").hidden = true; $("#app").hidden = false;
+  await pintarSalud(); await cargar().catch(()=>{});
+}
+
+$("#entrar").addEventListener("click", entrar);
+$("#k").addEventListener("keydown", e=>{ if(e.key==="Enter") entrar(); });
+$("#recargar").addEventListener("click", ()=>{ pintarSalud(); cargar().catch(()=>{}); });
+$("#salir").addEventListener("click", ()=>{ borrarLlave(); mostrarLogin(""); });
+
+if (llave()) { $("#app").hidden=false; pintarSalud(); cargar().catch(()=>{}); }
+else mostrarLogin("");
+</script>
+</body>
+</html>

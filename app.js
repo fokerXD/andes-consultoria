@@ -1472,17 +1472,14 @@ async function finishOrder({ name, email, token, demo, isOrder }) {
     speed: current.speed || "std",
     values: current.values, demo: !!demo,
     note: current.note || "",
-    files: (current.files || []).map(f => ({ name: f.name, size: f.size }))
+    files: (current.files || []).map(f => ({ name: f.name, size: f.size })),
+    metodo: "tarjeta",
+    ...contextoPedido()
   };
 
-  // Intenta procesar en el backend (cargo Culqi + envío de correo). Si no hay backend, simula.
-  let server = null;
-  try {
-    const r = await fetch("/api/order", {
-      method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload)
-    });
-    if (r.ok) server = await r.json();
-  } catch (_) { /* sin backend: modo demo local */ }
+  // Backend: cobra, archiva el pedido y avisa. Si no responde, el cliente
+  // conserva su código y el pedido queda al menos en este navegador.
+  const server = await registrarPedido(payload);
 
   const finalCode = (server && server.code) || code;
   saveOrder({ code: finalCode, serviceName: s.name, serviceKey: current.key, total: current.payTotal || current.price, days: current.payDays || current.days, speed: current.speed || "std", stage: 1, email, createdAt: Date.now() });
@@ -1490,17 +1487,28 @@ async function finishOrder({ name, email, token, demo, isOrder }) {
 }
 
 function showSuccess(code, email, server) {
-  const emailed = server && server.emailed;
+  const emailed  = !!(server && server.emailed);
+  const guardado = !!(server && server.stored);
+  /* Honestidad del acuse: si el pedido no quedó registrado ni se envió
+     correo, decir "tu servicio fue registrado" es falso, y el cliente se
+     va creyendo que hay algo en marcha. En ese caso se le pide que
+     escriba, que es lo único que de verdad lo pone en contacto. */
+  const titulo = guardado ? "¡Pedido confirmado!" : "Recibimos tu solicitud";
+  const bajada = guardado
+    ? "Tu servicio quedó registrado y ya está en cola de elaboración."
+    : "Aún no pudimos registrarla automáticamente.";
   $("#coBody").innerHTML = `
     <div class="success">
       <div class="ok-ico"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#1E7A4B" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg></div>
-      <h3 style="margin:0 0 4px">¡Pago confirmado!</h3>
-      <p class="muted">Tu servicio fue registrado y ya está en cola de elaboración.</p>
+      <h3 style="margin:0 0 4px">${titulo}</h3>
+      <p class="muted">${bajada}</p>
       <div class="code-chip">${code}</div>
+      ${guardado ? "" : `<p style="font-size:.92rem;margin:10px 0 0;background:#FDF0E6;border-left:3px solid #C2602F;padding:10px 14px;border-radius:0 8px 8px 0">
+        Escríbenos a <b>contacto@andesconsultoria.pe</b> citando este código para que lo tomemos de inmediato.</p>`}
       <p style="font-size:.92rem;margin:10px 0 0">${emailed
         ? `Enviamos el comprobante y el código de seguimiento a <b>${email}</b>.`
-        : `Guarda tu código de seguimiento. ${server ? "" : "(Modo demo: el envío de correo se activa al conectar el backend.)"}`}</p>
-      <p style="font-size:.92rem">El entregable llegará a tu correo al completar el control de calidad. Puedes seguir el avance en la sección de trazabilidad.</p>
+        : `Guarda tu código de seguimiento.`}</p>
+      ${guardado ? `<p style="font-size:.92rem">El entregable llegará a tu correo al completar el control de calidad. Puedes seguir el avance en la sección de trazabilidad.</p>` : ""}
       <p style="font-size:.92rem;margin-top:8px;color:#1E7A4B"><b>Incluido:</b> una ronda de ajustes sobre observaciones al entregable, dentro de los 10 días hábiles siguientes a la entrega.</p>
     </div>`;
   $(".modal-foot", $("#checkoutModal")).innerHTML =
@@ -1523,6 +1531,28 @@ function submitCheckout() { if (current.method === "os") submitOrdenServicio(); 
 function REGION_ES_PE() { return !window.REGION || REGION.esPeru(); }
 
 function stripTags(html) { return String(html).replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim(); }
+
+/* Datos del contexto que el backend necesita para archivar y avisar:
+   sin la moneda, el correo de confirmación salía siempre en soles
+   aunque el cliente hubiera cotizado y aceptado en dólares. */
+function contextoPedido() {
+  return {
+    moneda: (window.REGION && REGION.moneda && REGION.moneda()) || "PEN",
+    pais:   (window.REGION && REGION.code) || null,
+    idioma: (window.I18N && window.I18N.lang) || document.documentElement.lang || null
+  };
+}
+
+/* Envía el pedido al backend. Devuelve la respuesta del servidor o null.
+   Nunca lanza: si el backend no responde, el cliente igual ve su código. */
+async function registrarPedido(payload) {
+  try {
+    const r = await fetch("/api/order", {
+      method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload)
+    });
+    return r.ok ? await r.json() : null;
+  } catch (_) { return null; }
+}
 
 async function submitOrdenServicio() {
   const s = SERVICES[current.key];
@@ -1549,12 +1579,28 @@ async function submitOrdenServicio() {
   }
   const btn = $("#payBtn"); btn.disabled = true;
   btn.textContent = REGION_ES_PE() ? "Generando TDR…" : "Generando propuesta…";
-  await sleep(900);
   const code = "ACI-" + rand();
   const alcance = (typeof s.note === "function") ? stripTags(s.note(current.values).html) : s.short;
   const tdr = buildTDR({ code, name, email, entidad, ruc, area, func, serviceName: s.name, insumos: s.insumos || [], alcance, amount: total, days: current.payDays || current.days, nota: current.note });
-  saveOrder({ code, serviceName: s.name, serviceKey: current.key, total, days: current.payDays || current.days, speed: current.speed || "std", stage: 1, email, method: "os", entidad, createdAt: Date.now() });
-  showSuccessOS(code, email, tdr, entidad);
+
+  /* Esta vía —la propuesta formal, que es la que usan TODAS las entidades
+     fuera del Perú— no pasaba por el backend. El pedido no se archivaba y
+     nadie se enteraba de que había entrado: la línea regional entera caía
+     en un pozo. Ahora se registra y se avisa igual que un pago. */
+  const server = await registrarPedido({
+    code, name, email,
+    serviceKey: current.key, serviceName: s.name,
+    amount: total, days: current.payDays || current.days,
+    speed: current.speed || "std", values: current.values,
+    note: current.note || "",
+    files: (current.files || []).map(f => ({ name: f.name, size: f.size })),
+    metodo: "os", entidad, ruc, area, funcionario: func,
+    ...contextoPedido()
+  });
+
+  const finalCode = (server && server.code) || code;
+  saveOrder({ code: finalCode, serviceName: s.name, serviceKey: current.key, total, days: current.payDays || current.days, speed: current.speed || "std", stage: 1, email, method: "os", entidad, createdAt: Date.now() });
+  showSuccessOS(finalCode, email, tdr, entidad);
 }
 
 function buildTDR(d) {
@@ -1669,10 +1715,29 @@ function showSuccessOS(code, email, tdr, entidad) {
 function getOrders(){ try { return JSON.parse(localStorage.getItem("aci_orders") || "{}"); } catch(_){ return {}; } }
 function saveOrder(o){ const all = getOrders(); all[o.code] = o; try { localStorage.setItem("aci_orders", JSON.stringify(all)); } catch(_){} }
 
-function doTrack() {
+async function doTrack() {
   if (trackTimer) { clearInterval(trackTimer); trackTimer = null; }
   const code = $("#trackInput").value.trim().toUpperCase();
-  const order = DEMO_ORDERS[code] || getOrders()[code];
+
+  /* El seguimiento vivía solo en este navegador: el mismo cliente, abriendo
+     su correo en el teléfono, no encontraba su pedido. Primero se pregunta
+     al servidor; lo local queda como respaldo y para la demostración. */
+  let order = DEMO_ORDERS[code] || null;
+  if (!order) {
+    const btn = $("#trackBtn"); const etiqueta = btn ? btn.textContent : "";
+    if (btn) { btn.disabled = true; btn.textContent = "Buscando…"; }
+    try {
+      const r = await fetch("/api/track?code=" + encodeURIComponent(code), { cache: "no-store" });
+      if (r.ok) {
+        const d = await r.json();
+        order = { code: d.code, serviceName: d.serviceName, serviceKey: d.serviceKey,
+                  total: d.total, days: d.days, speed: d.speed || "std", stage: d.stage || 1,
+                  moneda: d.moneda, createdAt: d.creado };
+      }
+    } catch (_) { /* sin red o sin backend: se usa el respaldo local */ }
+    if (btn) { btn.disabled = false; btn.textContent = etiqueta; }
+  }
+  if (!order) order = getOrders()[code];
   if (!order) {
     $("#trackResult").hidden = true;
     $("#trackEmpty").hidden = false;

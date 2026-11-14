@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /panel.html
+Disallow: /api/
 
 Sitemap: https://andes-consultoria-web.vercel.app/sitemap.xml
